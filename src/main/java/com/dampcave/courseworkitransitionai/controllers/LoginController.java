@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
 
 @Controller
 public class LoginController {
@@ -56,15 +55,12 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registrationNewUserPost(
-            @Valid UserRegistrationRepr userRegistrationRepr, BindingResult bindingResult){
+             UserRegistrationRepr userRegistrationRepr, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "register";
         }
 
-        if (!userRegistrationRepr.getPassword().equals(userRegistrationRepr.getRepeatPassword())){
-            bindingResult.rejectValue("password","", "passwords not equals");
-            return "register";
-        }
+
 
         userService.create(userRegistrationRepr);
         return "redirect:/login";
