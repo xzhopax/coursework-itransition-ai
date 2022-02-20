@@ -1,0 +1,36 @@
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/" th:text="${title}"/></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ml-5">
+                <li class="nav-item ml-5">
+                    <a class="nav-link" href="/users">Show All Users </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="nav-link" href="/register">Create User </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="nav-link" href="/users/deleteall">Delete all users </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="nav-link" href="/users/unblocked">Unblock all users </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="nav-link" href="/users/blocked">Block all users </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <form class="nav-item" th:action="@{/logout}" method="post">
+                        <button class="btn btn-dark">Exit</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+

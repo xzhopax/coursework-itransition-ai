@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
+
+    <title th:text="${title}"/>
+</head>
+<body>
+    <header th:insert="blocks/header :: header"></header>
+
+    <h1 class="text-center mt-5">Welcome</h1>
+    <h1 class="text-center" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+    <br><br><br><br>
+
+    <button class="button w-1 btn btn-lg btn-primary text-center" type="button" value="show"
+            onclick="window.location.href = 'users'">View all users
+    </button>
+
+    <footer th:insert="blocks/footer :: footer"></footer>
+</body>
+<style type="text/css">
+    .button {
+        margin: auto;
+        display: block;
+    }
+</style>
+</html>
