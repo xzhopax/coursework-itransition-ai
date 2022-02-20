@@ -1,7 +1,7 @@
 package com.dampcave.courseworkitransitionai.models;
 
 
-import javax.persistence.*;
+
 
 public class User{
 
