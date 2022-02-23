@@ -3,10 +3,8 @@ package com.dampcave.courseworkitransitionai.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -19,10 +17,14 @@ public class Comment {
 
     private String message;
 
-    private String author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
 
-    public Comment(String message, String author) {
+    public Comment(String message, User user) {
         this.message = message;
-        this.author = author;
+        this.author = user;
+
     }
+
 }

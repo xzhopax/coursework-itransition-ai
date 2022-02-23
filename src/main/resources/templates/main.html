@@ -1,24 +1,17 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p th:text="'Hello, ' + ${name} + '!'" />
+<header th:insert="blocks/header :: header"></header>
 
-<form method="post">
-    <input type="text" name="text" placeholder="enter comment">
-    <input type="text" name="author" placeholder="enter author">
-    <button type="submit">Enter</button>
-</form>
-<form method="post" th:action="@{filter}">
-    <input type="text" th:name="search-author">
-    <button type="submit">Search</button>
-</form>
 
-<div th:each="el:${comments}">
-   <p th:text="${el.id} + ' ' +  ${el.message} + ' : author(' + ${el.author} + ')'"></p >
-</div>
+
+
+<comment th:insert="blocks/comments :: comments"></comment>
+
+<footer th:insert="blocks/footer :: footer"></footer>
 </body>
 </html>

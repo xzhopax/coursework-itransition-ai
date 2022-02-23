@@ -1,0 +1,80 @@
+<div th:fragment="comments">
+    <style>
+        .img-sm {
+            width: 46px;
+            height: 46px;
+        }
+        .comments ul ul {
+            margin-left: 60px;
+        }
+
+        .comments .comment img {
+            margin-right: 20px;
+        }
+
+        .comments .comment {
+            padding: 6px;
+        }
+
+        .comments .comment:hover {
+            background: #eee;
+        }
+    </style>
+
+    <form  >
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Комментарии
+                        </div>
+                        <div class="panel-body comments">
+                            <form method="post" th:action="@{filter}">
+                                <input type="text" th:name="search-author">
+                                <button class="btn btn-info pull-left" type="submit">Search</button>
+                            </form>
+                            <form method="post" th:action="@{/main}">
+                                <textarea class="form-control" name="textComment" placeholder="Оставьте Ваш комментарий" rows="5"></textarea>
+                                <br>
+
+                                <button type="submit" class="btn btn-info pull-right">Отправить</button>
+                            </form>
+                            <div class="clearfix"></div>
+                            <hr>
+                            <ul class="media-list" th:each="el:${comments}">
+                                <li class="media">
+                                    <div class="comment">
+                                        <a href="#" class="pull-left">
+                                            <img src="https://bootstraptema.ru/snippets/icons/2016/mia/6.png"
+                                                 alt="" class="img-sm">
+                                        </a>
+                                        <div class="media-body">
+                                            <strong class="text-success">"[[${el.author.username}]]" </strong>
+                                            <span class="text-muted">
+ <small class="text-muted">2016-02-11</small>
+ </span>
+                                            <p >
+                                                "[[${el.message}]]"
+                                            </p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <ul class="media-list">
+                                        <li class="media">
+                                            <div class="comment">
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

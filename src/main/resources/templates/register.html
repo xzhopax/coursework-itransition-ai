@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
+
+    <title th:text="${title}"/>
+
+    <style type="text/css">
+        .body {
+            background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-03/1614609786_140-p-kartinki-dlya-fotoshopa-fon-201.jpg);
+            text-align: center;
+        }
+        .form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="body" style="background-color: #030203">
+    <div class="form">
+        <div class="row py-2">
+            <div class="col-12">
+                <form th:action="@{/register}" method="post" th:object="${user}">
+                    <div class="form-group">
+                        <label for="username" class="fw-weight-bold text-white">User name</label>
+                        <input type="text" id="username" th:field="${user.username}"
+                               class="form-control fw-weight-bold" placeholder="Enter  login">
+                        <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('username')}">Validation
+                            error</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="fw-weight-bold text-white">Password</label>
+                        <input type="password" id="password" th:field="${user.password}"
+                               class="form-control fw-weight-bold" placeholder="Password">
+                        <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('password')}">Validation
+                            error</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="repeatPassword" class="fw-weight-bold text-white">Repeat password</label>
+                        <input type="password" id="repeatPassword" th:field="${user.repeatPassword}"
+                               class="form-control fw-weight-bold" placeholder="Repeat password">
+                        <small class="form-text text-danger fw-weight-bold"
+                               th:each="err : ${#fields.errors('repeatPassword')}">Validation error</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
