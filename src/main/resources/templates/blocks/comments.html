@@ -35,7 +35,7 @@
                              class="panel-body comments scrollspy-example">
                             <form method="post" th:action="@{filter}">
                             </form>
-                            <form method="post" th:action="@{/main}">
+                            <form method="post" th:objact="film" th:action="@{/films/film/{id}(id=${id})}" >
                                 <textarea class="form-control" name="textComment" placeholder="Оставьте Ваш комментарий"
                                           rows="5"></textarea>
                                 <br>

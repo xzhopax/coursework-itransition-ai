@@ -39,30 +39,6 @@ public class LoginController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String postLoginUser(@Valid UserLoginRepr userLoginRepr,
-//                                BindingResult bindingResult,
-//                                Model model) {
-//
-//        if (userRepository.findByUsername(userLoginRepr.getUsername()).isPresent()) {
-//            bindingResult.rejectValue("username", "", "User not exists!");
-//            return "login";
-//        }
-//        User user = userRepository.findByUsername(userLoginRepr.getUsername()).orElseThrow();
-//
-//        if (userLoginRepr.getUsername().isEmpty() || !user.getUsername().equals(userLoginRepr.getUsername())){
-//            bindingResult.rejectValue("username","","fail username");
-//            return "login";
-//        }
-//
-//        if (userLoginRepr.getPassword().isEmpty() || !user.getPassword().equals(userLoginRepr.getPassword())){
-//            bindingResult.rejectValue("password","","fail password");
-//            return "login";
-//        }
-//        model.addAttribute("title", "Login");
-//        return "login";
-//    }
-
     @GetMapping("/register")
     public String registrationUserGet(Model model){
         model.addAttribute("title", "Registration");

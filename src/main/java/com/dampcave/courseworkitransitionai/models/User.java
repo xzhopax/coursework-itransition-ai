@@ -42,7 +42,9 @@ public class User implements UserDetails {
     private List<Comment> comments;
 
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany( cascade = CascadeType.ALL,
+                fetch = FetchType.EAGER,
+                orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private List<Film> films;
 

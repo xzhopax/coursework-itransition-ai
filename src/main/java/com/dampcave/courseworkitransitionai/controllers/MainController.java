@@ -41,51 +41,10 @@ public class MainController {
 
     @GetMapping("/main")
     public String getComment(Model model) {
-        Iterable<Comment> comments = commentRepository.findAll();
-        model.addAttribute("comments", comments);
-        model.addAttribute("username", getAuth().getName());
         model.addAttribute("title", "Main");
 
         return "main";
     }
 
 
-
-    @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String postComment( @RequestParam(name = "textComment") String text,
-                               Model model) {
-
-        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow() ;
-        Comment comment = new Comment(text, user);
-        commentRepository.save(comment);
-        Iterable<Comment> comments = commentRepository.findAll();
-        model.addAttribute("comments", comments);
-        return "main";
-    }
-
-    @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    public String postSearch(@RequestParam(name = "search-message") String search,
-                             @RequestParam(name = "search-author") String author,
-                             Model model) {
-        Iterable<Comment> comments;
-
-        if (search != null && !search.isEmpty()) {
-            comments = commentRepository.findByMessage(search);
-        } else {
-            comments = commentRepository.findAll();
-        }
-
-        model.addAttribute("comments", comments);
-        return "main";
-    }
-
-    @RequestMapping(value = "/comments", method = RequestMethod.GET)
-    public String fieldComments(Model model) {
-
-        Iterable<Comment> comments = commentRepository.findAll();
-
-        model.addAttribute("users-comment", comments);
-
-        return "main";
-    }
 }

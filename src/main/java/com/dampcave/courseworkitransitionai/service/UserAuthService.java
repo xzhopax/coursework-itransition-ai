@@ -25,6 +25,12 @@ public class UserAuthService implements UserDetailsService  {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow();
+        return userRepository.findByUsername(username)
+                .map(user -> new User(
+                        user.getUsername(),
+                        user.getPassword(),
+                        Collections.singletonList(new SimpleGrantedAuthority("USER"))
+                ))
+                .orElseThrow(() -> new UsernameNotFoundException("User no found"));
     }
 }

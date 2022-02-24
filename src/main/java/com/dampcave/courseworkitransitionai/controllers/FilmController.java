@@ -61,9 +61,66 @@ public class FilmController {
 
 
     @PostMapping("/{id}/delete")
-    public String deleteFilm(@PathVariable(value = "id") Long id, Model model) {
+    public String deleteFilm(@PathVariable(value = "id") Long id,
+                             Model model) {
         Film film = filmRepository.findById(id).orElseThrow();
         filmRepository.delete(film);
         return "redirect:/films";
+    }
+
+    @GetMapping("/film/{id}")
+    public String getComment(@PathVariable(value = "id") Long id,
+                             Model model) {
+
+        Iterable<Comment> comments = commentRepository.findByFilm(filmRepository.findById(id).orElseThrow());
+        model.addAttribute("comments", comments);
+        model.addAttribute("username", getAuth().getName());
+        model.addAttribute("title", "Main");
+        model.addAttribute("film", filmRepository.findById(id).orElseThrow());
+        model.addAttribute("id", id);
+
+        return "film";
+    }
+
+
+
+    @RequestMapping(value = "/film/{id}", method = RequestMethod.POST)
+    public String postComment( @PathVariable(value = "id") Long id,
+            @RequestParam(name = "textComment") String text,
+                               Model model) {
+
+        Film film = filmRepository.findById(id).orElseThrow();
+        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow() ;
+        Comment comment = new Comment(text, user, film);
+        commentRepository.save(comment);
+        Iterable<Comment> comments = commentRepository.findAll();
+        model.addAttribute("comments", comments);
+        return "film";
+    }
+
+    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    public String postSearch(@RequestParam(name = "search-message") String search,
+                             @RequestParam(name = "search-author") String author,
+                             Model model) {
+        Iterable<Comment> comments;
+
+        if (search != null && !search.isEmpty()) {
+            comments = commentRepository.findByMessage(search);
+        } else {
+            comments = commentRepository.findAll();
+        }
+
+        model.addAttribute("comments", comments);
+        return "film";
+    }
+
+    @RequestMapping(value = "/comments", method = RequestMethod.GET)
+    public String fieldComments(Model model) {
+
+        Iterable<Comment> comments = commentRepository.findAll();
+
+        model.addAttribute("users-comment", comments);
+
+        return "film";
     }
 }

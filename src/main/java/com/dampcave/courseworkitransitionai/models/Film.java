@@ -3,8 +3,11 @@ package com.dampcave.courseworkitransitionai.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,6 +25,11 @@ public class Film {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    @OneToMany(fetch = FetchType.EAGER,
+               cascade = CascadeType.ALL)
+    @JoinColumn(name = "film_id")
+    private List<Comment> comments;
 
     public Film(String title, String description, int rating, User author) {
         this.title = title;

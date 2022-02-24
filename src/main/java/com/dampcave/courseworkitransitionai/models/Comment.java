@@ -17,16 +17,17 @@ public class Comment {
 
     private String message;
 
-//    private Film film;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
-    public Comment(String message, User user) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "film_id")
+    private Film film;
+
+    public Comment(String message, User author, Film film) {
         this.message = message;
-        this.author = user;
-
+        this.author = author;
+        this.film = film;
     }
-
 }

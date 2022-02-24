@@ -24,6 +24,7 @@
         <div th:each="el:${films}">
             <tr><!-- line table  -->
                 <td>Images</td> <!-- cell table -->
+                <td><p th:text="${el.id}"/></td> <!-- cell table -->
                 <td><p th:text="${el.title}"/></td> <!-- cell table -->
                 <td><p th:text="${el.description}"/></td> <!-- cell table -->
                 <td><p th:text="${el.rating}"/></td> <!-- cell table -->
@@ -32,7 +33,7 @@
                     <form th:action="'films/' + ${el.id} + '/delete' " method="post">
                         <button class="btn btn-secondary" type="submit">Delete</button>
                     </form>
-                    <form action="#" method="get">
+                    <form th:action="'films/film/' + ${el.id}" method="get">
                         <button class="btn btn-secondary mt-1" type="submit">Details</button>
                     </form>
                 </td>
