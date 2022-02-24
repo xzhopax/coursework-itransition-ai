@@ -3,6 +3,8 @@ package com.dampcave.courseworkitransitionai.models;
 import jdk.jfr.Enabled;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,7 +27,7 @@ public class User implements UserDetails {
     private boolean active;
 
     public User() {
-        active = true;
+        this.active = true;
     }
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER) // search EAGER or LAZY
@@ -33,10 +35,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING) // keep data as string
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+
+    @OneToMany( cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "user_id")
     private List<Comment> comments;
+
+
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private List<Film> films;
 
 
     @Override

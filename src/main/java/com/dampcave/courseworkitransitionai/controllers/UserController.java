@@ -2,16 +2,19 @@ package com.dampcave.courseworkitransitionai.controllers;
 
 import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
+import com.dampcave.courseworkitransitionai.service.UserRegistrationRepr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -28,6 +31,7 @@ public class UserController {
     @GetMapping()
     public String showAllUser(Model model){
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("title", "Users");
         return "users";
     }
 
@@ -81,6 +85,7 @@ public class UserController {
         }
         return "redirect:/users";
     }
+
 
 
 }

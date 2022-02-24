@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<h2 class="ml-5 mt-2 md-5">Show all Films</h2>
+
+<form name="isFilmsTable" >
+    <table class="table table-bordered ml-3">
+        <thead>
+        <tr><!-- line table -->
+            <th>Images</th><!-- head table -->
+            <th>Title</th><!-- head table -->
+            <th>Description</th><!-- head table -->
+            <th>Rating</th><!-- head table -->
+            <th>Author</th><!-- head table -->
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="el:${films}">
+            <tr><!-- line table  -->
+                <td>Images</td> <!-- cell table -->
+                <td><p th:text="${el.title}"/></td> <!-- cell table -->
+                <td><p th:text="${el.description}"/></td> <!-- cell table -->
+                <td><p th:text="${el.rating}"/></td> <!-- cell table -->
+                <td><p th:text="${el.author.username}"/></td> <!-- cell table -->
+                <td>
+                    <form th:action="'films/' + ${el.id} + '/delete' " method="post">
+                        <button class="btn btn-secondary" type="submit">Delete</button>
+                    </form>
+                    <form action="#" method="get">
+                        <button class="btn btn-secondary mt-1" type="submit">Details</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</form>
+
+<br>
+<input class="btn btn-dark ml-3" type="button" value="Add New Film" onclick="window.location.href = 'films/createfilm'">
+
+
+
+<comment th:insert="blocks/comments :: comments"></comment>
+
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

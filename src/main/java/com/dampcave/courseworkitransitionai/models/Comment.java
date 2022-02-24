@@ -17,6 +17,8 @@ public class Comment {
 
     private String message;
 
+//    private Film film;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;

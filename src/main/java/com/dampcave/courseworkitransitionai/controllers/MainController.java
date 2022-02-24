@@ -4,6 +4,7 @@ import com.dampcave.courseworkitransitionai.models.Comment;
 import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +27,7 @@ public class MainController {
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
     }
+
     public Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -62,12 +64,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    public String postSearch(@RequestParam(name = "search-author") String search,
+    public String postSearch(@RequestParam(name = "search-message") String search,
+                             @RequestParam(name = "search-author") String author,
                              Model model) {
         Iterable<Comment> comments;
 
         if (search != null && !search.isEmpty()) {
-            comments = commentRepository.findByAuthor(search);
+            comments = commentRepository.findByMessage(search);
         } else {
             comments = commentRepository.findAll();
         }

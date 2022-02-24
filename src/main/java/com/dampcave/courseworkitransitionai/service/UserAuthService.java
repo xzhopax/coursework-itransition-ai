@@ -25,17 +25,6 @@ public class UserAuthService implements UserDetailsService  {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<com.dampcave.courseworkitransitionai.models.User> myUser = userRepository.findByUsername(username);
-            if (myUser.get().isActive()) {
-                userRepository.save(myUser.get());
-                return userRepository.findByUsername(username)
-                        .map(user -> new User(
-                                user.getUsername(),
-                                user.getPassword(),
-                                Collections.singletonList(new SimpleGrantedAuthority("USER"))
-                        )).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            } else
-                throw new UsernameNotFoundException("User blocked");
-
+        return userRepository.findByUsername(username).orElseThrow();
     }
 }

@@ -17,6 +17,7 @@
                 <tr><!-- line table -->
                     <th>Id</th><!-- head table -->
                     <th>Username</th><!-- head table -->
+                    <th>Role</th><!-- head table -->
                     <th>Active</th><!-- head table -->
                 </tr>
             </thead>
@@ -25,6 +26,7 @@
                     <tr><!-- line table  -->
                         <td><p th:text="${el.id}"/></td> <!-- cell table -->
                         <td><p th:text="${el.username}"/></td> <!-- cell table -->
+                        <td><p th:text="${el.getRoles()}"/></td> <!-- cell table -->
                         <td><p th:text="${el.isActive()}"/></td> <!-- cell table -->
                         <td>
                             <form th:action="'users/' + ${el.id} + '/delete' " method="post">

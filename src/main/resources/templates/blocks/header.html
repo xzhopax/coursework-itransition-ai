@@ -1,6 +1,6 @@
 <div th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-5" href="/" th:text="${title}"/></a>
+        <a class=" navbar-brand ml-5" href="/" th:text="${title}"/></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,6 +11,9 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ml-5">
                     <a class="nav-link" href="/users">Show All Users </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="nav-link" href="/films">Show All Films </a>
                 </li>
                 <li class="nav-item ml-5">
                     <a class="nav-link" href="/users/deleteall">Delete all users </a>
