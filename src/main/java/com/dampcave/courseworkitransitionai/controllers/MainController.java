@@ -18,10 +18,7 @@ import java.util.List;
 @Controller
 public class MainController {
 
-
     UserRepository userRepository;
-
-
     CommentRepository commentRepository;
 
     @Autowired
@@ -29,21 +26,23 @@ public class MainController {
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
     }
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
     @GetMapping("/")
     public String home( Model model) {
-        model.addAttribute("title", "Main");
+        model.addAttribute("title", "Home");
         return "home";
     }
 
 
     @GetMapping("/main")
-    public String getComment(@RequestParam(name = "name", required = false, defaultValue = "Damp Cave") String name,
-                             Model model) {
+    public String getComment(Model model) {
         Iterable<Comment> comments = commentRepository.findAll();
         model.addAttribute("comments", comments);
-        model.addAttribute("name", name);
-        model.addAttribute("title", name);
+        model.addAttribute("username", getAuth().getName());
+        model.addAttribute("title", "Main");
 
         return "main";
     }
@@ -53,8 +52,8 @@ public class MainController {
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String postComment( @RequestParam(name = "textComment") String text,
                                Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(auth.getName()).orElseThrow() ;
+
+        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow() ;
         Comment comment = new Comment(text, user);
         commentRepository.save(comment);
         Iterable<Comment> comments = commentRepository.findAll();

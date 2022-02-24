@@ -4,6 +4,7 @@
             width: 46px;
             height: 46px;
         }
+
         .comments ul ul {
             margin-left: 60px;
         }
@@ -21,7 +22,7 @@
         }
     </style>
 
-    <form  >
+    <form>
         <div class="container">
 
             <div class="row">
@@ -30,13 +31,13 @@
                         <div class="panel-heading">
                             Комментарии
                         </div>
-                        <div class="panel-body comments">
+                        <div id="list-example" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0"
+                             class="panel-body comments scrollspy-example">
                             <form method="post" th:action="@{filter}">
-                                <input type="text" th:name="search-author">
-                                <button class="btn btn-info pull-left" type="submit">Search</button>
                             </form>
                             <form method="post" th:action="@{/main}">
-                                <textarea class="form-control" name="textComment" placeholder="Оставьте Ваш комментарий" rows="5"></textarea>
+                                <textarea class="form-control" name="textComment" placeholder="Оставьте Ваш комментарий"
+                                          rows="5"></textarea>
                                 <br>
 
                                 <button type="submit" class="btn btn-info pull-right">Отправить</button>
@@ -55,7 +56,7 @@
                                             <span class="text-muted">
  <small class="text-muted">2016-02-11</small>
  </span>
-                                            <p >
+                                            <p>
                                                 "[[${el.message}]]"
                                             </p>
                                         </div>

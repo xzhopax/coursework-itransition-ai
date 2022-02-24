@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
+</head>
+<!--<body bgcolor="#000" background="star-sky.jpeg">-->
+<body>
+    <header th:insert="blocks/header :: header"></header>
+
+    <h2 class="ml-5 mt-2 md-5">Show all Users</h2>
+
+    <form name="isUsersTable" >
+        <table class="table table-bordered ml-3">
+            <thead>
+                <tr><!-- line table -->
+                    <th>Id</th><!-- head table -->
+                    <th>Username</th><!-- head table -->
+                    <th>Active</th><!-- head table -->
+                </tr>
+            </thead>
+            <tbody>
+                <div th:each="el:${users}">
+                    <tr><!-- line table  -->
+                        <td><p th:text="${el.id}"/></td> <!-- cell table -->
+                        <td><p th:text="${el.username}"/></td> <!-- cell table -->
+                        <td><p th:text="${el.isActive()}"/></td> <!-- cell table -->
+                        <td>
+                            <form th:action="'users/' + ${el.id} + '/delete' " method="post">
+                                <button class="btn btn-secondary" type="submit">Delete</button>
+                            </form>
+                            <form th:action="'/users/' + ${el.id} + '/isactive' " method="get">
+                                <button class="btn btn-secondary mt-1" type="submit">Unblocked/Blocked</button>
+                            </form>
+                        </td>
+                    </tr>
+                </div>
+            </tbody>
+        </table>
+    </form>
+
+    <br>
+    <input class="btn btn-dark ml-3" type="button" value="Add New User" onclick="window.location.href = 'register'">
+
+    <footer th:insert="blocks/footer :: footer"></footer>
+</body>
+<style type="text/css">
+    .button {
+        margin: auto;
+        display: block;
+    }
+</style>
+</html>
