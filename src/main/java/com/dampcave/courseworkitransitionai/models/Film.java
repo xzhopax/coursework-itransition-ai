@@ -19,8 +19,10 @@ public class Film {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String title;
+    private String picture;
     private String description;
     private int rating;
+    private int year;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -31,10 +33,12 @@ public class Film {
     @JoinColumn(name = "film_id")
     private List<Comment> comments;
 
-    public Film(String title, String description, int rating, User author) {
+    public Film(String title, String picture, String description, int rating, int year, User author) {
         this.title = title;
+        this.picture = picture;
         this.description = description;
         this.rating = rating;
+        this.year = year;
         this.author = author;
     }
 }

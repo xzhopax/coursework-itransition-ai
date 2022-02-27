@@ -48,11 +48,13 @@ public class FilmController {
 
     @RequestMapping(value = "/createfilm", method = RequestMethod.POST)
     public String createNewFilms(@RequestParam(name = "filmname") String title,
+                                 @RequestParam(name = "picture") String picture,
                                  @RequestParam(name = "description") String description,
                                  @RequestParam(name = "rating") int rating,
+                                 @RequestParam(name = "year") int year,
                                  Model model) {
         User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
-        Film film = new Film(title,description,rating,user);
+        Film film = new Film(title, picture,description,rating,year, user);
         filmRepository.save(film);
         Iterable<Film> films = filmRepository.findAll();
         model.addAttribute("films", films);
@@ -95,7 +97,7 @@ public class FilmController {
         commentRepository.save(comment);
         Iterable<Comment> comments = commentRepository.findAll();
         model.addAttribute("comments", comments);
-        return "film";
+        return "redirect:/films/film/{id}";
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST)

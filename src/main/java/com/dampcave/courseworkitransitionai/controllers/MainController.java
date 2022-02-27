@@ -38,6 +38,12 @@ public class MainController {
         return "home";
     }
 
+    @GetMapping("/test")
+    public String test( Model model) {
+        model.addAttribute("title", "Home");
+        return "test";
+    }
+
 
     @GetMapping("/main")
     public String getComment(Model model) {

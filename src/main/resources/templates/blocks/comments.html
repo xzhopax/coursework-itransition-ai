@@ -35,7 +35,7 @@
                              class="panel-body comments scrollspy-example">
                             <form method="post" th:action="@{filter}">
                             </form>
-                            <form method="post" th:objact="film" th:action="@{/films/film/{id}(id=${id})}" >
+                            <form method="post" th:objact="film" th:action="@{/films/film/{id}(id=${id})}">
                                 <textarea class="form-control" name="textComment" placeholder="Оставьте Ваш комментарий"
                                           rows="5"></textarea>
                                 <br>
@@ -43,35 +43,37 @@
                                 <button type="submit" class="btn btn-info pull-right">Отправить</button>
                             </form>
                             <div class="clearfix"></div>
-                            <hr>
-                            <ul class="media-list" th:each="el:${comments}">
-                                <li class="media">
-                                    <div class="comment">
-                                        <a href="#" class="pull-left">
-                                            <img src="https://bootstraptema.ru/snippets/icons/2016/mia/6.png"
-                                                 alt="" class="img-sm">
-                                        </a>
-                                        <div class="media-body">
-                                            <strong class="text-success">"[[${el.author.username}]]" </strong>
-                                            <span class="text-muted">
+                            <div class="table-wrapper">
+                                <hr>
+                                <ul class="media-list" th:each="el:${comments}">
+                                    <li class="media">
+                                        <div class="comment">
+                                            <a href="#" class="pull-left">
+                                                <img src="https://bootstraptema.ru/snippets/icons/2016/mia/6.png"
+                                                     alt="" class="img-sm">
+                                            </a>
+                                            <div class="media-body">
+                                                <strong class="text-success">"[[${el.author.username}]]" </strong>
+                                                <span class="text-muted">
  <small class="text-muted">2016-02-11</small>
  </span>
-                                            <p>
-                                                "[[${el.message}]]"
-                                            </p>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <ul class="media-list">
-                                        <li class="media">
-                                            <div class="comment">
-
-                                                <div class="clearfix"></div>
+                                                <p>
+                                                    "[[${el.message}]]"
+                                                </p>
                                             </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <ul class="media-list">
+                                            <li class="media">
+                                                <div class="comment">
+
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
