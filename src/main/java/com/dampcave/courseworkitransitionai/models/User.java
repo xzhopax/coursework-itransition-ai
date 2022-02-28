@@ -30,11 +30,10 @@ public class User implements UserDetails {
         this.active = true;
     }
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER) // search EAGER or LAZY
+    @ManyToMany(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING) // keep data as string
     private Set<Role> roles;
-
 
     @OneToMany( cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -47,7 +46,6 @@ public class User implements UserDetails {
                 orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private List<Film> films;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

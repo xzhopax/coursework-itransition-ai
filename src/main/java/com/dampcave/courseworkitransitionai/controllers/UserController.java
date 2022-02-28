@@ -4,6 +4,7 @@ import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import com.dampcave.courseworkitransitionai.service.UserRegistrationRepr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
     UserRepository userRepository;
@@ -33,6 +35,13 @@ public class UserController {
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("title", "Users");
         return "users";
+    }
+
+    @GetMapping("/{user}")
+    public String getShowUser(@PathVariable User user,
+                               Model model){
+        model.addAttribute("user", user);
+        return "user-details";
     }
 
     @PostMapping("/{id}/delete")

@@ -27,7 +27,7 @@
                         <td><p th:text="${el.id}"/></td> <!-- cell table -->
                         <td><p th:text="${el.username}"/></td> <!-- cell table -->
                         <td><p th:text="${el.getRoles()}"/></td> <!-- cell table -->
-                        <td><p th:text="${el.isActive()}"/></td> <!-- cell table -->
+                        <td> <p th:text="${el.isActive()}"/></td> <!-- cell table -->
                         <td>
                             <form th:action="'users/' + ${el.id} + '/delete' " method="post">
                                 <button class="btn btn-secondary" type="submit">Delete</button>

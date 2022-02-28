@@ -33,9 +33,8 @@ public class Film {
     @JoinColumn(name = "film_id")
     private List<Comment> comments;
 
-    public Film(String title, String picture, String description, int rating, int year, User author) {
+    public Film(String title, String description, int rating, int year, User author) {
         this.title = title;
-        this.picture = picture;
         this.description = description;
         this.rating = rating;
         this.year = year;

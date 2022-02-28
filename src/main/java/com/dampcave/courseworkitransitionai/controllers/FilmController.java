@@ -7,11 +7,17 @@ import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.FilmRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Controller()
 @RequestMapping("/films")
@@ -32,6 +38,9 @@ public class FilmController {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @GetMapping()
     public String showAllFilms(Model model){
         model.addAttribute("title", "all films");
@@ -48,13 +57,29 @@ public class FilmController {
 
     @RequestMapping(value = "/createfilm", method = RequestMethod.POST)
     public String createNewFilms(@RequestParam(name = "filmname") String title,
-                                 @RequestParam(name = "picture") String picture,
                                  @RequestParam(name = "description") String description,
                                  @RequestParam(name = "rating") int rating,
                                  @RequestParam(name = "year") int year,
-                                 Model model) {
+                                 @RequestParam(name = "picture") MultipartFile picture,
+                                 Model model) throws IOException {
         User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
-        Film film = new Film(title, picture,description,rating,year, user);
+        Film film = new Film(title,description,rating,year, user);
+
+        if (picture != null){
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + picture.getOriginalFilename();
+
+            picture.transferTo(new File(resultFilename));
+
+            film.setPicture(resultFilename);
+        }
+
         filmRepository.save(film);
         Iterable<Film> films = filmRepository.findAll();
         model.addAttribute("films", films);
