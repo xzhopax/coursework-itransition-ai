@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/users")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class UserController {
 
     UserRepository userRepository;
@@ -52,9 +52,11 @@ public class UserController {
     }
 
     @GetMapping("/deleteall")
-    public String deleteAllUsers() {
+    public String deleteAllUsers(HttpServletRequest request, HttpServletResponse response) {
         userRepository.deleteAll();
-        return "redirect:/users";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+        return "redirect:/login?logout";
     }
 
     @GetMapping("/blocked")

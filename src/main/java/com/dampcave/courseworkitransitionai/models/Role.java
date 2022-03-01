@@ -20,11 +20,6 @@ public class Role implements GrantedAuthority {
     @Column(name = "name")
     private String Name;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-                cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
-    @Enumerated(EnumType.STRING)
-    private Set<User> users;
 
     @Override
     public String toString() {

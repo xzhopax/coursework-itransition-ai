@@ -6,6 +6,8 @@ import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.FilmRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -15,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -42,52 +46,59 @@ public class FilmController {
     private String uploadPath;
 
     @GetMapping()
-    public String showAllFilms(Model model){
+    public String showAllFilms(Model model) {
         model.addAttribute("title", "all films");
         Iterable<Film> films = filmRepository.findAll();
         model.addAttribute("films", films);
+        model.addAttribute("path", uploadPath);
         return "films";
     }
 
     @GetMapping("/createfilm")
-    public String getFormCreatFilm(Model model){
+    public String getFormCreatFilm(Model model) {
         model.addAttribute("title", "Create Film");
         return "create-film";
     }
+
 
     @RequestMapping(value = "/createfilm", method = RequestMethod.POST)
     public String createNewFilms(@RequestParam(name = "filmname") String title,
                                  @RequestParam(name = "description") String description,
                                  @RequestParam(name = "rating") int rating,
                                  @RequestParam(name = "year") int year,
-                                 @RequestParam(name = "picture") MultipartFile picture,
+                                 @RequestParam(name = "file") MultipartFile file,
                                  Model model) throws IOException {
         User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
-        Film film = new Film(title,description,rating,year, user);
+        Film film = new Film(title, description, rating, year, user);
 
-        if (picture != null){
-            File uploadDir = new File(uploadPath);
+        File uploadDir = new File(uploadPath);
 
-            if (!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
-
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + picture.getOriginalFilename();
-
-            picture.transferTo(new File(resultFilename));
-
-            film.setPicture(resultFilename);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
         }
 
-        filmRepository.save(film);
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+        if (!file.isEmpty()) {
+            byte[] bytes = file.getBytes();
+            File outFile = new File(uploadPath + resultFilename);
+            BufferedOutputStream stream =
+                    new BufferedOutputStream(new FileOutputStream(outFile));
+            stream.write(bytes);
+            stream.close();
+            file.transferTo(outFile);
+            film.setPicture(resultFilename);
+            filmRepository.save(film);
+        }
+
         Iterable<Film> films = filmRepository.findAll();
         model.addAttribute("films", films);
         return "redirect:/films";
     }
 
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/film/{id}/delete")
     public String deleteFilm(@PathVariable(value = "id") Long id,
                              Model model) {
         Film film = filmRepository.findById(id).orElseThrow();
@@ -105,23 +116,24 @@ public class FilmController {
         model.addAttribute("title", "Main");
         model.addAttribute("film", filmRepository.findById(id).orElseThrow());
         model.addAttribute("id", id);
+        model.addAttribute("path", uploadPath);
 
         return "film";
     }
 
 
-
     @RequestMapping(value = "/film/{id}", method = RequestMethod.POST)
-    public String postComment( @PathVariable(value = "id") Long id,
-            @RequestParam(name = "textComment") String text,
-                               Model model) {
+    public String postComment(@PathVariable(value = "id") Long id,
+                              @RequestParam(name = "textComment") String text,
+                              Model model) {
 
         Film film = filmRepository.findById(id).orElseThrow();
-        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow() ;
+        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
         Comment comment = new Comment(text, user, film);
         commentRepository.save(comment);
         Iterable<Comment> comments = commentRepository.findAll();
         model.addAttribute("comments", comments);
+        model.addAttribute("path", uploadPath);
         return "redirect:/films/film/{id}";
     }
 
