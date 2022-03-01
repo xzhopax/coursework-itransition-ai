@@ -1,5 +1,6 @@
 package com.dampcave.courseworkitransitionai.controllers;
 
+import com.dampcave.courseworkitransitionai.amazon.S3Util;
 import com.dampcave.courseworkitransitionai.models.Comment;
 import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
@@ -12,8 +13,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -42,6 +46,32 @@ public class MainController {
     public String test( Model model) {
         model.addAttribute("title", "Home");
         return "test";
+    }
+
+    @GetMapping("/upload")
+    public String upload( Model model) {
+        model.addAttribute("title", "Upload");
+        return "upload";
+    }
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam(name = "description") String description,
+                             @RequestParam(name = "file")MultipartFile multipartFile,
+                             Model model) {
+        String filename = multipartFile.getOriginalFilename();
+        System.out.println("Description: " + description);
+        System.out.println("Filename: " + filename);
+        String message;
+        try {
+            S3Util.uploadFile(filename,multipartFile.getInputStream());
+            message ="Your file upload";
+        } catch (IOException e) {
+             message ="Your file upload" + e.getMessage();
+        }
+
+
+        model.addAttribute("title", "Upload");
+        model.addAttribute("message", message);
+        return "message";
     }
 
 

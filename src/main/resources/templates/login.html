@@ -3,18 +3,8 @@
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
 
+    <header th:insert="blocks/header :: header"></header>
     <title th:text="${title}"/>
-
-    <style type="text/css">
-        .body {
-            background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-03/1614609786_140-p-kartinki-dlya-fotoshopa-fon-201.jpg);
-            text-align: center;
-        }
-
-        .form {
-            display: inline-block;
-        }
-    </style>
 </head>
 <body class="body" style="background-color: #030203">
 <div class="form mt-5">
@@ -24,14 +14,14 @@
             <form th:action="@{/login}" method="post" th:object="${user}">
                 <div class="form-group">
                     <label for="username" class="fw-weight-bold text-white">User name</label>
-                    <input type="text" id="username" th:field="${user.username}"
+                    <input type="text" th:name="username" id="username" th:field="${user.username}"
                            class="form-control fw-weight-bold" placeholder="Enter  login">
                     <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('username')}">fail
                         username</small>
                 </div>
                 <div class="form-group">
                     <label for="password" class="fw-weight-bold text-white">Password</label>
-                    <input type="password" id="password" th:field="${user.password}"
+                    <input type="password" th:name="password" id="password" th:field="${user.password}"
                            class="form-control fw-weight-bold" placeholder="Password">
                     <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('password')}">fail
                         password</small>

@@ -30,9 +30,9 @@ public class User implements UserDetails {
         this.active = true;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING) // keep data as string
+
+    @ManyToMany( fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     @OneToMany( cascade = CascadeType.ALL)

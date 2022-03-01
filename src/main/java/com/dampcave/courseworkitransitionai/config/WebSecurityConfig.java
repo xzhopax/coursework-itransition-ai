@@ -9,16 +9,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import javax.sql.DataSource;
 
 
 @Configuration
@@ -52,16 +46,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers("/scripts/**")
+                .antMatchers("/styles/**")
+                .antMatchers("/images/**")
+                .antMatchers("/img/**")
+                .antMatchers("/fonts/**");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/register").permitAll()
+                    .antMatchers("/films").permitAll()
+                    .antMatchers("/films/**").permitAll()
                     .antMatchers("/**").authenticated()
                     .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
+                    .loginPage("/login").permitAll()
+                    .loginPage("/films").permitAll()
                     .and()
                 .logout()
                     .permitAll();

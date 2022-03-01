@@ -1,28 +1,5 @@
 <div th:fragment="comments">
-    <style>
-        .img-sm {
-            width: 46px;
-            height: 46px;
-        }
-
-        .comments ul ul {
-            margin-left: 60px;
-        }
-
-        .comments .comment img {
-            margin-right: 20px;
-        }
-
-        .comments .comment {
-            padding: 6px;
-        }
-
-        .comments .comment:hover {
-            background: #eee;
-        }
-    </style>
-
-    <form>
+    <form sec:authorize="isAuthenticated()">
         <div class="container">
 
             <div class="row">
