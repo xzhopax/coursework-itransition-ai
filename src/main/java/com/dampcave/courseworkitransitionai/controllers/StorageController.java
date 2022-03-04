@@ -13,8 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/file")
 public class StorageController {
 
+    private final StorageService service;
+
     @Autowired
-    private StorageService service;
+    public StorageController(StorageService service) {
+        this.service = service;
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam(value = "file") MultipartFile file) {
