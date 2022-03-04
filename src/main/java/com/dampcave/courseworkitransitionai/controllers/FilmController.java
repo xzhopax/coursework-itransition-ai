@@ -27,6 +27,9 @@ public class FilmController {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${show.path}")
+    private String showPath;
+
     public Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -54,7 +57,7 @@ public class FilmController {
         model.addAttribute("title", "all films");
         Iterable<Film> films = filmRepository.findAll();
         model.addAttribute("films", films);
-        model.addAttribute("path", uploadPath);
+        model.addAttribute("path", showPath);
         return "films";
     }
 
