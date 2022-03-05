@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> >
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
@@ -28,18 +29,21 @@
             <!-- Grid column -->
             <div class="col-lg-7 col-xl-8">
                 <!-- Post title -->
-               Title: <h4 class="font-weight-bold mb-3" th:text="${el.title}"><strong></strong></h4>
+                Title: <h4 class="font-weight-bold mb-3" th:text="${el.title}"><strong></strong></h4>
                 <!-- Excerpt -->
-               Description: <p class="dark-grey-text" th:text="${el.description}"></p>
+                Description: <p class="dark-grey-text" th:text="${el.description}"></p>
                 <!-- Post data -->
-               ID: <p th:text="${el.id}"></p>
-               Year: <p th:text="${el.year}"></p>
-               Rating:  <p th:text="${el.rating}"></p>
-               Author: <p th:text="${el.author.username}"><strong></strong></p>
+                ID: <p th:text="${el.id}"></p>
+                Year: <p th:text="${el.year}"></p>
+                Rating: <p th:text="${el.rating}"></p>
+                Author: <p th:text="${el.author.username}"><strong></strong></p>
                 <!-- Read more button -->
-                <form th:action="${el.id} + '/delete' " method="post">
-                    <button class="btn btn-primary btn-md mx-0 btn-rounded" type="submit">Delete</button>
+
+                <form sec:authorize="hasAuthority('ADMIN')" method="post" th:objact="film"
+                      th:action="'/films/film/delete/'+ *{id}">
+                    <button class="btn btn-secondary" type="submit">Delete</button>
                 </form>
+
             </div>
             <!-- Grid column -->
         </div>

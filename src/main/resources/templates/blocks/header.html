@@ -1,14 +1,10 @@
 <div th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class=" navbar-brand ml-5" href="/" th:text="${title}"/></a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <li>
+                    <a class=" navbar-brand mr-5" th:text="${title}"/></a>
+                </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
                     <a class="nav-link" href="/users">Show All Users </a>
                 </li>
@@ -37,17 +33,27 @@
 
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li sec:authorize="isAnonymous()" class="nav-item ml-5">
+                <li class="header-item-lang-en">
+                    <button id="en" class="translate">
+                        <img th:src="@{images/en.jpg}" alt="en-flag" width="20px" height="15">
+                    </button>
+                </li>
+                <li class="header-item-lang-ru">
+                    <button id="ru" class="translate">
+                        <img th:src="@{images/ru.jpg}" alt="ru-flag" width="20px" height="15">
+                    </button>
+                </li>
+                <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
                     <a class="nav-link" href="/login">Login</a>
                 </li>
-                <li sec:authorize="isAnonymous()" class="nav-item ml-5">
-                    <a class="nav-link" href="/register">Register</a>
+                <li>
+                    <form sec:authorize="isAuthenticated()"
+                          th:action="@{/logout}" method="post">
+                        <button class="btn-dark"><i
+                                class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </form>
                 </li>
-                <form sec:authorize="hasAuthority('ADMIN') or hasAuthority('USER')" class="form-inline "
-                      th:action="@{/logout}" method="post">
-                    <button class="btn btn-dark my-2 my-sm-0"><i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    </button>
-                </form>
             </ul>
         </div>
     </nav>

@@ -28,8 +28,7 @@ public class Film {
     @JoinColumn(name = "user_id")
     private User author;
 
-    @OneToMany(fetch = FetchType.EAGER,
-               cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval=false)
     @JoinColumn(name = "film_id")
     private List<Comment> comments;
 

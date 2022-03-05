@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
@@ -18,13 +17,13 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "name")
-    private String Name;
+    private String name;
 
 
     @Override
     public String toString() {
         return "Role{" +
-                "Name='" + Name + '\'' +
+                "Name='" + name + '\'' +
                 '}';
     }
 

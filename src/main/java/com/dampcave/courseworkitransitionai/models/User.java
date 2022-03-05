@@ -47,6 +47,11 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id")
     private List<Film> films;
 
+
+    public void removeOverview(Film film){
+        films.remove(film);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();

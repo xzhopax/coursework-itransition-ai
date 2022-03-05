@@ -22,17 +22,21 @@
                 </tr>
             </thead>
             <tbody>
-                <div th:each="el:${users}">
+                <div th:each="user:${users}">
                     <tr><!-- line table  -->
-                        <td><p th:text="${el.id}"/></td> <!-- cell table -->
-                        <td><p th:text="${el.username}"/></td> <!-- cell table -->
-                        <td><p th:text="${el.getRoles()}"/></td> <!-- cell table -->
-                        <td> <p th:text="${el.isActive()}"/></td> <!-- cell table -->
+                        <td><p th:text="${user.id}"/></td> <!-- cell table -->
+                        <td><p th:text="${user.username}"/></td> <!-- cell table -->
                         <td>
-                            <form th:action="'users/' + ${el.id} + '/delete' " method="post">
+                             <span th:each="role,iterStat:${user.getRoles()}"
+                                   th:text="${role.name} + ${!iterStat.last ? ', ' : ''}">
+                             </span>
+                        </td> <!-- cell table -->
+                        <td> <p th:text="${user.isActive()}"/></td> <!-- cell table -->
+                        <td>
+                            <form th:action="'users/' + ${user.id} + '/delete' " method="post">
                                 <button class="btn btn-secondary" type="submit">Delete</button>
                             </form>
-                            <form th:action="'/users/' + ${el.id} + '/isactive' " method="get">
+                            <form th:action="'/users/' + ${user.id} + '/isactive' " method="get">
                                 <button class="btn btn-secondary mt-1" type="submit">Unblocked/Blocked</button>
                             </form>
                         </td>

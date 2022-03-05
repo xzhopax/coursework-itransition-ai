@@ -18,17 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @Controller()
 @RequestMapping("/films")
 public class FilmController {
 
     @Value("${upload.path}")
     private String uploadPath;
-
-    @Value("${show.path}")
-    private String showPath;
 
     public Authentication getAuth() {
         return SecurityContextHolder.getContext().getAuthentication();
@@ -50,126 +45,62 @@ public class FilmController {
         this.service = service;
     }
 
-
-
     @GetMapping()
-    public String showAllFilms(Model model) {
-        model.addAttribute("title", "all films");
+    public String showAllOverviewFilms(Model model) {
         Iterable<Film> films = filmRepository.findAll();
+        model.addAttribute("title", "All Films");
         model.addAttribute("films", films);
-        model.addAttribute("path", showPath);
         return "films";
     }
 
-    @GetMapping("/createfilm")
-    public String getFormCreatFilm(Model model) {
-        model.addAttribute("title", "Create Film");
-        return "create-film";
-    }
-
-
-    @RequestMapping(value = "/createfilm", method = RequestMethod.POST)
-    public String createNewFilms(@RequestParam(name = "filmname") String title,
-                                 @RequestParam(name = "description") String description,
-                                 @RequestParam(name = "rating") int rating,
-                                 @RequestParam(name = "year") int year,
-                                 @RequestParam(value = "file") MultipartFile file,
-                                 Model model) throws IOException {
-        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
-        Film film = new Film(title, description, rating, year, user);
-        String fileName = service.uploadFile(file);
-        new ResponseEntity<>(fileName, HttpStatus.OK);
-
-//        File uploadDir = new File(uploadPath);
-//
-//        if (!uploadDir.exists()) {
-//            uploadDir.mkdir();
-//        }
-//
-//        String uuidFile = UUID.randomUUID().toString();
-//        String resultFilename = uuidFile + "." + file.getOriginalFilename();
-//
-//        if (!file.isEmpty()) {
-//            byte[] bytes = file.getBytes();
-//            File outFile = new File(uploadPath + resultFilename);
-//            BufferedOutputStream stream =
-//                    new BufferedOutputStream(new FileOutputStream(outFile));
-//            stream.write(bytes);
-//            stream.close();
-//            file.transferTo(outFile);
-//
-//        }
-        film.setPicture(fileName);
-        filmRepository.save(film);
-
-        Iterable<Film> films = filmRepository.findAll();
-        model.addAttribute("films", films);
-        return "redirect:/films";
-    }
-
-
-    @PostMapping("/film/{id}/delete")
-    public String deleteFilm(@PathVariable(value = "id") Long id,
-                             Model model) {
-        Film film = filmRepository.findById(id).orElseThrow();
-        filmRepository.delete(film);
-        return "redirect:/films";
-    }
-
     @GetMapping("/film/{id}")
-    public String getComment(@PathVariable(value = "id") Long id,
-                             Model model) {
-
+    public String getPageOverview(@PathVariable(value = "id") Long id,
+                                  Model model) {
         Iterable<Comment> comments = commentRepository.findByFilm(filmRepository.findById(id).orElseThrow());
+        model.addAttribute("title", "Film Overview");
+        model.addAttribute("film", filmRepository.findById(id).orElseThrow());
         model.addAttribute("comments", comments);
         model.addAttribute("username", getAuth().getName());
-        model.addAttribute("title", "Main");
-        model.addAttribute("film", filmRepository.findById(id).orElseThrow());
-        model.addAttribute("id", id);
-        model.addAttribute("path", uploadPath);
-
         return "film";
     }
 
-
     @RequestMapping(value = "/film/{id}", method = RequestMethod.POST)
-    public String postComment(@PathVariable(value = "id") Long id,
-                              @RequestParam(name = "textComment") String text,
-                              Model model) {
-
+    public String actionsInOverviewFilm(@PathVariable(value = "id") Long id,
+                                        @RequestParam(name = "textComment") String text) {
         Film film = filmRepository.findById(id).orElseThrow();
         User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
         Comment comment = new Comment(text, user, film);
         commentRepository.save(comment);
-        Iterable<Comment> comments = commentRepository.findAll();
-        model.addAttribute("comments", comments);
-        model.addAttribute("path", uploadPath);
         return "redirect:/films/film/{id}";
     }
 
-    @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    public String postSearch(@RequestParam(name = "search-message") String search,
-                             @RequestParam(name = "search-author") String author,
-                             Model model) {
-        Iterable<Comment> comments;
-
-        if (search != null && !search.isEmpty()) {
-            comments = commentRepository.findByMessage(search);
-        } else {
-            comments = commentRepository.findAll();
-        }
-
-        model.addAttribute("comments", comments);
-        return "film";
+    @GetMapping("/create-overview")
+    public String getFormCreatOverview(Model model) {
+        model.addAttribute("title", "Create Film");
+        return "create-overview";
     }
 
-    @RequestMapping(value = "/comments", method = RequestMethod.GET)
-    public String fieldComments(Model model) {
+    @RequestMapping(value = "/create-overview", method = RequestMethod.POST)
+    public String pushFormCreatingOverview(@RequestParam(name = "filmname") String title,
+                                           @RequestParam(name = "description") String description,
+                                           @RequestParam(name = "rating") int rating,
+                                           @RequestParam(name = "year") int year,
+                                           @RequestParam(value = "file") MultipartFile file) {
+        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
+        Film film = new Film(title, description, rating, year, user);
+        String fileName = service.uploadFile(file);
+        new ResponseEntity<>(fileName, HttpStatus.OK);
+        film.setPicture(fileName);
+        filmRepository.save(film);
+        return "redirect:/films";
+    }
 
-        Iterable<Comment> comments = commentRepository.findAll();
-
-        model.addAttribute("users-comment", comments);
-
-        return "film";
+    @PostMapping("/film/delete/{id}")
+    public String deleteFilm(@PathVariable(value = "id") Long id) {
+        Film film = filmRepository.findById(id).orElseThrow();
+        User user = userRepository.findByUsername(film.getAuthor().getUsername()).orElseThrow();
+        user.getFilms().remove(film);
+        userRepository.save(user);
+        return "redirect:/films";
     }
 }

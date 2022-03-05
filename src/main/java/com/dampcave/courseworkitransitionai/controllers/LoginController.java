@@ -31,6 +31,12 @@ public class LoginController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/")
+    public String home( Model model) {
+        model.addAttribute("title", "Home");
+        return "home";
+    }
+
     @GetMapping("/login")
     public String loginUser( Model model) {
         UserLoginRepr userLoginRepr = new UserLoginRepr();

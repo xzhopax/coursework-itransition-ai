@@ -14,14 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private PasswordEncoder passwordEncoder;
-
-    private UserAuthService userAuthService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserAuthService userAuthService;
 
     @Bean
     @Override
@@ -29,14 +27,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    @Bean
+    DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userAuthService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
     }
 
     @Autowired
-    public void setUserAuthService(UserAuthService userAuthService) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder, UserAuthService userAuthService) {
+        this.passwordEncoder = passwordEncoder;
+        this.userAuthService = userAuthService;
+    }
+
+    public WebSecurityConfig(boolean disableDefaults, PasswordEncoder passwordEncoder, UserAuthService userAuthService) {
+        super(disableDefaults);
+        this.passwordEncoder = passwordEncoder;
         this.userAuthService = userAuthService;
     }
 
@@ -61,7 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/register").permitAll()
-                    .antMatchers("/films").permitAll()
                     .antMatchers("/films/**").permitAll()
                     .antMatchers("/**").authenticated()
                     .and()
@@ -70,15 +76,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/films").permitAll()
                     .and()
                 .logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                     .permitAll();
     }
-
-    @Bean
-    DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userAuthService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-        return authenticationProvider;
-    }
-
 }
