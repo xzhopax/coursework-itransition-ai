@@ -6,29 +6,28 @@
                     <a class=" navbar-brand mr-5" th:text="${title}"/></a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link" href="/users">Show All Users </a>
+                    <a class="nav-link lang" key="users" href="/users">Show All Users </a>
                 </li>
                 <li class="nav-item ml-5">
-                    <a class="nav-link" href="/films">Show All Films </a>
+                    <a class="nav-link lang" key="films" href="/films">Show All Films </a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link" href="/users/deleteall"
+                    <a class="nav-link lang" key="delete-all-users" href="/users/deleteall"
                        onclick="if (confirm('Delete all users selected item?'))
                                     {return true;}else{event.stopPropagation(); event.preventDefault();};"
                        title="Link Title"> Delete all users </a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link" href="/users/unblocked"
+                    <a class="nav-link lang" key="unblock-all-users" href="/users/unblocked"
                        onclick="if (confirm('Unblock all users selected item?'))
                                     {return true;}else{event.stopPropagation(); event.preventDefault();};"
                        title="Link Title"> Unblock all users </a>
                 </li>
-                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link" href="/users/blocked"
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item  ml-5">
+                    <a class="nav-link lang" key="block-all-users" href="/users/blocked"
                        onclick="if (confirm('Block all users selected item?'))
                                     {return true;}else{event.stopPropagation(); event.preventDefault();};"
                        title="Link Title"> Block all users </a>
-                    <a class="nav-link" href=""> </a>
                 </li>
 
             </ul>
@@ -44,13 +43,16 @@
                     </button>
                 </li>
                 <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link lang" href="/login" key="login">Login</a>
+                </li>
+                <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
+                    <a class="nav-link lang" href="/register" key="register">Register</a>
                 </li>
                 <li>
                     <form sec:authorize="isAuthenticated()"
                           th:action="@{/logout}" method="post">
-                        <button class="btn-dark"><i
-                                class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <button class="btn-dark lang" key="logout"><i
+                                class="fa-solid fa-arrow-right-from-bracket lang" key=""></i>
                         </button>
                     </form>
                 </li>

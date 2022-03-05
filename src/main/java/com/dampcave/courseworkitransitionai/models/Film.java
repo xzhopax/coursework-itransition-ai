@@ -8,6 +8,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,9 +21,15 @@ public class Film {
     private Long id;
     private String title;
     private String picture;
+    private String urlVideo;
     private String description;
-    private int rating;
+    private double rating;
     private int year;
+    private String producer;
+
+//    @ManyToMany( fetch = FetchType.EAGER)
+//    @JoinTable(name = "film_genres", joinColumns = @JoinColumn(name = "genres_id"))
+//    private Set<Genre> genres;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

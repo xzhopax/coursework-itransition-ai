@@ -6,8 +6,9 @@
     <header th:insert="blocks/header :: header"></header>
     <title th:text="${title}"/>
 </head>
-<body class="body" style="background-color: #030203">
-<div class="form mt-5">
+<body class="body" style="background-color: #030203" >
+<div class="form mt-5" >
+
     <div class="row py-2 mt-5">
         <div class="col-12 mt-5">
             <!--                <form th:action="@{/authenticateTheUser}" method="post">-->
@@ -28,7 +29,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
                 <br><br>
-                <a class="px-3 text-white" th:href="@{/register}">Registration</a>
+                <a class="px-3 text-white" th:href="@{/register}"><strong> Registration </strong></a>
             </form>
         </div>
     </div>
