@@ -6,13 +6,131 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>
 
-
-
-        <script>
-
-        </script>
-
         <style>
+            :root {
+                --var-body-bg: #fff;
+                --var-body-fc: #333;
+                /*--var-header-bg:#F5F5F5;*/
+                /*--var-header-bg:#3baa36;*/
+                /*--var-header-bg:#11a8dd;*/
+                /*--var-header-bg:#CC99CC;*/
+                /*--var-header-bg:#CC99FF;*/
+                /*--var-header-bg:#99CCFF;*/
+                --var-header-bg:#f0f0f5;
+                --var-body-fb: #FFFFFF;
+                --var-body-button: #e9e7e9;
+                --var-body-text:#333;
+                --var-header-url: url("/images/dark.png") ;
+            }
+
+            [dark  ] {
+                --var-body-bg: #38444c;
+                --var-body-fc: #fff;
+                --var-header-bg: #121212;
+                --var-body-fb:	#CFCFCF;
+                --var-body-button: #121212;
+                --var-body-text:#333;
+                --var-header-url: url("/images/white.png") ;
+            }
+
+            .text-color{
+                color: var(--var-body-fc);
+                font-size: 1.5em;
+
+            }
+            .text-video{
+                color: var(--var-body-fc);
+                font-size: 3em;
+                margin-left: 10px;
+                margin-bottom: 10px;
+
+            }
+            .text-color-small{
+                color: var(--var-body-fc);
+            }
+
+            .textarea {
+                padding: 10px;
+                border: var(--var-body-fc);
+                background: var(--var-body-fb);
+                font-style: normal;
+                font-size: 1em;
+                text-decoration-color: var(--var-body-fc);
+                color: var(--var-body-text);
+                background-color: var(--var-body-fb);
+
+            }
+            .textarea:focus {
+                padding: 10px;
+                border: var(--var-body-fc);
+                background: var(--var-body-fb);
+                font-style: normal;
+                font-size: 1em;
+                text-decoration-color: var(--var-body-fc);
+                color: var(--var-body-text);
+                background-color: var(--var-body-fb);
+            }
+
+            .img-logo{
+                /*background-image: url("images/dark.png");*/
+                background-image: var(--var-header-url);
+                width: 50px;
+                height: 50px;
+                background-size: cover;
+                text-align: center;
+                border: none;
+            }
+
+
+            form {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            form a {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            td {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            th {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            a {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            a:active {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            a:visited {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            i {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            p {
+                color: var(--var-body-fc);
+                text-decoration: none;
+            }
+
+            .nav-link:hover{
+                color: white;
+                text-decoration: none;
+            }
 
             .table-wrapper {
                 max-height: 100px;
@@ -31,10 +149,17 @@
                 -moz-user-select: none;
                 user-select: none;
             }
-            .translate{
+
+            .translate {
                 background: transparent;
                 border: none;
-                margin-left: 12px;
+                margin-left: 6px;
+            }
+
+            .theme-color{
+                background: transparent;
+                border: none;
+                margin-left: 6px;
             }
 
 
@@ -44,8 +169,31 @@
                 }
             }
 
-            .body {
-                background-image: url("images/fon-login.jpg");
+            .button-color {
+                color: var(--var-body-fc);
+                background-color: var(--var-header-bg);
+                border-color: #6c757d;
+                border-radius:5px
+            }
+
+
+            .body-color {
+                padding: 0;
+                margin: 0;
+                background-color: var(--var-body-bg);
+                color: var(--var-body-fc);
+                font-family: cursive;
+            }
+
+            .header-color {
+                padding: 1rem;
+                background-color: var(--var-header-bg);
+                color: var(--var-body-fc);
+                border-bottom: .1rem solid var(--var-body-fc);
+            }
+
+            .body-login {
+                background-image: url("/images/fon-login.jpg");
                 background-size: cover;
                 text-align: center;
             }
@@ -53,6 +201,7 @@
             .form {
                 display: inline-block;
             }
+
             .img-sm {
                 width: 46px;
                 height: 46px;
@@ -73,9 +222,7 @@
             .comments .comment:hover {
                 background: #eee;
             }
-
         </style>
-
     </footer>
 </div>
 

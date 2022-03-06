@@ -1,9 +1,11 @@
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
+    <nav class="navbar navbar-expand-lg  header-color">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
             <ul class="navbar-nav mr-auto">
-                <li>
-                    <a class=" navbar-brand mr-5" th:text="${title}"/></a>
+                <li class="img-logo">
+                    <img/>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
                     <a class="nav-link lang" key="users" href="/users">Show All Users </a>
@@ -32,14 +34,24 @@
 
             </ul>
             <ul class="navbar-nav ms-auto">
+                <li class="header-item-theme">
+                    <button id="light" class="theme-color" onclick="alertedSun();">
+                        <img th:src="@{/images/sun.png}"  alt="light" width="20px" height="20">
+                    </button>
+                </li>
+                <li class="header-item-theme">
+                    <button id="dark" class="theme-color" onclick="alertedDark();">
+                        <img th:src="@{/images/moon.png}"  alt="dark" width="20px" height="20">
+                    </button>
+                </li>
                 <li class="header-item-lang-en">
                     <button id="en" class="translate">
-                        <img th:src="@{images/en.jpg}" alt="en-flag" width="20px" height="15">
+                        <img th:src="@{/images/en.jpg}" alt="en-flag" width="20px" height="15">
                     </button>
                 </li>
                 <li class="header-item-lang-ru">
                     <button id="ru" class="translate">
-                        <img th:src="@{images/ru.jpg}" alt="ru-flag" width="20px" height="15">
+                        <img th:src="@{/images/ru.jpg}" alt="ru-flag" width="20px" height="15">
                     </button>
                 </li>
                 <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
@@ -51,8 +63,8 @@
                 <li>
                     <form sec:authorize="isAuthenticated()"
                           th:action="@{/logout}" method="post">
-                        <button class="btn-dark lang" key="logout"><i
-                                class="fa-solid fa-arrow-right-from-bracket lang" key=""></i>
+                        <button class="nav-link translate lang button-color" key="logout"><i
+                                class="nav-link lang text-color-small" key="logout">Logout</i>
                         </button>
                     </form>
                 </li>

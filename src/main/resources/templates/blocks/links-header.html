@@ -10,9 +10,12 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!--    <script src="/js/jquery.min.js" defer></script>-->
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--    <link rel="stylesheet" type="text/css" href="/css/my.css" defer/>-->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', getLocalLang)
+        document.addEventListener('DOMContentLoaded', getLocalTheme)
 
         var arrLang = {
             'en' : {
@@ -24,6 +27,17 @@
                 'login' : 'Login',
                 'logout' : 'Logout',
                 'register' : 'Register',
+                'delete' : 'Delete',
+                'bl-un' : 'Unblocked/Blocked',
+                'read' : 'Read More',
+                'new-film' : 'Add New Overview',
+                'id' : 'Id',
+                'username' : 'Username',
+                'role' : 'Role',
+                'active' : 'Active',
+                'password' : 'Password',
+                'password-2' : 'Repeat Password',
+                'video' : 'Trailer',
             },
             'ru' : {
                 'users' : 'Пользователи',
@@ -34,6 +48,17 @@
                 'login' : 'Войти',
                 'logout' : 'Выйти',
                 'register' : 'Зарегистрироваться',
+                'delete' : 'Удалить',
+                'bl-un' : 'Разблокировать/Заблокировать',
+                'read' : 'Подробнее',
+                'new-film' : 'Добавить Обзор',
+                'id' : 'Идентификатор',
+                'username' : 'Имя пользователя',
+                'role' : 'Роль',
+                'active' : 'Действующий',
+                'password' : 'Пароль',
+                'password-2' : 'Повторите пароль',
+                'video' : 'Трейлер',
             }
         }
 
@@ -75,6 +100,46 @@
                 }, 0)
 
             })
+        }
+
+        function alertedDark(){
+          document.body.setAttribute('dark', '');
+        }
+        function alertedSun(){
+             document.body.removeAttribute('dark');
+        }
+        $(function() {
+            $('.theme-color').click(function() {
+                var theme = $(this).attr('id');
+                saveLocalTheme(theme)
+            });
+        });
+
+        function saveLocalTheme(theme){
+            let button
+            if (localStorage.getItem('button')=== null){
+                button = []
+            } else {
+                button = JSON.parse(localStorage.getItem('button'))
+            }
+            button.push(theme)
+            localStorage.setItem('button', JSON.stringify(button))
+        }
+
+        function getLocalTheme(){
+            let buttons
+            if (localStorage.getItem('button') === null){
+                buttons =[]
+            } else {
+                buttons = JSON.parse(localStorage.getItem('button'))
+            }
+            let button = buttons[buttons.length - 1]
+
+            if (button==='light'){
+                document.body.removeAttribute('dark');
+            } else {
+                document.body.setAttribute('dark', '');
+            }
         }
 
     </script>

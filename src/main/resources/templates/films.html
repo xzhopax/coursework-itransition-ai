@@ -5,10 +5,11 @@
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body>
+<body class="body-color">
 <header th:insert="blocks/header :: header"></header>
 
-<h2 class="ml-5 mt-2 md-5">Show all Films</h2>
+<h2 class="ml-5 mt-2 md-5 lang" key="films">Show all Films</h2>
+
 
 <div class="container mt-5" th:each="el:${films}">
     <!--Section: Content-->
@@ -39,7 +40,8 @@
                 <p th:text="${el.rating}"></p>
                 <!-- Read more button -->
                 <form th:action="'/films/film/' + ${el.id}" method="get">
-                    <button class="btn btn-primary btn-md mx-0 btn-rounded" type="submit">Read more</button>
+                    <button class="btn button-color btn-md mx-0 btn-rounded lang" key="read" type="submit">Read more
+                    </button>
                 </form>
             </div>
             <!-- Grid column -->
@@ -51,10 +53,10 @@
 </div>
 
 <br>
-<input sec:authorize="isAuthenticated()" class="btn btn-primary btn-md mx-0 btn-rounded ml-3" type="button"
-       value="Add New Film"
-       onclick="window.location.href = 'films/create-overview'">
-
+<form sec:authorize="isAuthenticated()" th:action="@{/films/create-overview}" method="get">
+    <button class="btn button-color btn-md mx-0 btn-rounded lang" key="new-film" type="submit">Add New Overview
+    </button>
+</form>
 
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

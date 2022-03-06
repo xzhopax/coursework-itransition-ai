@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> >
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body>
+<body class="body-color">
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5" th:each="el:${film}">
@@ -15,12 +15,14 @@
         <div class="row align-items-center">
             <!-- Grid column -->
             <div class="col-lg-5 col-xl-4">
+                <a class="px-5 text-white lang button-color  text-video"  key="video" th:href="${el.urlVideo}">
+                    <strong> Watch traile </strong></a>
+                <a>
                 <!-- Featured image -->
                 <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
                     <img class="img-fluid bd-placeholder-img" width="200" height="250"
                          th:src="@{'/img/'+ ${el.picture}}"
                          alt="Sample image">
-                    <a>
                         <div class="mask rgba-white-slight"></div>
                     </a>
                 </div>
@@ -41,7 +43,7 @@
 
                 <form sec:authorize="hasAuthority('ADMIN')" method="post" th:objact="film"
                       th:action="'/films/film/delete/'+ *{id}">
-                    <button class="btn btn-secondary" type="submit">Delete</button>
+                    <button class="btn button-color lang" key="delete" type="submit">Delete</button>
                 </form>
 
             </div>
