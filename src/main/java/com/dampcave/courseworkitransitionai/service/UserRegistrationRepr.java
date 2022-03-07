@@ -18,9 +18,7 @@ public class UserRegistrationRepr {
     @NotBlank
     private String repeatPassword;
 
-//    @NotBlank
-//    private String name;
-//
-//    @NotBlank
-//    private String email;
+    @NotBlank
+    private String email;
+
 }

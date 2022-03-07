@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -56,13 +57,13 @@ public class LoginController {
     @PostMapping("/register")
     public String registrationNewUserPost(
             @Valid UserRegistrationRepr userRegistrationRepr,
-            BindingResult bindingResult){
+                   BindingResult bindingResult){
 //        User user = userRepository.findByUsername(userRegistrationRepr.getUsername()).orElseThrow();
 //
 //        if (bindingResult.hasErrors()){
 //            return "register";
 //        }
-//        if (user != null){
+//        if (userRepository.findByUsername(userRegistrationRepr.getUsername()).isPresent()){
 //            bindingResult.rejectValue("username","","User exists!");
 //            return "register";
 //        }
@@ -71,10 +72,32 @@ public class LoginController {
 //            bindingResult.rejectValue("password","", "passwords not equals");
 //            return "register";
 //        }
+//
+//        if (!userService.checkUserInBD(user)) {
+//            userService.create(userRegistrationRepr);
+//            return "redirect:/login";
+//        }
+//        bindingResult.rejectValue("username","","Error");
+//        return "register";
 
         userService.create(userRegistrationRepr);
         return "redirect:/login";
     }
+
+    @GetMapping("/activate/{code}")
+    public String activate( @PathVariable String code,
+                            Model model){
+       boolean isActivated = userService.isActivateUser(code);
+
+       if (isActivated){
+           model.addAttribute("message", "User activated");
+       } else {
+           model.addAttribute("message", "Activation code not found");
+       }
+
+        return "message";
+    }
+
 
 
 

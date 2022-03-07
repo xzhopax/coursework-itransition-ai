@@ -66,10 +66,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/register").permitAll()
-                    .antMatchers("/films/**").permitAll()
-                    .antMatchers("/films/film/**").permitAll()
+                    .antMatchers("/login",
+                                            "/register",
+                                            "/films/**",
+                                            "/activate/*").permitAll()
                     .antMatchers("/**").authenticated()
                     .and()
                 .formLogin()
@@ -77,9 +77,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/films").permitAll()
                     .and()
                 .logout()
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                    .logoutUrl("/logout")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
                     .permitAll();
     }
 }

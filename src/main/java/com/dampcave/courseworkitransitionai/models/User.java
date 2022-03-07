@@ -1,6 +1,7 @@
 package com.dampcave.courseworkitransitionai.models;
 
 import jdk.jfr.Enabled;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.LazyCollection;
@@ -15,6 +16,8 @@ import java.util.Set;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -24,11 +27,9 @@ public class User implements UserDetails {
 
     private String username;
     private String password;
+    private String email;
+    private String activationCode;
     private boolean active;
-
-    public User() {
-        this.active = true;
-    }
 
 
     @ManyToMany( fetch = FetchType.EAGER)

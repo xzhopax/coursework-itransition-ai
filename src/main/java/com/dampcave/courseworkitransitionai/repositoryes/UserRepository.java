@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean findByActiveTrue();
 
     boolean findByActiveFalse();
+
+    User findByActivationCode(String code);
+
 }
