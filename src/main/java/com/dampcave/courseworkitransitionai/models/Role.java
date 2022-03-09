@@ -22,9 +22,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "Name='" + name + '\'' +
-                '}';
+        return name;
     }
 
     @Override

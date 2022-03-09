@@ -16,7 +16,7 @@
             <!-- Grid column -->
             <div class="col-lg-5 col-xl-4">
                 <a class="px-5 text-white lang button-color  text-video"  key="video" th:href="@{'' + ${el.urlVideo}}">
-                    <strong> Watch traile </strong></a>
+                    <strong> Trailer </strong></a>
                 <a>
 
                 <!-- Featured image -->
@@ -37,9 +37,21 @@
                 <!-- Excerpt -->
                 Description: <p class="dark-grey-text" th:text="${el.description}"></p>
                 <!-- Post data -->
-                ID: <p th:text="${el.id}"></p>
+                Actors:
+               <p>
+                     <span th:each="actor,iterStat:${el.getActors()}"
+                           th:text="${actor.fullName} + ${!iterStat.last ? ', ' : ''}">
+                             </span>
+               </p>
+                Producers:
+                <p>
+                     <span th:each="producer,iterStat:${el.getProducers()}"
+                           th:text="${producer.fullName} + ${!iterStat.last ? ', ' : ''}">
+                             </span>
+                </p>
                 Year: <p th:text="${el.year}"></p>
                 Rating: <p th:text="${el.rating}"></p>
+                Budget: <p>[[${el.budget}]]$</p>
                 Author: <p th:text="${el.author.username}"><strong></strong></p>
                 <!-- Read more button -->
 
