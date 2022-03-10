@@ -84,7 +84,7 @@ public class FilmController {
     @RequestMapping(value = "/create-overview", method = RequestMethod.POST)
     public String pushFormCreatingOverview(@RequestParam(name = "film-name") String title,
                                            @RequestParam(name = "description") String description,
-                                           @RequestParam(name = "rating") int rating,
+                                           @RequestParam(name = "rating") int rating, //need edit double
                                            @RequestParam(name = "year") int year,
                                            @RequestParam(name = "budget") long budget,
                                            @RequestParam(name = "url-video") String urlVideo,

@@ -60,6 +60,9 @@
                 <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
                     <a class="nav-link lang" href="/register" key="register">Register</a>
                 </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item ml-5">
+                    <a class="nav-link lang" href="/users/profile" key="profile">Profile</a>
+                </li>
                 <li>
                     <form sec:authorize="isAuthenticated()"
                           th:action="@{/logout}" method="post">

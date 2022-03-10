@@ -53,6 +53,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRegistrationRepr.getPassword()));
         user.setEmail(userRegistrationRepr.getEmail());
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setNickname("NoNameNPC" + user.getId());
         userRepository.save(user);
 
         if (!ObjectUtils.isEmpty(user.getEmail())){
@@ -76,5 +77,11 @@ public class UserService {
        user.setActive(true);
        userRepository.save(user);
        return true;
+    }
+
+    public void autoGenerateNickname(String username){
+       User user = userRepository.findByUsername(username).orElseThrow();
+       user.setNickname("NoNameNPC" + user.getId());
+       userRepository.save(user);
     }
 }

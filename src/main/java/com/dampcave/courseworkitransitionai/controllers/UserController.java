@@ -37,13 +37,26 @@ public class UserController {
         model.addAttribute("title", "Users");
         return "users";
     }
-
-    @GetMapping("/{user}")
-    public String getShowUser(@PathVariable User user,
-                              Model model) {
-        model.addAttribute("user", user);
-        return "user-details";
+    @GetMapping("/profile")
+    public String profile(Model model){
+//        User user = userRepository.findByUsername(getCurrentUser().getName()).orElseThrow();
+//        model.addAttribute("user", user);
+        return "profile";
     }
+    @GetMapping("/profile/{user}/edit")
+    public String editProfile(@PathVariable User user,
+                          Model model){
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
+    @PostMapping("/profile/{user}/edit")
+    public String confirmEditProfile(@PathVariable User user,
+                              Model model){
+        model.addAttribute("user", user);
+        return "redirect:/profile";
+    }
+
 
     @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable(value = "id") Long id, Model model) {

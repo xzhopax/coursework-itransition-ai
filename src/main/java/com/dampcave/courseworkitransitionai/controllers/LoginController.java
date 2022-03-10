@@ -81,6 +81,7 @@ public class LoginController {
 //        return "register";
 
         userService.create(userRegistrationRepr);
+        userService.autoGenerateNickname(userRegistrationRepr.getUsername());
         return "redirect:/login";
     }
 
