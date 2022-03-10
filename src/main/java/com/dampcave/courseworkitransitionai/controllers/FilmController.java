@@ -45,39 +45,31 @@ public class FilmController {
 
     @GetMapping()
     public String showAllOverviewFilms(Model model) {
-
         model.addAttribute("title", "All Films");
         model.addAttribute("films", filmService.findAllFilms());
-
         return "films";
     }
 
     @GetMapping("/film/{id}")
     public String getPageOverview(@PathVariable(value = "id") Long id,
-                                  Model model) {
-
+                                                Model model) {
         model.addAttribute("title", "Film Overview");
         model.addAttribute("film", filmRepository.findById(id).orElseThrow());
         model.addAttribute("comments", commentService.getAllCommentsFromFilm(id));
         model.addAttribute("username", getAuth().getName());
-
         return "film";
     }
 
     @RequestMapping(value = "/film/{id}", method = RequestMethod.POST)
     public String actionsInOverviewFilm(@PathVariable(value = "id") Long id,
                                         @RequestParam(name = "textComment") String message) {
-
         commentService.sendComment(message, id, getAuth().getName());
-
         return "redirect:/films/film/{id}";
     }
 
     @GetMapping("/create-overview")
     public String getFormCreatOverview(Model model) {
-
         model.addAttribute("title", "Create Film");
-
         return "create-overview";
     }
 
@@ -93,7 +85,6 @@ public class FilmController {
                                            @RequestParam(name = "duration_h") int duration_h,
                                            @RequestParam(name = "duration_m") int duration_m,
                                            @RequestParam(value = "file") MultipartFile file) {
-
         filmService.createFilmOverview(title,
                                        description,
                                        rating,
@@ -105,15 +96,12 @@ public class FilmController {
                                        file,
                                        actors,
                                        producers);
-
         return "redirect:/films";
     }
 
     @PostMapping("/film/delete/{id}")
     public String deleteFilm(@PathVariable(value = "id") Long id) {
-
         filmService.deleteOverviewFromFilm(id);
-
         return "redirect:/films";
     }
 }

@@ -1,9 +1,12 @@
 package com.dampcave.courseworkitransitionai.controllers;
 
-import com.dampcave.courseworkitransitionai.models.Role;
+import com.dampcave.courseworkitransitionai.forms.EditProfileRepr;
 import com.dampcave.courseworkitransitionai.models.User;
+import com.dampcave.courseworkitransitionai.repositoryes.FilmRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
-import com.dampcave.courseworkitransitionai.service.UserRegistrationRepr;
+import com.dampcave.courseworkitransitionai.service.CommentService;
+import com.dampcave.courseworkitransitionai.service.FilmService;
+import com.dampcave.courseworkitransitionai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -24,11 +27,23 @@ import java.util.List;
 @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class UserController {
 
-    UserRepository userRepository;
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    private final UserRepository userRepository;
+    private final FilmRepository filmRepository;
+    private final CommentService commentService;
+    private final FilmService filmService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, FilmRepository filmRepository, CommentService commentService, FilmService filmService, UserService userService) {
         this.userRepository = userRepository;
+        this.filmRepository = filmRepository;
+        this.commentService = commentService;
+        this.filmService = filmService;
+        this.userService = userService;
     }
 
     @GetMapping()
@@ -37,24 +52,30 @@ public class UserController {
         model.addAttribute("title", "Users");
         return "users";
     }
+
     @GetMapping("/profile")
     public String profile(Model model){
-//        User user = userRepository.findByUsername(getCurrentUser().getName()).orElseThrow();
-//        model.addAttribute("user", user);
-        return "profile";
-    }
-    @GetMapping("/profile/{user}/edit")
-    public String editProfile(@PathVariable User user,
-                          Model model){
+        User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
         model.addAttribute("user", user);
         return "profile";
     }
 
-    @PostMapping("/profile/{user}/edit")
-    public String confirmEditProfile(@PathVariable User user,
-                              Model model){
+    @GetMapping("/profile/{user}/edit")
+    public String editProfile(@PathVariable User user,
+                          Model model){
+        EditProfileRepr editProfileRepr = new EditProfileRepr();
+        model.addAttribute("edit", editProfileRepr);
         model.addAttribute("user", user);
-        return "redirect:/profile";
+        return "edit-profile";
+    }
+
+
+    @RequestMapping(value = "/profile/{user}/edit", method = RequestMethod.POST)
+    public String confirmEditProfile(@PathVariable User user,
+                                            @Valid EditProfileRepr editProfileRepr,
+                                                   BindingResult bindingResult){
+        userService.editProfile(user,editProfileRepr);
+        return "redirect:/users/profile";
     }
 
 

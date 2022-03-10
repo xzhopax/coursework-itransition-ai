@@ -1,45 +1,103 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head class="body-color">
+<head >
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
-        <link rel="stylesheet" type="text/css" href="/static/css/profile.css"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/static/css/profile.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body>
+<body class="body-color">
 <header th:insert="blocks/header :: header"></header>
 
-<div class="container">
-    <div class="row height d-flex justify-content-center align-items-center">
-        <div class="col-md-8">
-            <div class="card py-5">
-                <div class="inputs px-4"> <span class="text-uppercase">Client Name</span> <input type="text" class="form-control"> </div>
-                <div class="row mt-3 g-2">
-                    <div class="col-md-6">
-                        <div class="inputs px-4"> <span class="text-uppercase">Email</span> <input type="text" class="form-control"> </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="inputs px-4"> <span class="text-uppercase">Location</span> <input type="text" class="form-control"> </div>
-                    </div>
-                </div>
-                <div class="row g-2 mt-3"> <span class="text-uppercase px-4 name">Billing Rates</span>
-                    <div class="col-md-6">
-                        <div class="px-4"> <label class="radio"> <input type="radio" name="rate" value="Hourly Rate" checked> <span>Hourly Rate</span> </label> </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="px-4"> <label class="radio"> <input type="radio" name="rate" value="Yearly Rate"> <span>Yealy Rate</span> </label> </div>
-                    </div>
-                </div>
-                <div class="mt-3 px-4"> <span class="text-uppercase name">Profile Picture</span>
-                    <div class="d-flex flex-row align-items-center mt-2"> <img src="https://i.imgur.com/aCwpF7V.jpg" width="60" class="rounded">
-                        <div class="ml-3"> <button class="btn btn-outline-primary">Upload new picture</button> <button class="btn btn-outline-danger">Remove</button> </div>
+<form th:object="${user}" th:action="@{'/users/profile/' + ${user.id} + '/edit'}" method="post"
+      enctype="multipart/form-data">
+    <div class="container">
+        <div class="main-body" th:object="${edit}">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body body-color">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img th:with=" checkPhoto=(${user.photo == null || user.photo.isEmpty}
+                                                        ? 'https://bootdey.com/img/Content/avatar/avatar7.png'
+                                                        :  '/img/'+ ${user.photo})"
+                                     th:src="@{${checkPhoto}}" alt="Admin" class="rounded-circle p-1 bg-primary"
+                                     width="150">
+                                <div class="mt-3">
+                                    <h4 th:text="${user.nickname}"></h4>
+                                    <button class="btn btn-outline-primary">My Overview</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-3 px-4 d-flex justify-content-between align-items-center"> <a href="#" class="options">Show more options</a> <button class="btn btn-primary">Create clients</button> </div>
+                <div class="col-lg-8">
+                    <div class="card ">
+                        <div class="card-body body-color">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Nickname</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control"
+                                           th:value="${user.nickname}"
+                                           th:field="${edit.nickname}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="email" class="form-control"
+                                           th:value="${user.email}"
+                                           th:field="${edit.email}">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">password</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="password" id="password"
+                                           th:value="${user.password}"
+                                           th:field="${edit.password}"
+                                           class="form-control " placeholder="Enter new password">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">repeatPassword</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="password" id="repeatPassword"
+                                           th:field="${edit.repeatPassword}"
+                                           class="form-control " placeholder="Enter repeatPassword">
+
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">User photo</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="file" name="file" id="file"
+                                           th:field="${edit.file}"
+                                           class="form-control" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+</form>
 
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

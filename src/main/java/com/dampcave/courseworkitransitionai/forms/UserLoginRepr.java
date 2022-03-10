@@ -1,11 +1,11 @@
-package com.dampcave.courseworkitransitionai.service;
+package com.dampcave.courseworkitransitionai.forms;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UserRegistrationRepr {
+public class UserLoginRepr {
 
     private Long id;
 
@@ -14,11 +14,4 @@ public class UserRegistrationRepr {
 
     @NotBlank
     private String password;
-
-    @NotBlank
-    private String repeatPassword;
-
-    @NotBlank
-    private String email;
-
 }

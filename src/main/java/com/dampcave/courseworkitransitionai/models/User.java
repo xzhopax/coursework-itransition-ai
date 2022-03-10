@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String password;
     private String nickname;
     private String email;
+    private String photo;
     private String activationCode;
     private boolean active;
 

@@ -79,39 +79,4 @@ public class Film {
         this.producers = producers;
         this.actors = actors;
     }
-
-    //    public Film(String title, String description, double rating, int year, User author) {
-//        this.title = title;
-//        this.description = description;
-//        this.rating = rating;
-//        this.year = year;
-//        this.author = author;
-//    }
-
-
-//    public Film(String title,
-//                String picture,
-//                String urlVideo,
-//                String description,
-//                double rating,
-//                int year,
-//                long budget,
-//                Set<Genre> genres,
-//                User author,
-//                Set<Producer> producers,
-//                Set<Actor> actors,
-//                List<Comment> comments) {
-//        this.title = title;
-//        this.picture = picture;
-//        this.urlVideo = urlVideo;
-//        this.description = description;
-//        this.rating = rating;
-//        this.year = year;
-//        this.budget = budget;
-//        this.genres = genres;
-//        this.author = author;
-//        this.producers = producers;
-//        this.actors = actors;
-//        this.comments = comments;
-//    }
 }

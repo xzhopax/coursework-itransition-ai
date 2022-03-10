@@ -1,13 +1,11 @@
 package com.dampcave.courseworkitransitionai.controllers;
 
-import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
-import com.dampcave.courseworkitransitionai.service.UserLoginRepr;
-import com.dampcave.courseworkitransitionai.service.UserRegistrationRepr;
+import com.dampcave.courseworkitransitionai.forms.UserLoginRepr;
+import com.dampcave.courseworkitransitionai.forms.UserRegistrationRepr;
 import com.dampcave.courseworkitransitionai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
