@@ -54,7 +54,7 @@ public class FilmController {
 
     @GetMapping("/film/{id}")
     public String getPageOverview(@PathVariable(value = "id") Long id,
-                                                              Model model) {
+                                  Model model) {
 
         model.addAttribute("title", "Film Overview");
         model.addAttribute("film", filmRepository.findById(id).orElseThrow());
@@ -68,7 +68,7 @@ public class FilmController {
     public String actionsInOverviewFilm(@PathVariable(value = "id") Long id,
                                         @RequestParam(name = "textComment") String message) {
 
-        commentService.sendComment(message,id,getAuth().getName());
+        commentService.sendComment(message, id, getAuth().getName());
 
         return "redirect:/films/film/{id}";
     }
@@ -90,6 +90,8 @@ public class FilmController {
                                            @RequestParam(name = "url-video") String urlVideo,
                                            @RequestParam(name = "actors") String actors,
                                            @RequestParam(name = "producers") String producers,
+                                           @RequestParam(name = "duration_h") int duration_h,
+                                           @RequestParam(name = "duration_m") int duration_m,
                                            @RequestParam(value = "file") MultipartFile file) {
 
         filmService.createFilmOverview(title,
@@ -97,6 +99,7 @@ public class FilmController {
                                        rating,
                                        getAuth().getName(),
                                        urlVideo,
+                                       filmService.getTimeMovie(duration_h, duration_m),
                                        year,
                                        budget,
                                        file,
@@ -109,8 +112,8 @@ public class FilmController {
     @PostMapping("/film/delete/{id}")
     public String deleteFilm(@PathVariable(value = "id") Long id) {
 
-       filmService.deleteOverviewFromFilm(id);
+        filmService.deleteOverviewFromFilm(id);
 
-       return "redirect:/films";
+        return "redirect:/films";
     }
 }

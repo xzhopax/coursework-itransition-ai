@@ -11,12 +11,15 @@
                 --var-body-bg: #fff;
                 --var-body-fc: #333;
                 /*--var-header-bg:#F5F5F5;*/
+                --var-header-bg:#aab3bd;
                 /*--var-header-bg:#3baa36;*/
                 /*--var-header-bg:#11a8dd;*/
                 /*--var-header-bg:#CC99CC;*/
                 /*--var-header-bg:#CC99FF;*/
                 /*--var-header-bg:#99CCFF;*/
-                --var-header-bg:#f0f0f5;
+                /*--var-header-bg:#f0f0f5;*/
+                --var-body-cr:#e1e6e3;
+                /*--var-body-cr:#cfd1cd;*/
                 --var-body-fb: #FFFFFF;
                 --var-body-button: #e9e7e9;
                 --var-body-text:#333;
@@ -28,11 +31,16 @@
                 --var-body-bg: #38444c;
                 --var-body-fc: #fff;
                 --var-header-bg: #121212;
+                --var-body-cr:#38444c;
                 --var-body-fb:	#CFCFCF;
                 --var-body-button: #121212;
                 --var-body-text:#333;
                 --var-text:white;
                 --var-header-url: url("/images/white.png") ;
+            }
+
+            .text-form{
+
             }
 
             .text-color{
@@ -43,16 +51,20 @@
             .text-video{
                 color: var(--var-body-fc);
                 font-size: 3em;
-                margin-left: 10px;
-                margin-bottom: 10px;
 
             }
             .text-color-small{
                 color: var(--var-body-fc);
             }
 
+
             .text-black-white{
                 color: var(--var-text);
+            }
+
+            .text-form{
+                color: #030203;
+                background: var(--var-body-fb);
             }
 
             .textarea {
@@ -86,6 +98,8 @@
                 text-align: center;
                 border: none;
             }
+
+
 
 
             form {
@@ -184,9 +198,12 @@
 
 
             .body-color {
-                padding: 0;
-                margin: 0;
                 background-color: var(--var-body-bg);
+                color: var(--var-body-fc);
+                font-family: cursive;
+            }
+            .body-create {
+                background-color: var(--var-body-cr);
                 color: var(--var-body-fc);
                 font-family: cursive;
             }

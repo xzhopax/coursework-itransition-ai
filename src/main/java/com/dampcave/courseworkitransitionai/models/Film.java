@@ -23,6 +23,7 @@ public class Film {
     private String picture;
     private String urlVideo;
     private String description;
+    private String duration;
     private double rating;
     private int year;
     private long budget;
@@ -56,9 +57,11 @@ public class Film {
     @JoinColumn(name = "film_id")
     private List<Comment> comments;
 
+
     public Film(String title,
                 String urlVideo,
                 String description,
+                String duration,
                 double rating,
                 int year,
                 long budget,
@@ -68,6 +71,7 @@ public class Film {
         this.title = title;
         this.urlVideo = urlVideo;
         this.description = description;
+        this.duration = duration;
         this.rating = rating;
         this.year = year;
         this.budget = budget;
@@ -76,7 +80,7 @@ public class Film {
         this.actors = actors;
     }
 
-//    public Film(String title, String description, double rating, int year, User author) {
+    //    public Film(String title, String description, double rating, int year, User author) {
 //        this.title = title;
 //        this.description = description;
 //        this.rating = rating;

@@ -9,64 +9,64 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5" th:each="el:${film}">
-    <!--Section: Content-->
     <section class="dark-grey-text">
-        <!-- Grid row -->
         <div class="row align-items-center">
-            <!-- Grid column -->
-            <div class="col-lg-5 col-xl-4">
-                <a class="px-5 text-white lang button-color  text-video"  key="video" th:href="@{'' + ${el.urlVideo}}">
-                    <strong> Trailer </strong></a>
-                <a>
-
-                <!-- Featured image -->
+            <div class="col-lg-4 col-xl-4 " align="center">
                 <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                    <img class="img-fluid bd-placeholder-img" width="200" height="250"
+                    <img class="img-fluid bd-placeholder-img center-block" width="200" height="250"
                          th:src="@{'/img/'+ ${el.picture}}"
                          alt="Sample image">
-                        <div class="mask rgba-white-slight"></div>
+                    <div class="mask rgba-white-slight"></div>
                     </a>
                 </div>
-
+                <div >
+                    <a class="px-5 lang button-color text-video text-center align-self-center" key="video"
+                       th:href="@{'' + ${el.urlVideo}}">
+                        <strong> Trailer </strong></a>
+                </div>
             </div>
-            <!-- Grid column -->
-            <!-- Grid column -->
-            <div class="col-lg-7 col-xl-8">
-                <!-- Post title -->
-                Title: <h4 class="font-weight-bold mb-3" th:text="${el.title}"><strong></strong></h4>
-                <!-- Excerpt -->
-                Description: <p class="dark-grey-text" th:text="${el.description}"></p>
-                <!-- Post data -->
-                Actors:
-               <p>
+            <div class="col-lg-5 col-xl-8">
+                <h3 class="font-weight-bold mb-3 text-center text-video" th:text="${el.title}"><strong class="text-color"></strong></h3>
+                <div class="col-md-4">
+                    <strong class="text-color">Year:</strong><p th:text="${el.year}"></p>
+                </div>
+                <div class="col-md-4">
+                    <strong class="text-color">Rating:</strong>  <p th:text="${el.rating}"></p>
+                </div>
+                <div class="col-md-4">
+                    <strong class="text-color">Budget:</strong><p>[[${el.budget}]]$</p>
+                </div>
+                <div class="col-md-8">
+                   <strong class="text-color">Actors:</strong>
+                    <p>
                      <span th:each="actor,iterStat:${el.getActors()}"
                            th:text="${actor.fullName} + ${!iterStat.last ? ', ' : ''}">
                              </span>
-               </p>
-                Producers:
-                <p>
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <strong class="text-color">Producers:</strong>
+                    <p>
                      <span th:each="producer,iterStat:${el.getProducers()}"
                            th:text="${producer.fullName} + ${!iterStat.last ? ', ' : ''}">
                              </span>
-                </p>
-                Year: <p th:text="${el.year}"></p>
-                Rating: <p th:text="${el.rating}"></p>
-                Budget: <p>[[${el.budget}]]$</p>
-                Author: <p th:text="${el.author.username}"><strong></strong></p>
-                <!-- Read more button -->
-
-                <form sec:authorize="hasAuthority('ADMIN')" method="post" th:objact="film"
-                      th:action="'/films/film/delete/'+ *{id}">
-                    <button class="btn button-color lang" key="delete" type="submit">Delete</button>
-                </form>
-
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <strong class="text-color">Description:</strong><p class="dark-grey-text" th:text="${el.description}"></p>
+                </div>
+                <div class="col-md-5">
+                    <form style="margin-bottom: 10px" sec:authorize="hasAuthority('ADMIN')" method="post" th:objact="film"
+                          th:action="'/films/film/delete/'+ *{id}">
+                        <button class="btn button-color lang" key="delete" type="submit">Delete</button>
+                    </form>
+                </div>
+                <div class="col-md-5 float-md-end">
+                    <strong class="text-color"> Author:</strong><p th:text="${el.author.username}"><strong></strong></p>
+                </div>
             </div>
-            <!-- Grid column -->
         </div>
-        <!-- Grid row -->
-        <hr class="my-5">
     </section>
-    <!--Section: Content-->
 </div>
 
 

@@ -41,20 +41,6 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
-//    public Set<Actor> addActors(String ... varargs){
-//        Set<Actor> actors = new HashSet<>();
-//        for (String str: varargs){
-//            actors.add(new Actor(str));
-//        }
-//        return actors;
-//    }
-//    public Set<Producer> addProducers(String ... varargs){
-//        Set<Producer> producers = new HashSet<>();
-//        for (String str: varargs){
-//            producers.add(new Producer(str));
-//        }
-//        return producers;
-//    }
 
     public Set<Producer> addProducers(String producersString) {
         Set<Producer> producers = new HashSet<>();
@@ -84,6 +70,7 @@ public class FilmService {
                                    double ratingFilm,
                                    String authorName,
                                    String linkVideoTrailer,
+                                   String duration,
                                    int year,
                                    long budget,
                                    MultipartFile poster,
@@ -96,6 +83,7 @@ public class FilmService {
         Film film = new Film(titleFilm,
                              linkVideoTrailer,
                              descriptionFilm,
+                             duration,
                              ratingFilm,
                              year,
                              budget,
@@ -112,6 +100,10 @@ public class FilmService {
         User user = userRepository.findByUsername(film.getAuthor().getUsername()).orElseThrow();
         user.getFilms().remove(film);
         userRepository.save(user);
+    }
+
+    public String getTimeMovie(int hour, int minutes){
+        return String.format("%d:%d", hour,minutes);
     }
 
 }

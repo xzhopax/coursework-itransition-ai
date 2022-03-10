@@ -4,45 +4,85 @@
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body class="body-color">
+<body class="body-create">
 <header th:insert="blocks/header :: header"></header>
 
 
-<form class="row g-3" th:action="@{/films/create-overview}" method="POST" enctype="multipart/form-data">
-    <div class="col-12">
-        <input type="text" class="form-control" name="film-name" placeholder="enter film name">
-    </div>
-    <div class="col-12">
-        <input type="file" class="form-control" name="file" required />
-    </div>
-    <div class="col-12">
-        <div class="col-md-6">
-        <textarea class="form-control textarea" name="description" placeholder="enter description"
-                  rows="5"></textarea>
+<form class="g-3 text-center" th:action="@{/films/create-overview}" method="POST" enctype="multipart/form-data">
+    <div class="row justify-content-center align-self-center" align="center">
+
+
+        <div class="col-md-8 p-3">
+            <label for="film-name" class="fw-weight-bold lang" key="title">Title</label>
+            <input type="text" name="film-name" id="film-name"
+                   class="form-control fw-weight-bold text-form" placeholder="Enter title film">
         </div>
-    </div>
-    <div class="col-md-6">
-        <input type="number" step="0.1" class="form-control" name="rating" placeholder="enter rating">
-    </div>
-    <div class="col-md-6">
-        <input type="number" class="form-control" name="year" placeholder="enter year">
-    </div>
-    <div class="col-md-6">
-        <input type="number" class="form-control" name="budget" placeholder="enter film budget">
-    </div>
-    <div class="col-md-6">
-        <textarea class="form-control textarea" name="actors" placeholder="Введите актеров через запятую"
-                  rows="5"></textarea>
-    </div>
-    <div class="col-md-6">
-        <textarea class="form-control textarea" name="producers" placeholder="Введите продюсеров через запятую"
-                  rows="5"></textarea>
-    </div>
-    <div class="col-md-6">
-        <input type="text" class="form-control" name="url-video" placeholder="add link from trailer">
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary button-color lang" key="new-film">Add New Overview</button>
+        <div class="col-md-5 p-3">
+            <label for="file" class="fw-weight-bold lang" key="file">Poster</label>
+            <input type="file" name="file" id="file"
+                   class="form-control fw-weight-bold text-form" required>
+        </div>
+        <div class="col-md-5 p-3">
+            <label for="url-video" class="fw-weight-bold lang" key="url-video">Trailer</label>
+            <input type="text" name="url-video" id="url-video"
+                   class="form-control fw-weight-bold text-form" placeholder="Enter link trailer on film">
+        </div>
+
+        <div class="col-md-3 p-3">
+            <label for="rating" class="fw-weight-bold lang" key="rating">Rating</label>
+            <input type="number" step="0.1" class="fw-weight-bold lang text-form"
+                   id="rating" name="rating" placeholder="enter rating">
+        </div>
+        <div class="col-md-3 p-3">
+            <label for="year" class="fw-weight-bold lang" key="year">Year</label>
+            <input type="number" step="0.1" class="fw-weight-bold text-form"
+                   id="year" name="year" placeholder="enter year">
+        </div>
+        <div class="col-md-3 p-3">
+            <label for="budget" class="fw-weight-bold lang" key="budget">Budget</label>
+            <input type="number" class="fw-weight-bold text-form"
+                   id="budget" name="budget" placeholder="enter film budget">
+        </div>
+        <label for="duration" class="fw-weight-bold lang" key="duration">Enter duration hours:minutes</label>
+        <div class="col-md-12 p-3">
+
+            <span><input class="text-form" name="duration_h" type="number" id="duration" placeholder="hours"></span> :
+
+            <span>
+                <label for="duration"
+                       class="fw-weight-bold lang"
+                       key="duration"><input class="text-form" name="duration_m" type="number" placeholder="minutes">
+</label></span>
+
+        </div>
+        <div class="col-md-8 p-3">
+            <label for="actors" class="fw-weight-bold lang" key="actors">Actors</label>
+            <textarea class=" form-control textarea"
+                      name="actors"
+                      id="actors"
+                      placeholder="Enter actors through comma"
+                      rows="5"></textarea>
+        </div>
+        <div class="col-md-8 p-3">
+            <label for="producers" class="fw-weight-bold lang" key="producers">Producers</label>
+            <textarea class=" form-control textarea"
+                      name="producers"
+                      id="producers"
+                      placeholder="Enter producers through comma"
+                      rows="5"></textarea>
+        </div>
+        <div class="col-md-8 p-3">
+            <label for="description" class="fw-weight-bold lang" key="description">Description</label>
+            <textarea class=" form-control textarea"
+                      name="description"
+                      id="description"
+                      placeholder="Enter description"
+                      rows="5"></textarea>
+        </div>
+
+        <div class="col-md-12 p-3">
+            <button type="submit" class="btn btn-primary button-color lang" key="new-film">Add New Overview</button>
+        </div>
     </div>
 </form>
 
