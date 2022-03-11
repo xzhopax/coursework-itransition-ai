@@ -74,10 +74,11 @@ public class UserService {
     public void editProfile(User user, EditProfileRepr editProfileRepr) {
         System.out.println(editProfileRepr.getFile().toString());
         if (editProfileRepr.getFile() != null || !editProfileRepr.getFile().isEmpty()){
+            System.out.println(editProfileRepr.getFile().getOriginalFilename());
             String fileName = storageService.uploadFile(editProfileRepr.getFile());
             new ResponseEntity<>(fileName, HttpStatus.OK);
             user.setPhoto(fileName);
-        }
+        } else
 
         if(!editProfileRepr.getEmail().isEmpty()){
             user.setEmail(editProfileRepr.getEmail());
@@ -86,7 +87,7 @@ public class UserService {
             user.setNickname(editProfileRepr.getNickname());
         }
         if (!editProfileRepr.getPassword().isEmpty()) {
-            user.setPassword(editProfileRepr.getPassword());
+            user.setPassword(passwordEncoder.encode(editProfileRepr.getPassword()));
         }
         userRepository.save(user);
     }

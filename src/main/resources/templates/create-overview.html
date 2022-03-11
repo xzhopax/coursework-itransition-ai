@@ -30,30 +30,22 @@
 
         <div class="col-md-3 p-3">
             <label for="rating" class="fw-weight-bold lang" key="rating">Rating</label>
-            <input type="number" step="0.1" class="fw-weight-bold lang text-form"
+            <input type="number" step="0.01" max="10" class="fw-weight-bold lang text-form"
                    id="rating" name="rating" placeholder="enter rating">
         </div>
         <div class="col-md-3 p-3">
             <label for="year" class="fw-weight-bold lang" key="year">Year</label>
-            <input type="number" step="0.1" class="fw-weight-bold text-form"
-                   id="year" name="year" placeholder="enter year">
+            <input type="number" class="fw-weight-bold text-form"
+                   id="year" name="year" max="3000" placeholder="enter year">
         </div>
         <div class="col-md-3 p-3">
             <label for="budget" class="fw-weight-bold lang" key="budget">Budget</label>
             <input type="number" class="fw-weight-bold text-form"
                    id="budget" name="budget" placeholder="enter film budget">
         </div>
-        <label for="duration" class="fw-weight-bold lang" key="duration">Enter duration hours:minutes</label>
+        <label for="duration" class="fw-weight-bold lang" key="duration">Enter duration in minutes</label>
         <div class="col-md-12 p-3">
-
-            <span><input class="text-form" name="duration_h" type="number" id="duration" placeholder="hours"></span> :
-
-            <span>
-                <label for="duration"
-                       class="fw-weight-bold lang"
-                       key="duration"><input class="text-form" name="duration_m" type="number" placeholder="minutes">
-</label></span>
-
+            <input class="text-form" name="duration" type="number" id="duration" placeholder="minutes">
         </div>
         <div class="col-md-8 p-3">
             <label for="actors" class="fw-weight-bold lang" key="actors">Actors</label>

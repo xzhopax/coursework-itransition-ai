@@ -26,7 +26,9 @@
                 <div th:each="user:${users}">
                     <tr><!-- line table  -->
                         <td><p th:text="${user.id}"/></td> <!-- cell table -->
-                        <td><p th:text="${user.username}"/></td> <!-- cell table -->
+                        <td><a class="nav-link lang"
+                               th:href="@{'/users/profile/' +${user.id}} "
+                               th:text="${user.username}"></a></td>
                         <td>
                              <span th:each="role,iterStat:${user.getRoles()}"
                                    th:text="${role.name} + ${!iterStat.last ? ', ' : ''}">

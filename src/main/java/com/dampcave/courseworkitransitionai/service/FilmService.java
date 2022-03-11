@@ -1,5 +1,6 @@
 package com.dampcave.courseworkitransitionai.service;
 
+import com.dampcave.courseworkitransitionai.forms.FormOverviewOnFilm;
 import com.dampcave.courseworkitransitionai.models.Actor;
 import com.dampcave.courseworkitransitionai.models.Film;
 import com.dampcave.courseworkitransitionai.models.Producer;
@@ -10,6 +11,8 @@ import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,10 @@ public class FilmService {
     private final FilmRepository filmRepository;
     private final CommentRepository commentRepository;
     private final StorageService storageService;
+
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
     @Autowired
     public FilmService(UserRepository userRepository,
@@ -65,33 +72,24 @@ public class FilmService {
         return actors;
     }
 
-    public void createFilmOverview(String titleFilm,
-                                   String descriptionFilm,
-                                   double ratingFilm,
-                                   String authorName,
-                                   String linkVideoTrailer,
-                                   String duration,
-                                   int year,
-                                   long budget,
-                                   MultipartFile poster,
-                                   String actors,
-                                   String producers) {
-        User user = userRepository.findByUsername(authorName).orElseThrow();
-        String fileName = storageService.uploadFile(poster);
-        new ResponseEntity<>(fileName, HttpStatus.OK);
+    public void createFilmOverview(FormOverviewOnFilm formFilm) {
 
-        Film film = new Film(titleFilm,
-                             linkVideoTrailer,
-                             descriptionFilm,
-                             duration,
-                             ratingFilm,
-                             year,
-                             budget,
-                             user,
-                             addProducers(producers),
-                             addActors(actors));
+        String posterName = storageService.uploadFile(formFilm.getPoster());
+        new ResponseEntity<>(posterName, HttpStatus.OK);
 
-        film.setPicture(fileName);
+        Film film = new Film();
+        film.setTitle(formFilm.getTitle());
+        film.setUrlVideo(formFilm.getLink());
+        film.setAuthor(userRepository.findByUsername(getAuth().getName()).orElseThrow());
+        film.setActors(addActors(formFilm.getActors()));
+        film.setPicture(posterName);
+        film.setBudget(formFilm.getBudget());
+        film.setDescription(formFilm.getDescription());
+        film.setDuration(formFilm.getDuration());
+        film.setProducers(addProducers(formFilm.getProducers()));
+        film.setRating(formFilm.getRating());
+        film.setYear(formFilm.getYear());
+
         filmRepository.save(film);
     }
 
@@ -100,10 +98,6 @@ public class FilmService {
         User user = userRepository.findByUsername(film.getAuthor().getUsername()).orElseThrow();
         user.getFilms().remove(film);
         userRepository.save(user);
-    }
-
-    public String getTimeMovie(int hour, int minutes){
-        return String.format("%d:%d", hour,minutes);
     }
 
 }

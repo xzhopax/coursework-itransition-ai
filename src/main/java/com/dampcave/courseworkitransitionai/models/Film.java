@@ -23,7 +23,7 @@ public class Film {
     private String picture;
     private String urlVideo;
     private String description;
-    private String duration;
+    private int duration;
     private double rating;
     private int year;
     private long budget;
@@ -61,8 +61,8 @@ public class Film {
     public Film(String title,
                 String urlVideo,
                 String description,
-                String duration,
-                double rating,
+                int duration,
+                Double rating,
                 int year,
                 long budget,
                 User author,

@@ -46,6 +46,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping()
     public String showAllUser(Model model) {
         model.addAttribute("users", userRepository.findAll());
@@ -56,6 +57,15 @@ public class UserController {
     @GetMapping("/profile")
     public String profile(Model model){
         User user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/profile/{id}")
+    public String profileId(@PathVariable Long id,
+                            Model model){
+        User user = userRepository.findById(id).orElseThrow();
         model.addAttribute("user", user);
         return "profile";
     }

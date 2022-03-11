@@ -1,5 +1,7 @@
 package com.dampcave.courseworkitransitionai.controllers;
 
+import com.dampcave.courseworkitransitionai.forms.EditProfileRepr;
+import com.dampcave.courseworkitransitionai.forms.FormOverviewOnFilm;
 import com.dampcave.courseworkitransitionai.models.Comment;
 import com.dampcave.courseworkitransitionai.models.Film;
 import com.dampcave.courseworkitransitionai.models.User;
@@ -17,8 +19,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @Controller()
 @RequestMapping("/films")
@@ -69,33 +74,15 @@ public class FilmController {
 
     @GetMapping("/create-overview")
     public String getFormCreatOverview(Model model) {
-        model.addAttribute("title", "Create Film");
+        FormOverviewOnFilm film = new FormOverviewOnFilm();
+        model.addAttribute("film", film);
         return "create-overview";
     }
 
     @RequestMapping(value = "/create-overview", method = RequestMethod.POST)
-    public String pushFormCreatingOverview(@RequestParam(name = "film-name") String title,
-                                           @RequestParam(name = "description") String description,
-                                           @RequestParam(name = "rating") int rating, //need edit double
-                                           @RequestParam(name = "year") int year,
-                                           @RequestParam(name = "budget") long budget,
-                                           @RequestParam(name = "url-video") String urlVideo,
-                                           @RequestParam(name = "actors") String actors,
-                                           @RequestParam(name = "producers") String producers,
-                                           @RequestParam(name = "duration_h") int duration_h,
-                                           @RequestParam(name = "duration_m") int duration_m,
-                                           @RequestParam(value = "file") MultipartFile file) {
-        filmService.createFilmOverview(title,
-                                       description,
-                                       rating,
-                                       getAuth().getName(),
-                                       urlVideo,
-                                       filmService.getTimeMovie(duration_h, duration_m),
-                                       year,
-                                       budget,
-                                       file,
-                                       actors,
-                                       producers);
+    public String pushFormCreatingOverview(@Valid FormOverviewOnFilm onFilm,
+                                           BindingResult bindingResult) {
+        filmService.createFilmOverview(onFilm);
         return "redirect:/films";
     }
 
