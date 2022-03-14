@@ -42,6 +42,9 @@
                             <form th:action="'/users/' + ${user.id} + '/isactive' " method="get">
                                 <button class="btn button-color mt-1 lang" key="bl-un" type="submit">Unblocked/Blocked</button>
                             </form>
+                            <form th:action="'/users/get-admin/' + ${user.id}" method="get">
+                                <button class="btn button-color mt-1 lang" key="bl-un" type="submit">Admin/NotAdmin</button>
+                            </form>
                         </td>
                     </tr>
                 </div>

@@ -16,13 +16,13 @@ public class FormOverviewOnFilm {
 
     private String link;
 
-    private Double rating;
+    private double rating;
 
     private int year;
 
     private int duration;
 
-    private long budget;
+    private int budget;
 
     private String actors;
 

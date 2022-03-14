@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head class="body-color">
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body class="body-color">
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container" th:object="${user}">
+    <div class="main-body ">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body body-color">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img th:with=" checkPhoto=(${user.photo == null || user.photo.isEmpty}
+                                                        ? 'https://bootdey.com/img/Content/avatar/avatar7.png'
+                                                        :  '/img/'+ ${user.photo})"
+                                 th:src="@{${checkPhoto}}" alt="Admin" class="rounded-circle p-1 bg-primary"
+                                 width="150">
+                            <div class="row">
+                                <div class="mt-3" >
+                                    <h4  th:text="${user.username}"></h4>
+                                    <a class="btn button-color "
+                                       th:href="@{'/users/profile/' + ${user.id} + '/photo'}">Edit Photo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body body-color">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Username</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary" th:text="${user.username}"></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Nickname</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary" th:text="${user.nickname}"></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary" th:text="${user.email}"></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Status account</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary" th:text="${user.active}"></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn button-color "
+                                   th:href="@{'/users/profile/' + ${user.id} + '/edit'}">Edit Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body body-color">
+                        <div class="row">
+                            <form sec:authorize="isAuthenticated()"
+                                  th:action="@{'/films/user/'+ ${user.id} +'/create-overview'}" method="get">
+                                <button class="btn button-color lang" key="new-film"
+                                       style="margin-bottom: 10px" type="submit">Add New Overview
+                                </button>
+                            </form>
+                            <table class="table table-bordered ml-3">
+                                <thead>
+                                <tr><!-- line table -->
+                                    <th class="lang" key="title">Id</th><!-- head table -->
+                                    <th class="lang" key="title">Title</th><!-- head table -->
+                                    <th class="lang" key="delete">Delete</th><!-- head table -->
+                                    <th class="lang" key="view">View</th><!-- head table -->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div th:each="film : ${user.getFilms()}">
+                                    <tr><!-- line table  -->
+                                        <td><p th:text="${film.id}"/></td>
+                                        <td><p th:text="${film.title}"/></td>
+                                        <td>
+                                            <form th:action="@{'/films/film/delete/{id}'(id=${film.id})}" method="get">
+                                                <button class="btn button-color lang" key="delete" type="submit">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form th:action="'/films/film/' + ${film.id}" method="get">
+                                                <button class="btn button-color lang" key="read" type="submit">
+                                                    Read more
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

@@ -13,11 +13,11 @@ public class EditProfileRepr {
 
     private String nickname;
 
-    private MultipartFile file;
-
     private String email;
 
     private String password;
+
+    private String newPassword;
 
     private String repeatPassword;
 

@@ -32,9 +32,8 @@ public class CommentService {
         return dateFormat.format(date);
     }
 
-    public void sendComment(String message, long filmId, String nameAuthor){
-        Film film = filmRepository.findById(filmId).orElseThrow();
-        User user = userRepository.findByUsername(nameAuthor).orElseThrow();
+    public void sendComment(String message, Film film, String author){
+        User user = userRepository.findByUsername(author).orElseThrow();
         Comment comment = new Comment(message, film, user, getTimeString());
         commentRepository.save(comment);
     }

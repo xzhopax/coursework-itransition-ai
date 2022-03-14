@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -59,26 +59,10 @@ public class UserService {
         user.setNickname("NoNameNPC" + user.getId());
         userRepository.save(user);
 
-        if (!ObjectUtils.isEmpty(user.getEmail())) {
-            String message = String.format("Hello %s,\n"
-                            + "Welcome to site Damp Cave.\n"
-                            + "Please, for account activation visit next link: %s/activate/%s",
-                    user.getUsername(),
-                    urlSite,
-                    user.getActivationCode());
-
-            mailSender.send(user.getEmail(), "Activation code", message);
-        }
+        mailSender.messageActivation(user);
     }
 
     public void editProfile(User user, EditProfileRepr editProfileRepr) {
-        System.out.println(editProfileRepr.getFile().toString());
-        if (editProfileRepr.getFile() != null || !editProfileRepr.getFile().isEmpty()){
-            System.out.println(editProfileRepr.getFile().getOriginalFilename());
-            String fileName = storageService.uploadFile(editProfileRepr.getFile());
-            new ResponseEntity<>(fileName, HttpStatus.OK);
-            user.setPhoto(fileName);
-        } else
 
         if(!editProfileRepr.getEmail().isEmpty()){
             user.setEmail(editProfileRepr.getEmail());
@@ -86,10 +70,23 @@ public class UserService {
         if (!editProfileRepr.getNickname().isEmpty()) {
             user.setNickname(editProfileRepr.getNickname());
         }
-        if (!editProfileRepr.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(editProfileRepr.getPassword()));
+        if (!editProfileRepr.getPassword().isEmpty() && user.getPassword().equals(editProfileRepr.getPassword())) {
+            if (!editProfileRepr.getNewPassword().isEmpty() && !editProfileRepr.getRepeatPassword().isEmpty()){
+                if (editProfileRepr.getNewPassword().equals(editProfileRepr.getRepeatPassword())){
+                    user.setPassword(passwordEncoder.encode(editProfileRepr.getNewPassword()));
+                }
+            }
         }
         userRepository.save(user);
+    }
+
+    public void editPhoto(MultipartFile file, User user){
+
+            String fileName = storageService.uploadFile(file);
+            new ResponseEntity<>(fileName, HttpStatus.OK);
+            user.setPhoto(fileName);
+            userRepository.save(user);
+
     }
 
     public boolean isActivateUser(String code) {
@@ -110,4 +107,6 @@ public class UserService {
         user.setNickname("NoNameNPC" + user.getId());
         userRepository.save(user);
     }
+
+
 }

@@ -1,5 +1,5 @@
 <div th:fragment="header">
-<!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
+    <!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
     <nav class="navbar navbar-expand-lg  header-color">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
@@ -34,30 +34,32 @@
 
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="header-item-theme">
-                    <button id="light" class="theme-color" onclick="alertedSun();">
-                        <img th:src="@{/images/sun.png}"  alt="light" width="20px" height="20">
+                <li>
+                    <button id="light" class="translate " onclick="alertedSun();">
+                        <img th:src="@{/images/sun.png}" alt="light" width="20px" height="20">
                     </button>
                 </li>
-                <li class="header-item-theme">
-                    <button id="dark" class="theme-color" onclick="alertedDark();">
-                        <img th:src="@{/images/moon.png}"  alt="dark" width="20px" height="20">
+                <li>
+                    <button id="dark" class="translate " onclick="alertedDark();">
+                        <img th:src="@{/images/moon.png}" alt="dark" width="20px" height="20">
                     </button>
                 </li>
-                <li class="header-item-lang-en">
+
+
+                <li>
                     <button id="en" class="translate">
                         <img th:src="@{/images/en.jpg}" alt="en-flag" width="20px" height="15">
                     </button>
                 </li>
-                <li class="header-item-lang-ru">
+                <li>
                     <button id="ru" class="translate">
                         <img th:src="@{/images/ru.jpg}" alt="ru-flag" width="20px" height="15">
                     </button>
                 </li>
-                <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
+                <li sec:authorize="isAnonymous()" class="nav-item ml-5">
                     <a class="nav-link lang" href="/login" key="login">Login</a>
                 </li>
-                <li sec:authorize="isAnonymous()"  class="nav-item ml-5">
+                <li sec:authorize="isAnonymous()" class="nav-item ml-5">
                     <a class="nav-link lang" href="/register" key="register">Register</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item ml-5">
@@ -66,8 +68,8 @@
                 <li>
                     <form sec:authorize="isAuthenticated()"
                           th:action="@{/logout}" method="post">
-                        <button class="nav-link translate lang button-color" key="logout"><i
-                                class="nav-link lang text-color-small" key="logout">Logout</i>
+                        <button class=" merg translate lang button-color" key="logout"><i
+                                class=" lang text-color-small" key="logout">Logout</i>
                         </button>
                     </form>
                 </li>

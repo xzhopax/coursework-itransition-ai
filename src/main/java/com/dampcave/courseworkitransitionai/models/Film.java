@@ -58,25 +58,4 @@ public class Film {
     private List<Comment> comments;
 
 
-    public Film(String title,
-                String urlVideo,
-                String description,
-                int duration,
-                Double rating,
-                int year,
-                long budget,
-                User author,
-                Set<Producer> producers,
-                Set<Actor> actors) {
-        this.title = title;
-        this.urlVideo = urlVideo;
-        this.description = description;
-        this.duration = duration;
-        this.rating = rating;
-        this.year = year;
-        this.budget = budget;
-        this.author = author;
-        this.producers = producers;
-        this.actors = actors;
-    }
 }

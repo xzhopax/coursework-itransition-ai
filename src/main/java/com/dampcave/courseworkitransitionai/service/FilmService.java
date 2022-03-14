@@ -43,12 +43,6 @@ public class FilmService {
         this.storageService = storageService;
     }
 
-
-    public Iterable<Film> findAllFilms() {
-        return filmRepository.findAll();
-    }
-
-
     public Set<Producer> addProducers(String producersString) {
         Set<Producer> producers = new HashSet<>();
         String[] strings = producersString.split(",");
@@ -72,7 +66,7 @@ public class FilmService {
         return actors;
     }
 
-    public void createFilmOverview(FormOverviewOnFilm formFilm) {
+    public void createFilmOverview(FormOverviewOnFilm formFilm, User user) {
 
         String posterName = storageService.uploadFile(formFilm.getPoster());
         new ResponseEntity<>(posterName, HttpStatus.OK);
@@ -80,7 +74,7 @@ public class FilmService {
         Film film = new Film();
         film.setTitle(formFilm.getTitle());
         film.setUrlVideo(formFilm.getLink());
-        film.setAuthor(userRepository.findByUsername(getAuth().getName()).orElseThrow());
+        film.setAuthor(user);
         film.setActors(addActors(formFilm.getActors()));
         film.setPicture(posterName);
         film.setBudget(formFilm.getBudget());
@@ -93,11 +87,14 @@ public class FilmService {
         filmRepository.save(film);
     }
 
-    public void deleteOverviewFromFilm(long filmId){
-        Film film = filmRepository.findById(filmId).orElseThrow();
+    public void deleteOverviewFromFilm(Film film){
         User user = userRepository.findByUsername(film.getAuthor().getUsername()).orElseThrow();
         user.getFilms().remove(film);
         userRepository.save(user);
+    }
+
+    public User findAuthor(Long id){
+        return filmRepository.findById(id).orElseThrow().getAuthor();
     }
 
 }

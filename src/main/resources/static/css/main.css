@@ -1,0 +1,39 @@
+header {
+    min-height: 75px;
+    background-color: #202536;
+}
+
+a.main-logo-link {
+    text-decoration: none;
+    color: white;
+}
+
+a.main-logo-link:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.row {
+    min-height: 713px;
+}
+
+#left_col_main {
+    background-image: url("../images/main_background_pizza.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#user_profile_pic {
+    background-image: url("../images/user-profile.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#admin_profile_pic {
+    background-image: url("../images/admin_page.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+
+

@@ -53,10 +53,7 @@
 </div>
 
 <br>
-<form sec:authorize="isAuthenticated()" th:action="@{/films/create-overview}" method="get">
-    <button class="btn button-color btn-md mx-0 btn-rounded lang" key="new-film" type="submit">Add New Overview
-    </button>
-</form>
+
 
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

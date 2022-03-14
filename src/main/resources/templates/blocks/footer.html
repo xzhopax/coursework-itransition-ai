@@ -11,58 +11,60 @@
                 --var-body-bg: #fff;
                 --var-body-fc: #333;
                 /*--var-header-bg:#F5F5F5;*/
-                --var-header-bg:#aab3bd;
+                --var-header-bg: #aab3bd;
                 /*--var-header-bg:#3baa36;*/
                 /*--var-header-bg:#11a8dd;*/
                 /*--var-header-bg:#CC99CC;*/
                 /*--var-header-bg:#CC99FF;*/
                 /*--var-header-bg:#99CCFF;*/
                 /*--var-header-bg:#f0f0f5;*/
-                --var-body-cr:#e1e6e3;
+                --var-body-cr: #e1e6e3;
                 /*--var-body-cr:#cfd1cd;*/
                 --var-body-fb: #FFFFFF;
                 --var-body-button: #e9e7e9;
-                --var-body-text:#333;
-                --var-text:black;
-                --var-header-url: url("/images/dark.png") ;
+                --var-body-text: #333;
+                --var-text: black;
+                --var-header-url: url("/images/dark.png");
             }
 
             [dark  ] {
                 --var-body-bg: #38444c;
                 --var-body-fc: #fff;
                 --var-header-bg: #121212;
-                --var-body-cr:#38444c;
-                --var-body-fb:	#CFCFCF;
+                --var-body-cr: #38444c;
+                --var-body-fb: #CFCFCF;
                 --var-body-button: #121212;
-                --var-body-text:#333;
-                --var-text:white;
-                --var-header-url: url("/images/white.png") ;
+                --var-body-text: #333;
+                --var-text: white;
+                --var-header-url: url("/images/white.png");
             }
 
-            .text-form{
+            .text-form {
 
             }
 
-            .text-color{
+            .text-color {
                 color: var(--var-body-fc);
                 font-size: 1.5em;
 
             }
-            .text-video{
+
+            .text-video {
                 color: var(--var-body-fc);
                 font-size: 3em;
 
             }
-            .text-color-small{
+
+            .text-color-small {
                 color: var(--var-body-fc);
             }
 
 
-            .text-black-white{
+            .text-black-white {
                 color: var(--var-text);
             }
 
-            .text-form{
+            .text-form {
                 color: #030203;
                 background: var(--var-body-fb);
             }
@@ -78,6 +80,7 @@
                 background-color: var(--var-body-fb);
 
             }
+
             .textarea:focus {
                 padding: 10px;
                 border: var(--var-body-fc);
@@ -89,7 +92,7 @@
                 background-color: var(--var-body-fb);
             }
 
-            .img-logo{
+            .img-logo {
                 /*background-image: url("images/dark.png");*/
                 background-image: var(--var-header-url);
                 width: 50px;
@@ -98,8 +101,6 @@
                 text-align: center;
                 border: none;
             }
-
-
 
 
             form {
@@ -147,10 +148,15 @@
                 text-decoration: none;
             }
 
-            .nav-link:hover{
+            .nav-link:hover {
                 color: white;
                 text-decoration: none;
             }
+
+            .dropdown-toggle  {
+                color: var(--var-text);
+            }
+
 
             .table-wrapper {
                 max-height: 100px;
@@ -158,6 +164,9 @@
                 display: inline-block;
             }
 
+            .table-earnings {
+                background: #F3F5F6;
+            }
             .table-earnings {
                 background: #F3F5F6;
             }
@@ -176,7 +185,11 @@
                 margin-left: 6px;
             }
 
-            .theme-color{
+            .merg {
+                margin-top: 14px;
+            }
+
+            .theme-color {
                 background: transparent;
                 border: none;
                 margin-left: 6px;
@@ -193,7 +206,7 @@
                 color: var(--var-body-fc);
                 background-color: var(--var-header-bg);
                 border-color: #6c757d;
-                border-radius:5px
+                border-radius: 5px;
             }
 
 
@@ -202,6 +215,7 @@
                 color: var(--var-body-fc);
                 font-family: cursive;
             }
+
             .body-create {
                 background-color: var(--var-body-cr);
                 color: var(--var-body-fc);
@@ -217,6 +231,12 @@
 
             .body-login {
                 background-image: url("/images/fon-login.jpg");
+                background-size: cover;
+                text-align: center;
+            }
+
+            .body-error {
+                background-image: url("/images/error.jpg");
                 background-size: cover;
                 text-align: center;
             }
@@ -247,17 +267,19 @@
             }
 
             /*profile */
-            .body-profile{
-                margin-top:20px;
+            .body-profile {
+                margin-top: 20px;
                 color: #1a202c;
                 text-align: left;
                 background-color: #e2e8f0;
             }
+
             .main-body {
                 padding: 15px;
             }
+
             .card {
-                box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
             }
 
             .card {
@@ -268,7 +290,7 @@
                 word-wrap: break-word;
                 background-color: #fff;
                 background-clip: border-box;
-                border: 0 solid rgba(0,0,0,.125);
+                border: 0 solid rgba(0, 0, 0, .125);
                 border-radius: .25rem;
             }
 
@@ -283,22 +305,25 @@
                 margin-left: -8px;
             }
 
-            .gutters-sm>.col, .gutters-sm>[class*=col-] {
+            .gutters-sm > .col, .gutters-sm > [class*=col-] {
                 padding-right: 8px;
                 padding-left: 8px;
             }
+
             .mb-3, .my-3 {
-                margin-bottom: 1rem!important;
+                margin-bottom: 1rem !important;
             }
 
             .bg-gray-300 {
                 background-color: #e2e8f0;
             }
+
             .h-100 {
-                height: 100%!important;
+                height: 100% !important;
             }
+
             .shadow-none {
-                box-shadow: none!important;
+                box-shadow: none !important;
             }
 
             /*profile end*/

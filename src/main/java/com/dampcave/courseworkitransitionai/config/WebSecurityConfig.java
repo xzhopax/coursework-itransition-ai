@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final UserAuthService userAuthService;
+    private final AccessDeniedHandler accessDeniedHandler;
+
+
 
     @Bean
     @Override
@@ -35,17 +39,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
+
+
     @Autowired
-    public WebSecurityConfig(PasswordEncoder passwordEncoder, UserAuthService userAuthService) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder,
+                             UserAuthService userAuthService,
+                             AccessDeniedHandler accessDeniedHandler) {
         this.passwordEncoder = passwordEncoder;
         this.userAuthService = userAuthService;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
-    public WebSecurityConfig(boolean disableDefaults, PasswordEncoder passwordEncoder, UserAuthService userAuthService) {
-        super(disableDefaults);
-        this.passwordEncoder = passwordEncoder;
-        this.userAuthService = userAuthService;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -72,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                             "/activate/*").permitAll()
                     .antMatchers("/**").authenticated()
                     .and()
+
                 .formLogin()
                     .loginPage("/login").permitAll()
                     .loginPage("/films").permitAll()
@@ -80,6 +85,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/logout")
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
-                    .permitAll();
+                    .permitAll()
+                    .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+
+
     }
 }

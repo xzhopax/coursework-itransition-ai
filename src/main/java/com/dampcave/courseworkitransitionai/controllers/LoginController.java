@@ -35,13 +35,18 @@ public class LoginController {
         model.addAttribute("title", "Home");
         return "home";
     }
+    @GetMapping("/403")
+    public String error( Model model) {
+        model.addAttribute("title", "Home");
+        return "/errors/error";
+    }
 
     @GetMapping("/login")
     public String loginUser( Model model) {
         UserLoginRepr userLoginRepr = new UserLoginRepr();
         model.addAttribute("user", userLoginRepr);
         model.addAttribute("title", "Login");
-        return "login";
+        return "security/login";
     }
 
     @GetMapping("/register")
@@ -49,7 +54,7 @@ public class LoginController {
         model.addAttribute("title", "Registration");
         UserRegistrationRepr userRegistrationRepr = new UserRegistrationRepr();
         model.addAttribute("user", userRegistrationRepr);
-        return "register";
+        return "security/register";
     }
 
     @PostMapping("/register")
