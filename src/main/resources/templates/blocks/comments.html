@@ -1,7 +1,6 @@
 <div th:fragment="comments">
     <form sec:authorize="isAuthenticated()">
         <div class="container">
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel header-color">
@@ -12,11 +11,12 @@
                              class="body-color comments scrollspy-example">
                             <form method="post" th:action="@{filter}">
                             </form>
-                            <form method="post" th:objact="film" th:action="@{/films/film/{id}(id=${id})}"
+
+                            <form method="post" th:action="'/films/film/' + ${film.id}" th:object="${film}"
                                   enctype="multipart/form-data">
                                 <textarea class="form-control textarea" name="textComment" placeholder="Оставьте Ваш комментарий"
                                           rows="5"></textarea>
-                                <button type="submit" class="btn button-color pull-right">Отправить</button>
+                                <button class="btn button-color pull-right" type="submit">Отправить</button>
                             </form>
                             <div class="clearfix"></div>
                             <hr>

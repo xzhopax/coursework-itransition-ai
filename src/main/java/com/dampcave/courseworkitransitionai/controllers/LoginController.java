@@ -6,6 +6,7 @@ import com.dampcave.courseworkitransitionai.forms.UserLoginRepr;
 import com.dampcave.courseworkitransitionai.forms.UserRegistrationRepr;
 import com.dampcave.courseworkitransitionai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,7 @@ public class LoginController {
         this.userRepository = userRepository;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @GetMapping("/")
     public String home( Model model) {
         model.addAttribute("title", "Home");
@@ -87,6 +89,7 @@ public class LoginController {
         userService.autoGenerateNickname(userRegistrationRepr.getUsername());
         return "redirect:/login";
     }
+
 
     @GetMapping("/activate/{code}")
     public String activate( @PathVariable String code,

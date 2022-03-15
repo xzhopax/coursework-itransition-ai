@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping("/users")
 @Controller
 public class AdminController {
 
@@ -32,6 +31,10 @@ public class AdminController {
     private final FilmService filmService;
     private final UserService userService;
     private final AdminService adminService;
+
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
     @Autowired
     public AdminController(UserRepository userRepository,
@@ -47,53 +50,31 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/get-admin/{id}")
+    @GetMapping("/users/get-admin/{id}")
     public String addAdminOrRemoveAdmin(@PathVariable(value = "id") Long id) {
         adminService.addOrRemoveRoleAdmin(id);
         return "redirect:/users";
     }
 
-
-    @GetMapping()
+    @GetMapping("/users")
     public String showAllUser(Model model) {
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("title", "Users");
         return "profiles/users";
     }
 
-
-    @GetMapping("/profile/{id}")
-    public String profileIdAdmin(@PathVariable Long id,
+    @GetMapping("/users/profile/{user}")
+    public String profileIdAdmin(@PathVariable User user,
                             Model model){
-        User user = userRepository.findById(id).orElseThrow();
         model.addAttribute("user", user);
         return "profiles/profile";
     }
 
-    @GetMapping("{user}/film/{film}")
-    public String getPageOverviewAdmin(@PathVariable() Film film,
-                                       @PathVariable() User user,
-                                  Model model) {
-        model.addAttribute("title", "Film Overview");
-        model.addAttribute("user", user);
-        model.addAttribute("film", film);
-        model.addAttribute("comments", commentService.getAllCommentsFromFilm(film.getId()));
-        return "overviews/film";
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "{user}/film/{film}", method = RequestMethod.POST)
-    public String actionsInOverviewFilmAdmin(@PathVariable Film film,
-                                        @PathVariable User user,
-                                        @RequestParam(name = "textComment") String message) {
-        commentService.sendComment(message, film, user.getUsername());
-        return "redirect:/films/{user}/film/{film}";
-    }
 
     @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable(value = "id") Long id, Model model) {
         User user = userRepository.findById(id).orElseThrow();
-        if (!user.getUsername().equals("admin")) {
+        if (!adminService.hasRoleAdmin(user.getUsername())) {
             userRepository.delete(user);
         }
         return "redirect:/users";
@@ -103,27 +84,25 @@ public class AdminController {
     public String deleteAllUsers(HttpServletRequest request, HttpServletResponse response) {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            if (!user.getUsername().equals("admin")) {
+            if (!adminService.hasRoleAdmin(user.getUsername())) {
                 userRepository.delete(user);
             }
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        new SecurityContextLogoutHandler().logout(request, response, auth);
-        return "redirect:/login?logout";
+        return "redirect:/users";
     }
 
     @GetMapping("/blocked")
     public String userBlockedAll(HttpServletRequest request, HttpServletResponse response) {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            if (!user.getUsername().equals("admin")) {
+            if (!adminService.hasRoleAdmin(user.getUsername())) {
                 user.setActive(false);
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                 new SecurityContextLogoutHandler().logout(request, response, auth);
             }
             userRepository.save(user);
         }
-        return "redirect:/login?logout";
+        return "redirect:/users";
     }
 
     @GetMapping("/unblocked")
@@ -141,14 +120,9 @@ public class AdminController {
                                HttpServletResponse response,
                                @PathVariable(value = "id") Long id) {
         User user = userRepository.findById(id).orElseThrow();
-        if (!user.getUsername().equals("admin")) {
+        if (!adminService.hasRoleAdmin(user.getUsername())) {
             user.setActive(!user.isActive());
             userRepository.save(user);
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (user.getUsername().equals(auth.getName())) {
-                new SecurityContextLogoutHandler().logout(request, response, auth);
-                return "redirect:/login?logout";
-            }
         }
         return "redirect:/users";
     }

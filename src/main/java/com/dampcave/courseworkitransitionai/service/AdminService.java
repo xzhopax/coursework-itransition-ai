@@ -8,6 +8,7 @@ import com.dampcave.courseworkitransitionai.repositoryes.RoleRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,6 +59,8 @@ public class AdminService {
 
     public boolean hasRoleAdmin(String username){
         User user = userRepository.findByUsername(username).orElseThrow();
+        System.out.println(user.getRoles().contains(admin));
+        System.out.println(user.getRoles().toString());
         return user.getRoles().contains(admin);
     }
 
@@ -69,6 +72,20 @@ public class AdminService {
     public boolean hasAccessOnFilm(Long id) {
       Film film =  filmRepository.findById(id).orElseThrow();
         return film.getAuthor().getUsername().equals(getAuth().getName());
+    }
+
+    public User offlineUser(){
+      return userRepository.findByUsername("noNameNPC").orElseThrow();
+    }
+
+    public User ifAnonymousOrAuthentication(){
+        User user;
+        if (getAuth() instanceof AnonymousAuthenticationToken){
+            user = offlineUser();
+        } else {
+            user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
+        }
+        return user;
     }
 
 }

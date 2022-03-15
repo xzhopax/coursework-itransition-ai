@@ -38,7 +38,7 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public Iterable<Comment> getAllCommentsFromFilm(long filmId){
-        return commentRepository.findByFilm(filmRepository.findById(filmId).orElseThrow());
+    public Iterable<Comment> getAllCommentsFromFilm(Film film){
+        return commentRepository.findByFilm(film);
     }
 }
