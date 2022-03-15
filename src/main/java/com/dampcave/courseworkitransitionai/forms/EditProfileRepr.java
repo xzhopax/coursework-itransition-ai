@@ -13,6 +13,7 @@ public class EditProfileRepr {
 
     private String nickname;
 
+    @Email(message = "Email should not be valid")
     private String email;
 
     private String password;

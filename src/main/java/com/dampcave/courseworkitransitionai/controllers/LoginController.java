@@ -1,9 +1,9 @@
 package com.dampcave.courseworkitransitionai.controllers;
 
-import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
-import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import com.dampcave.courseworkitransitionai.forms.UserLoginRepr;
 import com.dampcave.courseworkitransitionai.forms.UserRegistrationRepr;
+import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
+import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import com.dampcave.courseworkitransitionai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -38,56 +39,54 @@ public class LoginController {
         return "home";
     }
     @GetMapping("/403")
-    public String error( Model model) {
-        model.addAttribute("title", "Home");
+    public String error() {
         return "/errors/error";
     }
 
     @GetMapping("/login")
-    public String loginUser( Model model) {
-        UserLoginRepr userLoginRepr = new UserLoginRepr();
-        model.addAttribute("user", userLoginRepr);
-        model.addAttribute("title", "Login");
+    public String loginUser( @ModelAttribute("user") @Valid UserLoginRepr userLoginRepr,BindingResult bindingResult) {
         return "security/login";
     }
 
     @GetMapping("/register")
-    public String registrationUserGet(Model model){
-        model.addAttribute("title", "Registration");
-        UserRegistrationRepr userRegistrationRepr = new UserRegistrationRepr();
-        model.addAttribute("user", userRegistrationRepr);
+    public String registrationUserGet(@ModelAttribute("user") UserRegistrationRepr userRegistrationRepr ){
         return "security/register";
     }
 
     @PostMapping("/register")
     public String registrationNewUserPost(
-            @Valid UserRegistrationRepr userRegistrationRepr,
+            @ModelAttribute("user")  @Valid UserRegistrationRepr userRegistrationRepr,
                    BindingResult bindingResult){
-//        User user = userRepository.findByUsername(userRegistrationRepr.getUsername()).orElseThrow();
-//
-//        if (bindingResult.hasErrors()){
-//            return "register";
-//        }
-//        if (userRepository.findByUsername(userRegistrationRepr.getUsername()).isPresent()){
-//            bindingResult.rejectValue("username","","User exists!");
-//            return "register";
-//        }
-//
-//        if (!userRegistrationRepr.getPassword().equals(userRegistrationRepr.getRepeatPassword())){
-//            bindingResult.rejectValue("password","", "passwords not equals");
-//            return "register";
-//        }
-//
-//        if (!userService.checkUserInBD(user)) {
-//            userService.create(userRegistrationRepr);
-//            return "redirect:/login";
-//        }
-//        bindingResult.rejectValue("username","","Error");
-//        return "register";
+        if (userRegistrationRepr.getPassword() == null || userRegistrationRepr.getRepeatPassword() == null ){
+            bindingResult.rejectValue("password","", "passwords not be null");
+            bindingResult.rejectValue("repeatPassword","", "passwords not be null");
 
-        userService.create(userRegistrationRepr);
-        userService.autoGenerateNickname(userRegistrationRepr.getUsername());
-        return "redirect:/login";
+           return "security/register";
+        }
+        if (userRegistrationRepr.getUsername() == null || userRegistrationRepr.getUsername().isEmpty()){
+            bindingResult.rejectValue("username","", "username not be null");
+            return "security/register";
+        }
+        if (userRegistrationRepr.getEmail() == null || userRegistrationRepr.getEmail().isEmpty()){
+            bindingResult.rejectValue("username","", "email not be null");
+            return "security/register";
+        }
+
+        if (userRegistrationRepr.getPassword() != null
+                && !userRegistrationRepr.getPassword().equals(userRegistrationRepr.getRepeatPassword())){
+            bindingResult.rejectValue("password","", "passwords not equals");
+        }
+
+        if (userService.checkUserInBD(userRegistrationRepr.getUsername())){
+            bindingResult.rejectValue("username","","");
+        }
+        if (bindingResult.hasErrors()){
+            return "security/register";
+        } else {
+//            userService.create(userRegistrationRepr);
+//            userService.autoGenerateNickname(userRegistrationRepr.getUsername());
+            return "redirect:/login";
+        }
     }
 
 

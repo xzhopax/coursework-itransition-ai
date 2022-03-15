@@ -5,8 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
@@ -19,13 +23,22 @@ public class Film {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "Please fill title")
     private String title;
     private String picture;
     private String urlVideo;
+    @NotBlank(message = "Please fill description")
+    @Length(max = 2048, message = "Description too long, max 2048 characters ")
     private String description;
+    @Min(value =0, message = "should be greater than 0")
     private int duration;
+    @Min(value =0, message = "should be greater than 0")
     private double rating;
+    @NotBlank(message = "Please year release")
+    @Min(value =0, message = "should be greater than 0")
     private int year;
+    @Min(value =0, message = "should be greater than 0")
     private long budget;
 
     @ElementCollection(targetClass = Genre.class, fetch = FetchType.EAGER)

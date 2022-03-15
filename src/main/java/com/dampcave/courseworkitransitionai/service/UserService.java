@@ -42,11 +42,12 @@ public class UserService {
         this.storageService = storageService;
     }
 
-    public boolean checkUserInBD(User user) {
-        return userRepository.findByUsername(user.getUsername()).isEmpty();
+    public boolean checkUserInBD(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 
     public void create(UserRegistrationRepr userRegistrationRepr) {
+
         User user = new User();
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.getById(1L));

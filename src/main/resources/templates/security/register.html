@@ -5,7 +5,6 @@
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
 
-    <title th:text="${title}"/>
     <header th:insert="blocks/header :: header"></header>
 </head>
 <body class="body-login" style="background-color: #030203">
@@ -14,30 +13,36 @@
             <div class="col-12">
                 <form th:action="@{/register}" method="post" th:object="${user}">
                     <div class="form-group">
-                        <label for="email" class="fw-weight-bold text-white lang" key="email">Email</label>
+                        <label for="email" class="fw-weight-bold text-white lang " key="email">Email</label>
                         <input type="email" id="email" th:field="${user.email}"
                                class="form-control fw-weight-bold" placeholder="Email">
+                        <small class="form-text text-danger fw-weight-bold"
+                               th:each="err : ${#fields.errors('email')}" th:text="${err}"></small>
+
                     </div>
                     <div class="form-group">
-                        <label for="username" class="fw-weight-bold text-white lang" key="username">User name</label>
+                        <label for="username" class="fw-weight-bold text-white lang " key="username">User name</label>
                         <input type="text" id="username" th:field="${user.username}"
                                class="form-control fw-weight-bold" placeholder="Enter  login">
-                        <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('username')}">Validation
-                            error</small>
+                        <small class="form-text text-danger fw-weight-bold"
+                               th:each="err : ${#fields.errors('username')}" th:text="${err}"></small>
+
                     </div>
                     <div class="form-group">
                         <label for="password" class="fw-weight-bold text-white lang" key="password">Password</label>
                         <input type="password" id="password" th:field="${user.password}"
-                               class="form-control fw-weight-bold lang" key="password" placeholder="Password">
-                        <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('password')}">Validation
-                            error</small>
+                               class="form-control fw-weight-bold lang " key="password" placeholder="Password">
+                        <small class="form-text text-danger fw-weight-bold"
+                               th:each="err : ${#fields.errors('password')}" th:text="${err}"></small>
+
                     </div>
                     <div class="form-group">
                         <label for="repeatPassword" class="fw-weight-bold text-white lang" key="password-2">Repeat password</label>
                         <input type="password" id="repeatPassword" th:field="${user.repeatPassword}"
                                class="form-control fw-weight-bold" placeholder="Repeat password">
                         <small class="form-text text-danger fw-weight-bold"
-                               th:each="err : ${#fields.errors('repeatPassword')}">Validation error</small>
+                               th:each="err : ${#fields.errors('repeatPassword')}" th:text="${err}"></small>
+
                     </div>
                     <button type="submit" class="btn button-color lang" key="register">Register</button>
                 </form>

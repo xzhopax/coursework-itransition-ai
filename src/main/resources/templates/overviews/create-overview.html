@@ -13,35 +13,45 @@
 
 
         <div class="col-md-8 p-3">
-            <label for="title" class="fw-weight-bold lang" key="title">Title</label>
+            <label for="title" class="fw-weight-bold lang" key="title">Title *</label>
             <input type="text" name="title" th:field="${film.title}" id="title"
                    class="form-control fw-weight-bold text-form" placeholder="Enter title film">
+            <div class="invalid-feedback">
+                error
+            </div>
         </div>
         <div class="col-md-5 p-3">
             <label for="file" class="fw-weight-bold lang" key="file">Poster</label>
             <input type="file" name="poster" th:field="${film.poster}" id="file"
                    class="form-control fw-weight-bold text-form" required>
+            <div class="invalid-feedback">
+                error
+            </div>
         </div>
         <div class="col-md-5 p-3">
             <label for="url-video" class="fw-weight-bold lang" key="url-video">Trailer</label>
             <input type="text" name="link" th:field="${film.link}" id="url-video"
                    class="form-control fw-weight-bold text-form" placeholder="Enter link trailer on film">
+
         </div>
 
         <div class="col-md-3 p-3">
             <label for="rating" class="fw-weight-bold lang" key="rating">Rating</label>
             <input type="number" step="0.01" max="10" th:field="${film.rating}" class="fw-weight-bold lang text-form"
                    id="rating" name="rating" placeholder="enter rating">
+
         </div>
         <div class="col-md-3 p-3">
-            <label for="year" class="fw-weight-bold lang" key="year">Year</label>
+            <label for="year" class="fw-weight-bold lang" key="year">Year release *</label>
             <input type="number" class="fw-weight-bold text-form"
-                   id="year" name="year" max="3000" th:field="${film.year}" placeholder="enter year">
+                   id="year" name="year" max="9999" th:field="${film.year}" placeholder="enter year">
+
         </div>
         <div class="col-md-3 p-3">
             <label for="budget" class="fw-weight-bold lang" key="budget">Budget</label>
             <input type="number" class="fw-weight-bold text-form"
                    id="budget" name="budget" th:field="${film.budget}" placeholder="enter film budget">
+
         </div>
         <label for="duration" class="fw-weight-bold lang" key="duration">Enter duration in minutes</label>
         <div class="col-md-12 p-3">
@@ -49,6 +59,9 @@
                    th:field="${film.duration}"
                    type="number" id="duration"
                    placeholder="minutes">
+            <div class="invalid-feedback">
+                error
+            </div>
         </div>
         <div class="col-md-8 p-3">
             <label for="actors" class="fw-weight-bold lang" key="actors">Actors</label>
@@ -58,6 +71,9 @@
                       id="actors"
                       placeholder="Enter actors through comma"
                       rows="5"></textarea>
+            <div class="invalid-feedback">
+                error
+            </div>
         </div>
         <div class="col-md-8 p-3">
             <label for="producers" class="fw-weight-bold lang" key="producers">Producers</label>
@@ -67,15 +83,21 @@
                       id="producers"
                       placeholder="Enter producers through comma"
                       rows="5"></textarea>
+            <div class="invalid-feedback">
+                error
+            </div>
         </div>
         <div class="col-md-8 p-3">
-            <label for="description" class="fw-weight-bold lang" key="description">Description</label>
+            <label for="description" class="fw-weight-bold lang" key="description">Description *</label>
             <textarea class=" form-control textarea"
                       th:field="${film.description}"
                       name="description"
                       id="description"
                       placeholder="Enter description"
                       rows="5"></textarea>
+            <div class="invalid-feedback">
+                error
+            </div>
         </div>
 
         <div class="col-md-12 p-3">

@@ -41,7 +41,7 @@ public class UserAuthService implements UserDetailsService  {
                     user.get().getPassword(),
                     grantedAuthorities);
         } else
-            throw new UsernameNotFoundException("User blocked");
+            throw new UsernameNotFoundException("User blocked or not exist");
     }
 
 

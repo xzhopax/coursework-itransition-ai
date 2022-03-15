@@ -13,21 +13,20 @@
 
     <div class="row py-2 mt-5">
         <div class="col-12 mt-5">
-            <!--                <form th:action="@{/authenticateTheUser}" method="post">-->
-            <form th:action="@{/login}" method="post" th:object="${user}">
+            <form th:action="@{/authenticateTheUser}" method="post" th:object="${user}">
                 <div class="form-group">
-                    <label for="username" class="fw-weight-bold text-white lang" key="username">User name</label>
+                    <label for="username" class="fw-weight-bold text-white lang " key="username">User name</label>
                     <input type="text" th:name="username" id="username" th:field="${user.username}"
                            class="form-control fw-weight-bold lang" key="username" placeholder="Enter  login">
-                    <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('username')}">fail
-                        username</small>
+                    <div class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
+                           th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="fw-weight-bold text-white lang" key="password">Password</label>
                     <input type="password" th:name="password" id="password" th:field="${user.password}"
-                           class="form-control fw-weight-bold lang" key="password" placeholder="Password">
-                    <small class="form-text text-danger fw-weight-bold" th:each="err : ${#fields.errors('password')}">fail
-                        password</small>
+                           class="form-control fw-weight-bold lang " key="password" placeholder="Password">
+                    <small class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
+                           th:each="err : ${#fields.errors('password')}" th:text="${err}"></small>
                 </div>
                 <button type="submit" class="btn button-color lang" key="login">Login</button>
                 <br><br>
