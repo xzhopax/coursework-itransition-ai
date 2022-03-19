@@ -6,31 +6,33 @@
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
 
     <header th:insert="blocks/header :: header"></header>
-    <title th:text="${title}"/>
+    <title th:text="#{title.login}"/>
 </head>
-<body class="body-login" style="background-color: #030203" >
-<div class="form mt-5" >
-
+<body class="body-login" style="background-color: #030203">
+<div class="form mt-5">
     <div class="row py-2 mt-5">
         <div class="col-12 mt-5">
             <form th:action="@{/authenticateTheUser}" method="post" th:object="${user}">
                 <div class="form-group">
-                    <label for="username" class="fw-weight-bold text-white lang " key="username">User name</label>
-                    <input type="text" th:name="username" id="username" th:field="${user.username}"
-                           class="form-control fw-weight-bold lang" key="username" placeholder="Enter  login">
+                    <label for="username" class="fw-weight-bold text-white" th:text="#{username}">User name</label>
+                    <input type="text" name="username" id="username" th:field="${user.username}"
+                           class="form-control fw-weight-bold" th:placeholder="#{login.placeholder}">
                     <div class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
-                           th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+                         th:each="err : ${#fields.errors('username')}" th:text="${err}">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="fw-weight-bold text-white lang" key="password">Password</label>
+                    <label for="password" class="fw-weight-bold text-white" th:text="#{password}">Password</label>
                     <input type="password" th:name="password" id="password" th:field="${user.password}"
-                           class="form-control fw-weight-bold lang " key="password" placeholder="Password">
-                    <small class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
-                           th:each="err : ${#fields.errors('password')}" th:text="${err}"></small>
+                           class="form-control fw-weight-bold" th:placeholder="#{password.placeholder}">
+                    <div class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
+                         th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
                 </div>
-                <button type="submit" class="btn button-color lang" key="login">Login</button>
+                <button type="submit" class="btn button-color" th:text="#{login}">Login</button>
                 <br><br>
-                <a class="px-3 text-white lang" key="register" th:href="@{/register}"><strong> Registration </strong></a>
+                <a class="px-3 text-white" th:text="#{register}"
+                   th:href="@{/register}"><strong>Registration</strong>
+                </a>
             </form>
         </div>
     </div>

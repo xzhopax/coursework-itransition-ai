@@ -3,31 +3,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', getLocalTheme)
 
-        function alertedDark(){
-          document.body.setAttribute('dark', '');
+        function alertedDark() {
+            document.body.setAttribute('dark', '');
         }
-        function alertedSun(){
-             document.body.removeAttribute('dark');
+
+        function alertedSun() {
+            document.body.removeAttribute('dark');
         }
-        $(function() {
-            $('.theme-color').click(function() {
+
+        $(function () {
+            $('.theme-color').click(function () {
                 var theme = $(this).attr('id');
                 saveLocalTheme(theme)
             });
         });
 
-        function saveLocalTheme(theme){
+        function saveLocalTheme(theme) {
             let button
-            if (localStorage.getItem('button')=== null){
+            if (localStorage.getItem('button') === null) {
                 button = []
             } else {
                 button = JSON.parse(localStorage.getItem('button'))
@@ -36,16 +38,16 @@
             localStorage.setItem('button', JSON.stringify(button))
         }
 
-        function getLocalTheme(){
+        function getLocalTheme() {
             let buttons
-            if (localStorage.getItem('button') === null){
-                buttons =[]
+            if (localStorage.getItem('button') === null) {
+                buttons = []
             } else {
                 buttons = JSON.parse(localStorage.getItem('button'))
             }
             let button = buttons[buttons.length - 1]
 
-            if (button==='light'){
+            if (button === 'light') {
                 document.body.removeAttribute('dark');
             } else {
                 document.body.setAttribute('dark', '');

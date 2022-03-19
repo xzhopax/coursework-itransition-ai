@@ -4,30 +4,25 @@
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta charset="UTF-8">
-    <title th:text="${title}"/>
+    <title th:text="#{title.home}"/>
 </head>
 <body class="body-login">
     <header th:insert="blocks/header :: header"></header>
 
-    <h1 class="text-center mt-5">Welcome</h1>
-    <h1 class="text-center" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-
-    <a href="/?language=en"  data-th-text="#{en}"></a>
-    <a href="/?language=ru"  th:text="#{ru}"></a>
-
-
+    <h1 class="text-center mt-5" th:text="#{welcome}">Welcome</h1>
+    <h1 class="text-center" th:inline="text">[[#{hello}]] [[${#httpServletRequest.remoteUser}]]!</h1>
     <br><br><br><br>
 
-    <button class="button w-1 btn btn-lg button-color text-center lang" key="films" type="button" value="show"
-            onclick="window.location.href = 'films'">View all films
+    <button class="button w-1 btn btn-lg button-color text-center" type="button" value="show"
+            onclick="window.location.href = 'films'" th:text="#{films}">Show all films
     </button>
 
     <footer th:insert="blocks/footer :: footer"></footer>
 </body>
-    <style type="text/css">
-        .button {
-            margin: auto;
-            display: block;
-        }
-    </style>
+<style type="text/css">
+    .button {
+        margin: auto;
+        display: block;
+    }
+</style>
 </html>

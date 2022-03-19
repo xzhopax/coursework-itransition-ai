@@ -5,54 +5,70 @@
 
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
+    <title th:text="#{title.users}"/>
 </head>
-<!--<body bgcolor="#000" background="star-sky.jpeg">-->
 <body class="body-color">
-    <header th:insert="blocks/header :: header"></header>
+<header th:insert="blocks/header :: header"></header>
 
-    <h2 class="ml-5 mt-2 md-5 lang" key="users">Show all Users</h2>
+<h2 class="ml-5 mt-2 md-5" th:text="#{users}">Show all Users</h2>
 
-    <form name="isUsersTable" >
-        <table class="table table-bordered ml-3 text-center">
-            <thead>
-                <tr><!-- line table -->
-                    <th class="lang" key="id">Id</th><!-- head table -->
-                    <th class="lang" key="username">Username</th><!-- head table -->
-                    <th class="lang" key="role">Role</th><!-- head table -->
-                    <th class="lang" key="active">Active</th><!-- head table -->
-                </tr>
-            </thead>
-            <tbody>
-                <div th:each="user:${users}">
-                    <tr><!-- line table  -->
-                        <td><p th:text="${user.id}"/></td> <!-- cell table -->
-                        <td><a class="nav-link lang"
-                               th:href="@{'/users/profile/' +${user.id}} "
-                               th:text="${user.username}"></a></td>
-                        <td>
-                             <span th:each="role,iterStat:${user.getRoles()}"
-                                   th:text="${role.name} + ${!iterStat.last ? ', ' : ''}">
-                             </span>
-                        </td> <!-- cell table -->
-                        <td> <p th:text="${user.isActive()}"/></td> <!-- cell table -->
-                        <td>
-                            <form th:action="'users/' + ${user.id} + '/delete' " method="post">
-                                <button class="btn button-color lang" key="delete" type="submit">Delete</button>
-                            </form>
-                            <form th:action="'/users/' + ${user.id} + '/isactive' " method="get">
-                                <button class="btn button-color mt-1 lang" key="block-unblock" type="submit">Unblocked/Blocked</button>
-                            </form>
-                            <form th:action="'/users/get-admin/' + ${user.id}" method="get">
-                                <button class="btn button-color mt-1 lang" key="admin" type="submit">Admin/NotAdmin</button>
-                            </form>
-                        </td>
-                    </tr>
-                </div>
-            </tbody>
-        </table>
-    </form>
+<form name="isUsersTable">
+    <table class="table table-bordered ml-3 text-center">
+        <thead>
+        <tr>
+            <th th:text="#{id}">Id</th>
+            <th th:text="#{username}">Username</th>
+            <th th:text="#{role}">Role</th>
+            <th th:text="#{email}">Email</th>
+            <th th:text="#{active}">Active</th>
+            <th th:text="#{action}">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="user:${users}">
+            <tr>
+                <td><p th:text="${user.id}"/></td>
+                <td>
+                    <a class="nav-link" th:href="@{'/users/profile/' +${user.id}}" th:text="${user.username}"></a>
+                </td>
+                <td>
+                    <span th:each="role,iterStat:${user.getRoles()}"
+                          th:text="${role.name} + ${!iterStat.last ? ', ' : ''}">
+                    </span>
+                </td>
+                <td>
+                    <p th:text="${user.email}"/>
+                </td>
+                <td>
+                    <p th:text="${user.isActive()}"/>
+                </td>
+                <td>
+                    <form th:action="'users/' + ${user.id} + '/delete' " method="post">
+                        <button class="btn button-color" type="submit" th:text="#{delete}"
+                                onclick="if (confirm('Unblocked/Blocked users selected item?'))
+                                {return true;}else{event.stopPropagation(); event.preventDefault();}">Delete
+                        </button>
+                    </form>
+                    <form th:action="'/users/' + ${user.id} + '/is-active' " method="get">
+                        <button class="btn button-color mt-1" th:text="#{block-unblock}" type="submit"
+                                onclick="if (confirm('Unblocked/Blocked users selected item?'))
+                                {return true;}else{event.stopPropagation(); event.preventDefault();}">Unblocked/Blocked
+                        </button>
+                    </form>
+                    <form th:action="'/users/get-admin/' + ${user.id}" method="get">
+                        <button class="btn button-color mt-1" th:text="#{admin}" type="submit"
+                                onclick="if (confirm('Privilege admin selected item?'))
+                                {return true;}else{event.stopPropagation(); event.preventDefault();}">Admin/NotAdmin
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</form>
 
-    <footer th:insert="blocks/footer :: footer"></footer>
+<footer th:insert="blocks/footer :: footer"></footer>
 </body>
 <style type="text/css">
     .button {

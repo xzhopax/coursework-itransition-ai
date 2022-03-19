@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head >
+<head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{title.profile.edit}"/>
 </head>
 <body class="body-color">
 <header th:insert="blocks/header :: header"></header>
@@ -26,8 +27,7 @@
                                      width="150">
                                 <div class="mt-3">
                                     <h4 th:text="${user.username}"></h4>
-                                    <a class="btn button-color lang"
-                                       href="/users/profile/" key="profile">Profile</a>
+                                    <a class="btn button-color" href="/users/profile/" th:text="#{profile}">Profile</a>
                                 </div>
                             </div>
                         </div>
@@ -38,76 +38,71 @@
                         <div class="card-body body-color">
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 lang" key="old-nickname">Old Nickname</h6>
+                                    <h6 class="mb-0" th:text="#{old-nickname}">Old Nickname</h6>
                                 </div>
-                                <h6  class="col-sm-9" th:text="${user.nickname}"></h6>
+                                <h6 class="col-sm-9" th:text="${user.nickname}"></h6>
                             </div>
                             <div class="row mb-3 ">
-                                <div class="col-sm-3 lang">
-                                    <h6 class="mb-0" key="new-nickname">New Nickname</h6>
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0" th:text="#{new-nickname}">New Nickname</h6>
                                 </div>
                                 <div class="col-sm-9 ">
-                                    <input type="text" class="form-control" th:field="${edit.nickname}" >
+                                    <input type="text" class="form-control" th:field="${edit.nickname}"
+                                           th:placeholder="#{new-nickname}">
                                 </div>
                             </div>
                             <hr>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 lang" key="old-email">Old Email</h6>
+                                    <h6 class="mb-0" th:text="#{old-email}">Old Email</h6>
                                 </div>
-                                <h6  class="col-sm-9" th:text="${user.email}"></h6>
+                                <h6 class="col-sm-9" th:text="${user.email}"></h6>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 lang" key="new-email">New Email</h6>
+                                    <h6 class="mb-0" th:text="#{new-email}">New Email</h6>
                                 </div>
                                 <div class="col-sm-9 ">
-                                    <input type="email" class="form-control" th:field="${edit.email}">
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0 lang" key="old-password">Old Password</h6>
-                                </div>
-                                <div class="col-sm-9 ">
-                                    <input type="password" id="oldPassword"
-                                           th:field="${edit.password}"
-                                           class="form-control"
-                                           placeholder="Enter old password">
+                                    <input type="email" class="form-control" th:field="${edit.email}"
+                                           th:placeholder="#{new-email}">
                                 </div>
                             </div>
                             <hr>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 lang"
-                                        key="new-password">New Password</h6>
+                                    <h6 class="mb-0" th:text="#{old-password}">Old Password</h6>
                                 </div>
                                 <div class="col-sm-9 ">
-                                    <input type="password" id="newPassword"
-                                           th:field="${edit.newPassword}"
-                                           class="form-control "
-                                           placeholder="Enter new password">
+                                    <input type="password" id="oldPassword" th:field="${edit.password}"
+                                           class="form-control" th:placeholder="#{old-password}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0" th:text="#{new-password}">New Password</h6>
+                                </div>
+                                <div class="col-sm-9 ">
+                                    <input type="password" id="newPassword" th:field="${edit.newPassword}"
+                                           class="form-control" th:placeholder="#{new-password}">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0 lang" key="password-2">Repeat Password</h6>
+                                    <h6 class="mb-0" th:text="#{password-2}">Repeat Password</h6>
                                 </div>
-                                <div class="col-sm-9 ">
-                                    <input type="password" id="repeatPassword"
-                                           th:field="${edit.repeatPassword}"
-                                           class="form-control "
-                                           placeholder="Enter repeat password">
+                                <div class="col-sm-9">
+                                    <input type="password" id="repeatPassword" th:field="${edit.repeatPassword}"
+                                           class="form-control" th:placeholder="#{password-2}">
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3"></div>
-                                <div class="col-sm-9 lang">
-                                    <button type="submit"
-                                            class="btn button-color px-4 lang"
-                                            key="save-change">Save Change</button>
+                                <div class="col-sm-9">
+                                    <button type="submit" class="btn button-color px-4"
+                                            th:text="#{save-change}">Save Change
+                                    </button>
                                 </div>
                             </div>
                             <hr>

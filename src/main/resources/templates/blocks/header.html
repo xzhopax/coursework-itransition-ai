@@ -7,34 +7,36 @@
                     <img/>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link lang" key="users" href="/users">Show All Users </a>
+                    <a class="nav-link" data-th-text="#{users}" href="/users">Show All Users </a>
                 </li>
                 <li class="nav-item ml-5">
-                    <a class="nav-link lang" key="films" href="/films">Show All Films </a>
+                    <a class="nav-link" th:text="#{films}" href="/films">Show All Films </a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link lang" key="delete-all-users" href="/users/deleteall"
+                    <a class="nav-link" th:text="#{delete-all-users}" href="/users/delete-all"
                        onclick="if (confirm('Delete all users selected item?'))
-                                    {return true;}else{event.stopPropagation(); event.preventDefault();};"
-                       title="Link Title"> Delete all users </a>
+                       {return true;}else{event.stopPropagation(); event.preventDefault();}"
+                       title="Link Title"> Delete all users
+                    </a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link lang" key="unblock-all-users" href="/users/unblocked"
+                    <a class="nav-link" th:text="#{unblock-all-users}" href="/users/unblocked"
                        onclick="if (confirm('Unblock all users selected item?'))
-                                    {return true;}else{event.stopPropagation(); event.preventDefault();};"
-                       title="Link Title"> Unblock all users </a>
+                       {return true;}else{event.stopPropagation(); event.preventDefault();}"
+                       title="Link Title"> Unblock all users
+                    </a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item  ml-5">
-                    <a class="nav-link lang" key="block-all-users" href="/users/blocked"
+                    <a class="nav-link" th:text="#{block-all-users}" href="/users/blocked"
                        onclick="if (confirm('Block all users selected item?'))
-                                    {return true;}else{event.stopPropagation(); event.preventDefault();};"
-                       title="Link Title"> Block all users </a>
+                       {return true;}else{event.stopPropagation(); event.preventDefault();}"
+                       title="Link Title"> Block all users
+                    </a>
                 </li>
-
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li>
-                    <button id="light"  class="theme-color " onclick="alertedSun();">
+                    <button id="light" class="theme-color " onclick="alertedSun();">
                         <img th:src="@{/images/sun.png}" alt="light" width="20px" height="20">
                     </button>
                 </li>
@@ -45,33 +47,36 @@
                 </li>
 
                 <li>
-                    <p><a id="en" class="translate" th:href="@{?(language=en)}"><img th:src="@{/images/en.jpg}" width="20px"
-                                                           height="15" border="0" alt="en-flag"></a></p>
+                    <p>
+                        <a id="en" class="translate" th:href="@{?(language=en)}">
+                            <img th:src="@{/images/en.jpg}" width="20px" height="15" border="0" alt="en-flag">
+                        </a>
+                    </p>
                 </li>
                 <li>
-                    <p><a id="ru" class="translate" th:href="@{?(language=ru)}"><img th:src="@{/images/ru.jpg}" width="20px"
-                                                                   height="15" border="0" alt="ru-flag"></a></p>
+                    <p>
+                        <a id="ru" class="translate" th:href="@{?(language=ru)}">
+                            <img th:src="@{/images/ru.jpg}" width="20px" height="15" border="0" alt="ru-flag">
+                        </a>
+                    </p>
                 </li>
                 <li sec:authorize="isAnonymous()" class="nav-item ml-5">
-                    <a class="nav-link lang" href="/login" key="login">Login</a>
+                    <a class="nav-link" href="/login" th:text="#{login}">Login</a>
                 </li>
                 <li sec:authorize="isAnonymous()" class="nav-item ml-5">
-                    <a class="nav-link lang" href="/register" key="register">Register</a>
+                    <a class="nav-link" href="/register" th:text="#{register}">Register</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item ml-5">
-                    <p><a id="profile"
-                          class="translate rounded-circle"
-                          href="/users/profile"><img
-                            th:src="@{/images/profile.png}"
-                            class="rounded-circle head-logo"  alt="profile"></a></p>
-
+                    <p>
+                        <a id="profile" class="translate rounded-circle" href="/users/profile">
+                            <img th:src="@{/images/profile.png}" class="rounded-circle head-logo" alt="profile">
+                        </a>
+                    </p>
                 </li>
                 <li>
-                    <form sec:authorize="isAuthenticated()"
-                          th:action="@{/logout}" method="post">
-                        <button class="rounded-circle head-logo" key="logout"><img
-                                th:src="@{/images/logout.png}"
-                                class=" head-logo" alt="profile">
+                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <button class="rounded-circle head-logo" key="logout">
+                            <img th:src="@{/images/logout.png}" class=" head-logo" alt="profile">
                         </button>
                     </form>
                 </li>

@@ -4,6 +4,7 @@
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{title.film}"/>
 </head>
 <body class="body-color">
 <header th:insert="blocks/header :: header"></header>
@@ -14,61 +15,65 @@
             <div class="col-lg-4 col-xl-4 " align="center">
                 <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
                     <img class="img-fluid bd-placeholder-img center-block" width="200" height="250"
-                         th:src="@{'/img/'+ ${el.picture}}"
-                         alt="Sample image">
-                    <div class="mask rgba-white-slight"></div>
-                    </a>
+                         th:src="@{'/img/'+ ${el.picture}}" alt="Sample image">
+                    <div class="mask rgba-white-slight">
+                    </div>
                 </div>
-                <div >
+                <div>
                     <a class="px-5 lang button-color text-video text-center align-self-center"
-                       target="_blank" data-th-text="#{video}"
-                       key="video"
-                       th:href="@{'' + ${el.urlVideo}}">
-                        <strong> Trailer </strong></a>
+                       target="_blank" data-th-text="#{video}" th:href="@{'' + ${el.urlVideo}}">
+                        <strong>Trailer</strong>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-5 col-xl-8">
-                <h3 class="font-weight-bold mb-3 text-center text-video" th:text="${el.title}"><strong class="text-color"></strong></h3>
+                <h3 class="font-weight-bold mb-3 text-center text-video" th:text="${el.title}">
+                    <strong class="text-color"></strong>
+                </h3>
                 <div class="col-md-4">
-                    <strong class="text-color lang" data-th-text="#{year}"  key="year">Year:</strong><p th:text="${el.year}"></p>
+                    <strong class="text-color" data-th-text="#{year}">Year:</strong>
+                    <p th:text="${el.year}"></p>
                 </div>
                 <div class="col-md-4">
-                    <strong class="text-color lang" data-th-text="#{rating}" key="rating">Rating:</strong>  <p th:text="${el.rating}"></p>
+                    <strong class="text-color" data-th-text="#{rating}">Rating:</strong>
+                    <p th:text="${el.rating}"></p>
                 </div>
                 <div class="col-md-4">
-                    <strong class="text-color lang" data-th-text="#{budget}" key="budget">Budget:</strong><p>[[${el.budget}]]$</p>
+                    <strong class="text-color" data-th-text="#{budget}">Budget:</strong>
+                    <p>[[${el.budget}]]$</p>
                 </div>
                 <div class="col-md-8">
-                   <strong class="text-color lang" data-th-text="#{actors}" key="actors">Actors:</strong>
+                    <strong class="text-color" data-th-text="#{actors}">Actors:</strong>
                     <p>
                      <span th:each="actor,iterStat:${el.getActors()}"
                            th:text="${actor.fullName} + ${!iterStat.last ? ', ' : ''}">
-                             </span>
+                     </span>
                     </p>
                 </div>
                 <div class="col-md-3">
-                    <strong class="text-color lang" data-th-text="#{duration}" key="duration">Duration:</strong><p>[[${el.duration}]] minutes</p>
+                    <strong class="text-color" data-th-text="#{duration}">Duration:</strong>
+                    <p>[[${el.duration}]] minutes</p>
                 </div>
                 <div class="col-md-8">
-                    <strong class="text-color lang" data-th-text="#{producers}" key="producers">Producers:</strong>
+                    <strong class="text-color" data-th-text="#{producers}">Producers:</strong>
                     <p>
                      <span th:each="producer,iterStat:${el.getProducers()}"
                            th:text="${producer.fullName} + ${!iterStat.last ? ', ' : ''}">
-                             </span>
+                     </span>
                     </p>
                 </div>
                 <div class="col-md-12">
-                    <strong class="text-color lang" data-th-text="#{description}" key="description">Description:</strong><p class="text-color" th:text="${el.description}"></p>
+                    <strong class="text-color" data-th-text="#{description}">Description:</strong>
+                    <p class="text-color" th:text="${el.description}"></p>
                 </div>
-
                 <div class="col-md-5 float-md-end">
-                    <strong class="text-color lang" data-th-text="#{author}" key="author"> Author:</strong><p th:text="${el.author.username}"><strong></strong></p>
+                    <strong class="text-color" data-th-text="#{author}">Author:</strong>
+                    <p th:text="${el.author.username}"><strong></strong></p>
                 </div>
             </div>
         </div>
     </section>
 </div>
-
 
 <comment th:insert="blocks/comments :: comments"></comment>
 

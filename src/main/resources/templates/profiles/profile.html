@@ -5,12 +5,13 @@
 <head class="body-color">
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{title.profile}"/>
 </head>
 <body class="body-color">
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container" th:object="${user}">
-    <div class="main-body ">
+    <div class="main-body">
         <div class="row">
             <div class="col-md-4 mb-3">
                 <div class="card">
@@ -24,8 +25,9 @@
                             <div class="row">
                                 <div class="mt-3" >
                                     <h4  th:text="${user.username}"></h4>
-                                    <a class="btn button-color lang"
-                                       th:href="@{'/users/profile/' + ${user.id} + '/photo'}" key="edit-photo">Edit Photo</a>
+                                    <a class="btn button-color" th:href="@{'/users/profile/' + ${user.id} + '/photo'}"
+                                       th:text="#{edit-photo}">Edit Photo
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -39,36 +41,37 @@
                     <div class="card-body body-color">
                         <div class="row">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Username</h6>
+                                <h6 class="mb-0" th:text="#{username}">Username</h6>
                             </div>
                             <div class="col-sm-9" th:text="${user.username}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Nickname</h6>
+                                <h6 class="mb-0" th:text="#{nickname}">Nickname</h6>
                             </div>
                             <div class="col-sm-9" th:text="${user.nickname}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <h6 class="mb-0" key="email">Email</h6>
+                                <h6 class="mb-0" th:text="#{email}">Email</h6>
                             </div>
                             <div class="col-sm-9" th:text="${user.email}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Status account</h6>
+                                <h6 class="mb-0" th:text="#{active}">Status account</h6>
                             </div>
                             <div class="col-sm-9" th:text="${user.active}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                <a class="btn button-color"
-                                   th:href="@{'/users/profile/' + ${user.id} + '/edit'}">Edit Profile</a>
+                                <a class="btn button-color" th:href="@{'/users/profile/' + ${user.id} + '/edit'}"
+                                   th:text="#{edit-profile}">Edit Profile
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -82,33 +85,34 @@
                         <div class="row">
                             <form sec:authorize="isAuthenticated()"
                                   th:action="@{'/films/user/'+ ${user.id} +'/create-overview'}" method="get">
-                                <button class="btn button-color"
-                                       style="margin-bottom: 10px" type="submit">Add New Overview</button>
+                                <button class="btn button-color" style="margin-bottom: 10px" type="submit" th:text="#{new-film}">
+                                    Add New Overview
+                                </button>
                             </form>
                             <table class="table table-bordered ml-3 text-center">
                                 <thead>
                                 <tr>
-                                    <th >Id</th>
-                                    <th >Title</th>
-                                    <th>Delete</th>
-                                    <th>View</th>
+                                    <th th:text="#{id}">Id</th>
+                                    <th th:text="#{title}">Title</th>
+                                    <th th:text="#{delete}">Delete</th>
+                                    <th th:text="#{view}">View</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <div th:each="film : ${user.getFilms()}">
-                                    <tr><!-- line table  -->
+                                    <tr>
                                         <td><p th:text="${film.id}"/></td>
                                         <td><p th:text="${film.title}"/></td>
                                         <td>
                                             <form th:action="@{'/films/film/delete/{id}'(id=${film.id})}" method="get">
-                                                <button class="btn button-color" type="submit">
+                                                <button class="btn button-color" type="submit" th:text="#{delete}">
                                                     Delete
                                                 </button>
                                             </form>
                                         </td>
                                         <td>
                                             <form th:action="'/films/film/' + ${film.id}" method="get">
-                                                <button class="btn button-color" type="submit">
+                                                <button class="btn button-color" type="submit" th:text="#{read}">
                                                     Read more
                                                 </button>
                                             </form>
@@ -124,7 +128,6 @@
         </div>
     </div>
 </div>
-
 
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

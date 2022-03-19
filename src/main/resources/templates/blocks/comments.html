@@ -4,19 +4,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel header-color">
-                        <div class="panel-heading lang" key="comments">
+                        <div class="panel-heading" th:text="#{comments}">
                             Comments
                         </div>
-                        <div id="list-example" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0"
-                             class="body-color comments scrollspy-example">
+                        <div id="list-example" data-bs-spy="scroll" data-bs-target="#list-example"
+                                    data-bs-offset="0" class="body-color comments scrollspy-example">
                             <form method="post" th:action="@{filter}">
                             </form>
-
                             <form method="post" th:action="'/films/film/' + ${film.id}" th:object="${film}"
                                   enctype="multipart/form-data">
-                                <textarea class="form-control textarea" name="textComment" placeholder="Оставьте Ваш комментарий"
-                                          rows="5"></textarea>
-                                <button class="btn button-color pull-right lang" type="submit" key="send">Send</button>
+                                    <textarea class="form-control textarea" name="textComment"
+                                              th:placeholder="#{comments.placeholder}" rows="5"></textarea>
+                                <button class="btn button-color pull-right" th:text="#{send}" type="submit" >Send</button>
                             </form>
                             <div class="clearfix"></div>
                             <hr>

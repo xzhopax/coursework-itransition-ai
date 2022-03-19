@@ -23,6 +23,7 @@ import java.util.List;
 
 @PreAuthorize("hasAuthority('ADMIN')")
 @Controller
+@RequestMapping("/users")
 public class AdminController {
 
     private final UserRepository userRepository;
@@ -50,21 +51,21 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/users/get-admin/{id}")
+    @GetMapping("/get-admin/{id}")
     public String addAdminOrRemoveAdmin(@PathVariable(value = "id") Long id) {
         adminService.addOrRemoveRoleAdmin(id);
         return "redirect:/users";
     }
 
-    @GetMapping("/users")
+    @GetMapping()
     public String showAllUser(Model model) {
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("title", "Users");
         return "profiles/users";
     }
 
-    @GetMapping("/users/profile/{user}")
-    public String profileIdAdmin(@PathVariable User user,
+    @GetMapping("/profile/{user}")
+    public String showProfileUserFromAdmin(@PathVariable User user,
                             Model model){
         model.addAttribute("user", user);
         return "profiles/profile";
@@ -80,7 +81,7 @@ public class AdminController {
         return "redirect:/users";
     }
 
-    @GetMapping("/deleteall")
+    @GetMapping("/delete-all")
     public String deleteAllUsers(HttpServletRequest request, HttpServletResponse response) {
         List<User> users = userRepository.findAll();
         for (User user : users) {
@@ -115,7 +116,7 @@ public class AdminController {
         return "redirect:/users";
     }
 
-    @RequestMapping(value = "/{id}/isactive", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/is-active", method = RequestMethod.GET)
     public String userIsActive(HttpServletRequest request,
                                HttpServletResponse response,
                                @PathVariable(value = "id") Long id) {

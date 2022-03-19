@@ -4,56 +4,44 @@
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{title.films}"/>
 </head>
 <body class="body-color">
 <header th:insert="blocks/header :: header"></header>
 
-<h2 class="ml-5 mt-2 md-5 lang" data-th-text="#{title}" key="films">Show all Films</h2>
-
+<h2 class="ml-5 mt-2 md-5 lang" data-th-text="#{films}" key="films">Show all Films</h2>
 
 <div class="container mt-5" th:each="el:${films}">
-    <!--Section: Content-->
     <section class="dark-grey-text">
-        <!-- Grid row -->
         <div class="row align-items-center">
-            <!-- Grid column -->
             <div class="col-lg-5 col-xl-4">
-                <!-- Featured image -->
                 <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
                     <img class="img-fluid bd-placeholder-img" width="200" height="250"
-                         th:src="@{'/img/'+ ${el.picture}}"
-                         alt="">
+                         th:src="@{'/img/'+ ${el.picture}}" alt="Poster">
                     <a>
                         <div class="mask rgba-white-slight"></div>
                     </a>
                 </div>
             </div>
-            <!-- Grid column -->
-            <!-- Grid column -->
             <div class="col-lg-7 col-xl-8">
-                <!-- Post title -->
-                <h4 class="font-weight-bold mb-3" th:text="${el.title}"><strong></strong></h4>
-                <!-- Excerpt -->
+                <h2 class="font-weight-bold mb-3" th:text="${el.title}"><strong></strong></h2>
+                <strong class="text-color" th:text="#{description}">Description:</strong>
                 <p class="dark-grey-text" th:text="${el.description}"></p>
-                <!-- Post data -->
+                <strong class="text-color" th:text="#{year}">Year:</strong>
                 <p th:text="${el.year}"></p>
+                <strong class="text-color" th:text="#{rating}">Rating:</strong>
                 <p th:text="${el.rating}"></p>
-                <!-- Read more button -->
                 <form th:action="'/films/film/' + ${el.id}" method="get">
-                    <button class="btn button-color btn-md mx-0 btn-rounded lang" key="read" type="submit">Read more
+                    <button class="btn button-color btn-md mx-0 btn-rounded" th:text="#{read}" type="submit">
+                        Read more
                     </button>
                 </form>
             </div>
-            <!-- Grid column -->
         </div>
-        <!-- Grid row -->
         <hr class="my-5">
     </section>
-    <!--Section: Content-->
 </div>
-
 <br>
-
 
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>
