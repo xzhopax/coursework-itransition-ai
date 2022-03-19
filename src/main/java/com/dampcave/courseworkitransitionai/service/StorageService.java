@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -68,5 +69,10 @@ public class StorageService {
             log.error("Error converting multipartFile to file", e);
         }
         return convertedFile;
+    }
+
+    public boolean checkUploadFile(MultipartFile file){
+        return Objects.equals(file.getContentType(), "image/png")
+                || Objects.equals(file.getContentType(), "image/jpeg");
     }
 }

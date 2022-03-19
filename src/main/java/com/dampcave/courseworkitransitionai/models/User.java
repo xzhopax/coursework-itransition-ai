@@ -1,6 +1,5 @@
 package com.dampcave.courseworkitransitionai.models;
 
-import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,6 @@ public class User implements UserDetails {
     private String nickname;
     private String email;
     private String photo;
-    private String activationCode;
     private boolean active;
 
 
@@ -49,11 +47,6 @@ public class User implements UserDetails {
                 orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private List<Film> films;
-
-
-    public void removeOverview(Film film){
-        films.remove(film);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -5,18 +5,13 @@ import com.dampcave.courseworkitransitionai.models.Actor;
 import com.dampcave.courseworkitransitionai.models.Film;
 import com.dampcave.courseworkitransitionai.models.Producer;
 import com.dampcave.courseworkitransitionai.models.User;
-import com.dampcave.courseworkitransitionai.repositoryes.CommentRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.FilmRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,21 +20,14 @@ public class FilmService {
 
     private final UserRepository userRepository;
     private final FilmRepository filmRepository;
-    private final CommentRepository commentRepository;
     private final StorageService storageService;
-
-    public Authentication getAuth() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
 
     @Autowired
     public FilmService(UserRepository userRepository,
                        FilmRepository filmRepository,
-                       CommentRepository commentRepository,
                        StorageService storageService) {
         this.userRepository = userRepository;
         this.filmRepository = filmRepository;
-        this.commentRepository = commentRepository;
         this.storageService = storageService;
     }
 
@@ -67,16 +55,18 @@ public class FilmService {
     }
 
     public void createFilmOverview(FormOverviewOnFilm formFilm, User user) {
-
-        String posterName = storageService.uploadFile(formFilm.getPoster());
-        new ResponseEntity<>(posterName, HttpStatus.OK);
-
         Film film = new Film();
+        if(storageService.checkUploadFile(formFilm.getPoster())) {
+            String posterName = storageService.uploadFile(formFilm.getPoster());
+            new ResponseEntity<>(posterName, HttpStatus.OK);
+            film.setPicture(posterName);
+        }
+
         film.setTitle(formFilm.getTitle());
         film.setUrlVideo(formFilm.getLink());
         film.setAuthor(user);
         film.setActors(addActors(formFilm.getActors()));
-        film.setPicture(posterName);
+
         film.setBudget(formFilm.getBudget());
         film.setDescription(formFilm.getDescription());
         film.setDuration(formFilm.getDuration());
@@ -91,10 +81,6 @@ public class FilmService {
         User user = userRepository.findByUsername(film.getAuthor().getUsername()).orElseThrow();
         user.getFilms().remove(film);
         userRepository.save(user);
-    }
-
-    public User findAuthor(Long id){
-        return filmRepository.findById(id).orElseThrow().getAuthor();
     }
 
 }

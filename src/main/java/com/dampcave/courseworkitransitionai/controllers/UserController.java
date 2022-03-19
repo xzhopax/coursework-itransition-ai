@@ -86,7 +86,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
     @RequestMapping(value = "/profile/{user}/photo", method = RequestMethod.POST)
     public String updatePhoto(@PathVariable User user,
-                              @RequestParam(value = "file") MultipartFile file ){
+                              @RequestParam(value = "file") MultipartFile file){
+       if (!storageService.checkUploadFile(file)){
+           return "profiles/edit-photo";
+       }
         userService.editPhoto(file,user);
         if (adminService.hasRoleAdmin(getAuth().getName()))
             return "redirect:/users/";

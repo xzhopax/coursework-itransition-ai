@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel header-color">
-                        <div class="panel-heading">
-                            Комментарии
+                        <div class="panel-heading lang" key="comments">
+                            Comments
                         </div>
                         <div id="list-example" data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0"
                              class="body-color comments scrollspy-example">
@@ -16,7 +16,7 @@
                                   enctype="multipart/form-data">
                                 <textarea class="form-control textarea" name="textComment" placeholder="Оставьте Ваш комментарий"
                                           rows="5"></textarea>
-                                <button class="btn button-color pull-right" type="submit">Отправить</button>
+                                <button class="btn button-color pull-right lang" type="submit" key="send">Send</button>
                             </form>
                             <div class="clearfix"></div>
                             <hr>
@@ -24,8 +24,12 @@
                                 <li class="media">
                                     <div class="comment">
                                         <a href="#" class="pull-left">
-                                            <img src="https://bootstraptema.ru/snippets/icons/2016/mia/6.png"
-                                                 alt="" class="img-sm">
+                                            <img th:with=" checkPhoto=(${el.author.photo == null || el.author.photo.isEmpty}
+                                                        ? 'https://bootdey.com/img/Content/avatar/avatar7.png'
+                                                        :  '/img/'+ ${el.author.photo})"
+                                                 th:src="@{${checkPhoto}}" alt="Admin"
+                                                 class="rounded-circle"
+                                                 width="50">
                                         </a>
                                         <div class="">
                                             <strong class="text-color">"[[${el.author.username}]]" </strong>

@@ -11,7 +11,7 @@
 
 <div class="container" th:object="${user}">
     <div class="main-body ">
-        <div class="row gutters-sm">
+        <div class="row">
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body body-color">
@@ -24,15 +24,14 @@
                             <div class="row">
                                 <div class="mt-3" >
                                     <h4  th:text="${user.username}"></h4>
-                                    <a class="btn button-color "
-                                       th:href="@{'/users/profile/' + ${user.id} + '/photo'}">Edit Photo</a>
+                                    <a class="btn button-color lang"
+                                       th:href="@{'/users/profile/' + ${user.id} + '/photo'}" key="edit-photo">Edit Photo</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card mt-3">
-
                 </div>
             </div>
             <div class="col-md-8">
@@ -42,33 +41,33 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Username</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.username}"></div>
+                            <div class="col-sm-9" th:text="${user.username}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Nickname</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.nickname}"></div>
+                            <div class="col-sm-9" th:text="${user.nickname}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <h6 class="mb-0">Email</h6>
+                                <h6 class="mb-0" key="email">Email</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.email}"></div>
+                            <div class="col-sm-9" th:text="${user.email}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Status account</h6>
                             </div>
-                            <div class="col-sm-9 text-secondary" th:text="${user.active}"></div>
+                            <div class="col-sm-9" th:text="${user.active}"></div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-12">
-                                <a class="btn button-color "
+                                <a class="btn button-color"
                                    th:href="@{'/users/profile/' + ${user.id} + '/edit'}">Edit Profile</a>
                             </div>
                         </div>
@@ -83,17 +82,16 @@
                         <div class="row">
                             <form sec:authorize="isAuthenticated()"
                                   th:action="@{'/films/user/'+ ${user.id} +'/create-overview'}" method="get">
-                                <button class="btn button-color lang" key="new-film"
-                                       style="margin-bottom: 10px" type="submit">Add New Overview
-                                </button>
+                                <button class="btn button-color"
+                                       style="margin-bottom: 10px" type="submit">Add New Overview</button>
                             </form>
-                            <table class="table table-bordered ml-3">
+                            <table class="table table-bordered ml-3 text-center">
                                 <thead>
-                                <tr><!-- line table -->
-                                    <th class="lang" key="title">Id</th><!-- head table -->
-                                    <th class="lang" key="title">Title</th><!-- head table -->
-                                    <th class="lang" key="delete">Delete</th><!-- head table -->
-                                    <th class="lang" key="view">View</th><!-- head table -->
+                                <tr>
+                                    <th >Id</th>
+                                    <th >Title</th>
+                                    <th>Delete</th>
+                                    <th>View</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -103,14 +101,14 @@
                                         <td><p th:text="${film.title}"/></td>
                                         <td>
                                             <form th:action="@{'/films/film/delete/{id}'(id=${film.id})}" method="get">
-                                                <button class="btn button-color lang" key="delete" type="submit">
+                                                <button class="btn button-color" type="submit">
                                                     Delete
                                                 </button>
                                             </form>
                                         </td>
                                         <td>
                                             <form th:action="'/films/film/' + ${film.id}" method="get">
-                                                <button class="btn button-color lang" key="read" type="submit">
+                                                <button class="btn button-color" type="submit">
                                                     Read more
                                                 </button>
                                             </form>

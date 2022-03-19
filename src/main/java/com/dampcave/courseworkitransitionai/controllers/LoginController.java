@@ -57,56 +57,19 @@ public class LoginController {
     public String registrationNewUserPost(
             @ModelAttribute("user")  @Valid UserRegistrationRepr userRegistrationRepr,
                    BindingResult bindingResult){
-        if (userRegistrationRepr.getPassword() == null || userRegistrationRepr.getRepeatPassword() == null ){
-            bindingResult.rejectValue("password","", "passwords not be null");
-            bindingResult.rejectValue("repeatPassword","", "passwords not be null");
-
-           return "security/register";
-        }
-        if (userRegistrationRepr.getUsername() == null || userRegistrationRepr.getUsername().isEmpty()){
-            bindingResult.rejectValue("username","", "username not be null");
-            return "security/register";
-        }
-        if (userRegistrationRepr.getEmail() == null || userRegistrationRepr.getEmail().isEmpty()){
-            bindingResult.rejectValue("username","", "email not be null");
-            return "security/register";
-        }
-
         if (userRegistrationRepr.getPassword() != null
                 && !userRegistrationRepr.getPassword().equals(userRegistrationRepr.getRepeatPassword())){
-            bindingResult.rejectValue("password","", "passwords not equals");
+            bindingResult.rejectValue("password","", " passwords not equals ");
         }
-
         if (userService.checkUserInBD(userRegistrationRepr.getUsername())){
-            bindingResult.rejectValue("username","","");
+            bindingResult.rejectValue("username",""," User exist ");
         }
         if (bindingResult.hasErrors()){
             return "security/register";
         } else {
-//            userService.create(userRegistrationRepr);
-//            userService.autoGenerateNickname(userRegistrationRepr.getUsername());
+            userService.create(userRegistrationRepr);
+            userService.autoGenerateNickname(userRegistrationRepr.getUsername());
             return "redirect:/login";
         }
     }
-
-
-    @GetMapping("/activate/{code}")
-    public String activate( @PathVariable String code,
-                            Model model){
-       boolean isActivated = userService.isActivateUser(code);
-
-       if (isActivated){
-           model.addAttribute("message", "User activated");
-       } else {
-           model.addAttribute("message", "Activation code not found");
-       }
-
-        return "message";
-    }
-
-
-
-
-
-
 }

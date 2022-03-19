@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
     <title th:text="${title}"/>
 </head>
 <body class="body-login">
@@ -11,6 +11,11 @@
 
     <h1 class="text-center mt-5">Welcome</h1>
     <h1 class="text-center" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+    <a href="/?language=en"  data-th-text="#{en}"></a>
+    <a href="/?language=ru"  th:text="#{ru}"></a>
+
+
     <br><br><br><br>
 
     <button class="button w-1 btn btn-lg button-color text-center lang" key="films" type="button" value="show"

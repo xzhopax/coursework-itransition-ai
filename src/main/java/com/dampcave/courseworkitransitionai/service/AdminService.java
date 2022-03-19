@@ -18,10 +18,6 @@ import org.springframework.stereotype.Service;
 public class AdminService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final MailSender mailSender;
-    private final StorageService storageService;
     private final FilmRepository filmRepository;
     private final Role admin = new Role(2L, "ADMIN");
 
@@ -34,16 +30,8 @@ public class AdminService {
 
     @Autowired
     public AdminService(UserRepository userRepository,
-                        RoleRepository roleRepository,
-                        BCryptPasswordEncoder passwordEncoder,
-                        MailSender mailSender,
-                        StorageService storageService,
                         FilmRepository filmRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.mailSender = mailSender;
-        this.storageService = storageService;
         this.filmRepository = filmRepository;
     }
 
@@ -59,9 +47,15 @@ public class AdminService {
 
     public boolean hasRoleAdmin(String username){
         User user = userRepository.findByUsername(username).orElseThrow();
-        System.out.println(user.getRoles().contains(admin));
-        System.out.println(user.getRoles().toString());
         return user.getRoles().contains(admin);
+    }
+
+    public String getViewIfHasRoleAdmin(String username, String ifAdmin, String ifNotAdmin){
+        User user = userRepository.findByUsername(username).orElseThrow();
+        if (user.getRoles().contains(admin)){
+            return ifAdmin;
+        }
+        return ifNotAdmin;
     }
 
 
@@ -73,19 +67,6 @@ public class AdminService {
       Film film =  filmRepository.findById(id).orElseThrow();
         return film.getAuthor().getUsername().equals(getAuth().getName());
     }
-
-    public User offlineUser(){
-      return userRepository.findByUsername("noNameNPC").orElseThrow();
-    }
-
-    public User ifAnonymousOrAuthentication(){
-        User user;
-        if (getAuth() instanceof AnonymousAuthenticationToken){
-            user = offlineUser();
-        } else {
-            user = userRepository.findByUsername(getAuth().getName()).orElseThrow();
-        }
-        return user;
-    }
+    
 
 }

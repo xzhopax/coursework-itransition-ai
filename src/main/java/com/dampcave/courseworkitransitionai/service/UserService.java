@@ -24,7 +24,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final MailSender mailSender;
     private final StorageService storageService;
 
     @Value("${site.url}")
@@ -33,12 +32,10 @@ public class UserService {
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
                        BCryptPasswordEncoder passwordEncoder,
-                       MailSender mailSender,
                        StorageService storageService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.mailSender = mailSender;
         this.storageService = storageService;
     }
 
@@ -52,20 +49,17 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.getById(1L));
         user.setRoles(roles);
-        user.setActive(false);
+        user.setActive(true);
         user.setUsername(userRegistrationRepr.getUsername());
         user.setPassword(passwordEncoder.encode(userRegistrationRepr.getPassword()));
         user.setEmail(userRegistrationRepr.getEmail());
-        user.setActivationCode(UUID.randomUUID().toString());
         user.setNickname("NoNameNPC" + user.getId());
         userRepository.save(user);
-
-        mailSender.messageActivation(user);
     }
 
     public void editProfile(User user, EditProfileRepr editProfileRepr) {
 
-        if(!editProfileRepr.getEmail().isEmpty()){
+        if(!editProfileRepr.getEmail().isEmpty() && !editProfileRepr.getEmail().equals(user.getEmail())){
             user.setEmail(editProfileRepr.getEmail());
         }
         if (!editProfileRepr.getNickname().isEmpty()) {
@@ -82,25 +76,15 @@ public class UserService {
     }
 
     public void editPhoto(MultipartFile file, User user){
-
+            String oldPhoto = user.getPhoto();
+            storageService.deleteFile(oldPhoto);
+            new ResponseEntity<>(oldPhoto, HttpStatus.OK);
             String fileName = storageService.uploadFile(file);
             new ResponseEntity<>(fileName, HttpStatus.OK);
+
             user.setPhoto(fileName);
             userRepository.save(user);
 
-    }
-
-    public boolean isActivateUser(String code) {
-        User user = userRepository.findByActivationCode(code);
-
-        if (user == null) {
-            return false;
-        }
-
-        user.setActivationCode(null);
-        user.setActive(true);
-        userRepository.save(user);
-        return true;
     }
 
     public void autoGenerateNickname(String username) {

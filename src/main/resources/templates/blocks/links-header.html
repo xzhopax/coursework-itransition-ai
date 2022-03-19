@@ -1,108 +1,16 @@
 <div th:fragment="links-header">
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<!--    <script src="/js/jquery.min.js" defer></script>-->
-
-<!--    <link rel="stylesheet" type="text/css" href="/css/my.css" defer/>-->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', getLocalLang)
         document.addEventListener('DOMContentLoaded', getLocalTheme)
-
-        var arrLang = {
-            'en' : {
-                'users' : 'Show All Users',
-                'films' : 'Show All Films',
-                'delete-all-users' : 'Delete All Users',
-                'unblock-all-users' : 'Unblock All Users',
-                'block-all-users' : 'Block All Users',
-                'login' : 'Login',
-                'logout' : 'Logout',
-                'register' : 'Register',
-                'delete' : 'Delete',
-                'bl-un' : 'Unblocked/Blocked',
-                'read' : 'Read More',
-                'new-film' : 'Add New Overview',
-                'id' : 'Id',
-                'username' : 'Username',
-                'role' : 'Role',
-                'active' : 'Active',
-                'password' : 'Password',
-                'password-2' : 'Repeat Password',
-                'video' : 'Trailer',
-                'email' : 'Email',
-            },
-            'ru' : {
-                'users' : 'Пользователи',
-                'films' : 'Фильмы',
-                'delete-all-users' : 'Удалить Всех Пользователей',
-                'unblock-all-users' : 'Разблокировать Всех Пользователей',
-                'block-all-users' : 'Заблокировать Всех Пользователей',
-                'login' : 'Войти',
-                'logout' : 'Выйти',
-                'register' : 'Зарегистрироваться',
-                'delete' : 'Удалить',
-                'bl-un' : 'Разблокировать/Заблокировать',
-                'read' : 'Подробнее',
-                'new-film' : 'Добавить Обзор',
-                'id' : 'Идентификатор',
-                'username' : 'Имя пользователя',
-                'role' : 'Роль',
-                'active' : 'Действующий',
-                'password' : 'Пароль',
-                'password-2' : 'Повторите пароль',
-                'video' : 'Трейлер',
-                'email' : 'Почта',
-            }
-        }
-
-        $(function() {
-            $('.translate').click(function() {
-                var lang = $(this).attr('id');
-                saveLocalLang(lang)
-
-                $('.lang').each(function(index, item) {
-                    $(this).text(arrLang[lang][$(this).attr('key')]);
-                });
-            });
-        });
-
-        function saveLocalLang(language){
-            let langs
-            if (localStorage.getItem('langs')=== null){
-                langs = []
-            } else {
-                langs = JSON.parse(localStorage.getItem('langs'))
-            }
-            langs.push(language)
-            localStorage.setItem('langs', JSON.stringify(langs))
-        }
-
-        function getLocalLang(){
-            let langs
-            if (localStorage.getItem('langs') === null){
-                langs =[]
-            } else {
-                langs = JSON.parse(localStorage.getItem('langs'))
-            }
-            langs.forEach(function (language){
-               let lang = langs[langs.length - 1]
-                setTimeout(() => {
-                    $('.lang').each(function(index, item) {
-                        $(this).text(arrLang[lang][$(this).attr('key')]);
-                    });
-                }, 0)
-
-            })
-        }
 
         function alertedDark(){
           document.body.setAttribute('dark', '');
@@ -143,10 +51,7 @@
                 document.body.setAttribute('dark', '');
             }
         }
-
     </script>
-
-
 
     <script src="https://kit.fontawesome.com/c833054982.js" crossorigin="anonymous"></script>
 

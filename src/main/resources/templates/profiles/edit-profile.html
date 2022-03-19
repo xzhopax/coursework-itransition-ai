@@ -15,7 +15,7 @@
     <div class="container">
         <div class="main-body" th:object="${edit}">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-4 mb-3">
                     <div class="card">
                         <div class="card-body body-color">
                             <div class="d-flex flex-column align-items-center text-center">
@@ -26,8 +26,8 @@
                                      width="150">
                                 <div class="mt-3">
                                     <h4 th:text="${user.username}"></h4>
-                                    <a class="btn button-color "
-                                       href="/users/profile/">Profile</a>
+                                    <a class="btn button-color lang"
+                                       href="/users/profile/" key="profile">Profile</a>
                                 </div>
                             </div>
                         </div>
@@ -38,13 +38,13 @@
                         <div class="card-body body-color">
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Old Nickname</h6>
+                                    <h6 class="mb-0 lang" key="old-nickname">Old Nickname</h6>
                                 </div>
                                 <h6  class="col-sm-9" th:text="${user.nickname}"></h6>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">New Nickname</h6>
+                            <div class="row mb-3 ">
+                                <div class="col-sm-3 lang">
+                                    <h6 class="mb-0" key="new-nickname">New Nickname</h6>
                                 </div>
                                 <div class="col-sm-9 ">
                                     <input type="text" class="form-control" th:field="${edit.nickname}" >
@@ -53,13 +53,13 @@
                             <hr>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Old Email</h6>
+                                    <h6 class="mb-0 lang" key="old-email">Old Email</h6>
                                 </div>
                                 <h6  class="col-sm-9" th:text="${user.email}"></h6>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">New Email</h6>
+                                    <h6 class="mb-0 lang" key="new-email">New Email</h6>
                                 </div>
                                 <div class="col-sm-9 ">
                                     <input type="email" class="form-control" th:field="${edit.email}">
@@ -68,40 +68,46 @@
                             <hr>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Old Password</h6>
+                                    <h6 class="mb-0 lang" key="old-password">Old Password</h6>
                                 </div>
                                 <div class="col-sm-9 ">
                                     <input type="password" id="oldPassword"
                                            th:field="${edit.password}"
-                                           class="form-control " placeholder="Enter old password">
+                                           class="form-control"
+                                           placeholder="Enter old password">
                                 </div>
                             </div>
                             <hr>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">New Password</h6>
+                                    <h6 class="mb-0 lang"
+                                        key="new-password">New Password</h6>
                                 </div>
                                 <div class="col-sm-9 ">
                                     <input type="password" id="newPassword"
                                            th:field="${edit.newPassword}"
-                                           class="form-control " placeholder="Enter new password">
+                                           class="form-control "
+                                           placeholder="Enter new password">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Repeat Password</h6>
+                                    <h6 class="mb-0 lang" key="password-2">Repeat Password</h6>
                                 </div>
                                 <div class="col-sm-9 ">
                                     <input type="password" id="repeatPassword"
                                            th:field="${edit.repeatPassword}"
-                                           class="form-control " placeholder="Enter repeat password">
+                                           class="form-control "
+                                           placeholder="Enter repeat password">
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3"></div>
-                                <div class="col-sm-9 ">
-                                    <input type="submit" class="btn button-color px-4" value="Save Changes">
+                                <div class="col-sm-9 lang">
+                                    <button type="submit"
+                                            class="btn button-color px-4 lang"
+                                            key="save-change">Save Change</button>
                                 </div>
                             </div>
                             <hr>
