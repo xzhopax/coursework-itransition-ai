@@ -7,16 +7,15 @@ import com.dampcave.courseworkitransitionai.models.Role;
 import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.RoleRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -25,9 +24,6 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final StorageService storageService;
-
-    @Value("${site.url}")
-    private String urlSite;
 
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
@@ -76,19 +72,21 @@ public class UserService {
     }
 
     public void editPhoto(MultipartFile file, User user){
+        if (user.getPhoto() != null && !user.getPhoto().isEmpty()){
             String oldPhoto = user.getPhoto();
             storageService.deleteFile(oldPhoto);
             new ResponseEntity<>(oldPhoto, HttpStatus.OK);
+        }
             String fileName = storageService.uploadFile(file);
             new ResponseEntity<>(fileName, HttpStatus.OK);
-
             user.setPhoto(fileName);
             userRepository.save(user);
 
     }
 
     public void autoGenerateNickname(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
         user.setNickname("NoNameNPC" + user.getId());
         userRepository.save(user);
     }

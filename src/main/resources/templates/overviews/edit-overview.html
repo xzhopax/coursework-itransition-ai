@@ -8,57 +8,57 @@
 <body class="body-create">
 <header th:insert="blocks/header :: header"></header>
 
-<form class="g-3 text-center" th:object="${film}" th:action="@{'/films/user/{id}/create-overview'(id=${user.id})}"
+<form class="g-3 text-center" th:object="${formFilm}" th:action="@{'/films/user/'+ ${user.id} +'/edit-overview/'+ ${film.id}}"
       method="POST" enctype="multipart/form-data">
     <div class="row justify-content-center align-self-center" align="center">
         <div class="col-md-8 p-3">
             <label for="title" class="fw-weight-bold" th:text="#{title}">Title *</label>
-            <input type="text" name="title" th:field="${film.title}" id="title"
+            <input type="text" name="title" th:field="${formFilm.title}" id="title"
                    class="form-control fw-weight-bold text-form" th:placeholder="#{title.placeholder}">
         </div>
         <div class="col-md-5 p-3">
             <label for="file" class="fw-weight-bold" th:text="#{poster}">Poster</label>
-            <input type="file" name="poster" th:field="${film.poster}" id="file"
+            <input type="file" name="poster" th:field="${formFilm.poster}" id="file"
                    class="form-control fw-weight-bold text-form">
         </div>
         <div class="col-md-5 p-3">
             <label for="url-video" class="fw-weight-bold" th:text="#{video}">Trailer</label>
-            <input type="text" name="link" th:field="${film.link}" id="url-video"
+            <input type="text" name="link" th:field="${formFilm.link}" id="url-video"
                    class="form-control fw-weight-bold text-form" th:placeholder="#{video.placeholder}">
         </div>
         <div class="col-md-3 p-3">
             <label for="rating" class="fw-weight-bold" th:text="#{rating}">Rating</label>
-            <input type="number" step="0.01" max="10" th:field="${film.rating}"
+            <input type="number" step="0.01" max="10" th:field="${formFilm.rating}"
                    class="fw-weight-bold lang text-form" id="rating" name="rating">
         </div>
         <div class="col-md-3 p-3">
             <label for="year" class="fw-weight-bold" th:text="#{year}">Year release *</label>
             <input type="number" class="fw-weight-bold text-form"
-                   id="year" name="year" max="9999" th:field="${film.year}">
+                   id="year" name="year" max="9999" th:field="${formFilm.year}">
         </div>
         <div class="col-md-3 p-3">
             <label for="budget" class="fw-weight-bold" th:text="#{budget}">Budget</label>
             <input type="number" class="fw-weight-bold text-form"
-                   id="budget" name="budget" th:field="${film.budget}">
+                   id="budget" name="budget" th:field="${formFilm.budget}">
         </div>
         <div class="col-md-12 p-3">
             <label for="duration" class="fw-weight-bold" th:text="#{duration}">Duration</label>
             <input class="text-form" name="duration"
-                   th:field="${film.duration}" type="number" id="duration">
+                   th:field="${formFilm.duration}" type="number" id="duration">
         </div>
         <div class="col-md-8 p-3">
             <label for="actors" class="fw-weight-bold" th:text="#{actors}">Actors</label>
-            <textarea class=" form-control textarea" th:field="${film.actors}" name="actors"
+            <textarea class=" form-control textarea" th:field="${formFilm.actors}" name="actors"
                       id="actors" th:placeholder="#{actors.placeholder}" rows="5"></textarea>
         </div>
         <div class="col-md-8 p-3">
             <label for="producers" class="fw-weight-bold" th:text="#{producers}">Producers</label>
-            <textarea class=" form-control textarea" th:field="${film.producers}" name="producers"
+            <textarea class=" form-control textarea" th:field="${formFilm.producers}" name="producers"
                       id="producers" th:placeholder="#{producers.placeholder}" rows="5"></textarea>
         </div>
         <div class="col-md-8 p-3">
             <label for="description" class="fw-weight-bold" th:text="#{description}">Description *</label>
-            <textarea class=" form-control textarea" th:field="${film.description}" name="description"
+            <textarea class=" form-control textarea" th:field="${formFilm.description}" name="description"
                       id="description" th:placeholder="#{description.placeholder}" rows="5"></textarea>
         </div>
         <div class="col-md-12 p-3">

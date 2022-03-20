@@ -23,8 +23,8 @@
                                  th:src="@{${checkPhoto}}" alt="Admin" class="rounded-circle p-1 bg-primary"
                                  width="150">
                             <div class="row">
-                                <div class="mt-3" >
-                                    <h4  th:text="${user.username}"></h4>
+                                <div class="mt-3">
+                                    <h4 th:text="${user.username}"></h4>
                                     <a class="btn button-color" th:href="@{'/users/profile/' + ${user.id} + '/photo'}"
                                        th:text="#{edit-photo}">Edit Photo
                                     </a>
@@ -85,7 +85,8 @@
                         <div class="row">
                             <form sec:authorize="isAuthenticated()"
                                   th:action="@{'/films/user/'+ ${user.id} +'/create-overview'}" method="get">
-                                <button class="btn button-color" style="margin-bottom: 10px" type="submit" th:text="#{new-film}">
+                                <button class="btn button-color" style="margin-bottom: 10px" type="submit"
+                                        th:text="#{new-film}">
                                     Add New Overview
                                 </button>
                             </form>
@@ -114,6 +115,13 @@
                                             <form th:action="'/films/film/' + ${film.id}" method="get">
                                                 <button class="btn button-color" type="submit" th:text="#{read}">
                                                     Read more
+                                                </button>
+                                            </form>
+                                            <form th:action="'/films/user/'+${user.id}+'/edit-overview/'+${film.id}"
+                                                  method="get">
+                                                <button class="btn button-color" type="submit"
+                                                        th:text="#{edit-overview}">
+                                                    Edit Overview
                                                 </button>
                                             </form>
                                         </td>

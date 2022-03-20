@@ -9,6 +9,7 @@ import com.dampcave.courseworkitransitionai.service.AdminService;
 import com.dampcave.courseworkitransitionai.service.CommentService;
 import com.dampcave.courseworkitransitionai.service.FilmService;
 import com.dampcave.courseworkitransitionai.service.UserService;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -17,11 +18,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
 
+@Validated
 @Controller()
 @RequestMapping("/films")
 public class FilmController {
@@ -59,8 +62,10 @@ public class FilmController {
     }
 
     @GetMapping("/film/{film}")
-    public String getPageOverview(@PathVariable Film film,
+    public String getPageOverview(@Valid @PathVariable Film film,
+
                                   Model model) {
+
         model.addAttribute("film", film);
         model.addAttribute("comments", commentService.getAllCommentsFromFilm(film));
         return "overviews/film";
@@ -92,7 +97,7 @@ public class FilmController {
             return "overviews/create-overview";
         }
 
-        filmService.createFilmOverview(onFilm, user);
+        filmService.saveFilmOverview(onFilm,new Film(), user);
 
        return adminService.getViewIfHasRoleAdmin(getAuth().getName(),
                                   "redirect:/users/",
@@ -108,5 +113,31 @@ public class FilmController {
             return "redirect:/users/";
         else
             return "redirect:/users/profile";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
+    @GetMapping("/user/{user}/edit-overview/{film}")
+    public String getEditFormOverview(@PathVariable User user,
+                                       @PathVariable Film film,
+                                       Model model) {
+        FormOverviewOnFilm formFilm = filmService.editOverview(film);
+        model.addAttribute("formFilm", formFilm);
+        model.addAttribute("film", film);
+        model.addAttribute("user", user);
+        return "overviews/edit-overview";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
+    @PostMapping("/user/{user}/edit-overview/{film}")
+    public String saveEditFormOverview(@PathVariable User user,
+                                       @PathVariable Film film,
+                                       FormOverviewOnFilm formFilm) {
+
+
+        filmService.saveFilmOverview(formFilm,film, user);
+
+        return adminService.getViewIfHasRoleAdmin(getAuth().getName(),
+                "redirect:/users/",
+                "redirect:/users/profile");
     }
 }
