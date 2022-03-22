@@ -12,27 +12,6 @@
                 <li class="nav-item ml-5">
                     <a class="nav-link" th:text="#{films}" href="/films">Show All Films </a>
                 </li>
-                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link" th:text="#{delete-all-users}" href="/users/delete-all"
-                       onclick="if (confirm('Delete all users selected item?'))
-                       {return true;}else{event.stopPropagation(); event.preventDefault();}"
-                       title="Link Title"> Delete all users
-                    </a>
-                </li>
-                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
-                    <a class="nav-link" th:text="#{unblock-all-users}" href="/users/unblocked"
-                       onclick="if (confirm('Unblock all users selected item?'))
-                       {return true;}else{event.stopPropagation(); event.preventDefault();}"
-                       title="Link Title"> Unblock all users
-                    </a>
-                </li>
-                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item  ml-5">
-                    <a class="nav-link" th:text="#{block-all-users}" href="/users/blocked"
-                       onclick="if (confirm('Block all users selected item?'))
-                       {return true;}else{event.stopPropagation(); event.preventDefault();}"
-                       title="Link Title"> Block all users
-                    </a>
-                </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li>
@@ -45,7 +24,6 @@
                         <img th:src="@{/images/moon.png}" alt="dark" width="20px" height="20">
                     </button>
                 </li>
-
                 <li>
                     <p>
                         <a id="en" class="translate" th:href="@{?(language=en)}">

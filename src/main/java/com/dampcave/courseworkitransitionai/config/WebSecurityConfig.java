@@ -23,7 +23,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserAuthService userAuthService;
     private final AccessDeniedHandler accessDeniedHandler;
 
-
+    @Autowired
+    public WebSecurityConfig(PasswordEncoder passwordEncoder,
+                             UserAuthService userAuthService,
+                             AccessDeniedHandler accessDeniedHandler) {
+        this.passwordEncoder = passwordEncoder;
+        this.userAuthService = userAuthService;
+        this.accessDeniedHandler = accessDeniedHandler;
+    }
 
     @Bean
     @Override
@@ -38,18 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
-
-
-
-    @Autowired
-    public WebSecurityConfig(PasswordEncoder passwordEncoder,
-                             UserAuthService userAuthService,
-                             AccessDeniedHandler accessDeniedHandler) {
-        this.passwordEncoder = passwordEncoder;
-        this.userAuthService = userAuthService;
-        this.accessDeniedHandler = accessDeniedHandler;
-    }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -88,7 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-
-
+        http
+                .csrf()
+                    .disable();
     }
 }

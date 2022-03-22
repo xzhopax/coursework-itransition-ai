@@ -17,26 +17,22 @@
                     <label for="username" class="fw-weight-bold text-white" th:text="#{username}">User name</label>
                     <input type="text" name="username" id="username" th:field="${user.username}"
                            class="form-control fw-weight-bold" th:placeholder="#{login.placeholder}">
-                    <div class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
-                         th:each="err : ${#fields.errors('username')}" th:text="${err}">
-                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="fw-weight-bold text-white" th:text="#{password}">Password</label>
                     <input type="password" th:name="password" id="password" th:field="${user.password}"
                            class="form-control fw-weight-bold" th:placeholder="#{password.placeholder}">
-                    <div class="form-text text-danger fw-weight-bold" th:if="${#fields.hasErrors()}"
-                         th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+                    <button type="submit" class="btn button-color" th:text="#{login}">Login</button>
+                    <br><br>
+                    <a class="px-3 text-white" th:text="#{register}"
+                       th:href="@{/register}"><strong>Registration</strong>
+                    </a>
                 </div>
-                <button type="submit" class="btn button-color" th:text="#{login}">Login</button>
-                <br><br>
-                <a class="px-3 text-white" th:text="#{register}"
-                   th:href="@{/register}"><strong>Registration</strong>
-                </a>
             </form>
         </div>
     </div>
 </div>
+<h3 class="text-danger" th:if="${param.error != null}">[[#{error.login}]]</h3>
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>
 </html>

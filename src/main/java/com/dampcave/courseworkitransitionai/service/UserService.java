@@ -9,12 +9,16 @@ import com.dampcave.courseworkitransitionai.repositoryes.RoleRepository;
 import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -24,15 +28,21 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final StorageService storageService;
+    private final AdminService adminService;
 
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
                        BCryptPasswordEncoder passwordEncoder,
-                       StorageService storageService) {
+                       StorageService storageService, AdminService adminService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.storageService = storageService;
+        this.adminService = adminService;
+    }
+
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     public boolean checkUserInBD(String username) {
@@ -40,7 +50,6 @@ public class UserService {
     }
 
     public void create(UserRegistrationRepr userRegistrationRepr) {
-
         User user = new User();
         Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.getById(1L));
@@ -53,43 +62,74 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void editProfile(User user, EditProfileRepr editProfileRepr) {
-
-        if(!editProfileRepr.getEmail().isEmpty() && !editProfileRepr.getEmail().equals(user.getEmail())){
-            user.setEmail(editProfileRepr.getEmail());
-        }
-        if (!editProfileRepr.getNickname().isEmpty()) {
-            user.setNickname(editProfileRepr.getNickname());
-        }
-        if (!editProfileRepr.getPassword().isEmpty() && user.getPassword().equals(editProfileRepr.getPassword())) {
-            if (!editProfileRepr.getNewPassword().isEmpty() && !editProfileRepr.getRepeatPassword().isEmpty()){
-                if (editProfileRepr.getNewPassword().equals(editProfileRepr.getRepeatPassword())){
-                    user.setPassword(passwordEncoder.encode(editProfileRepr.getNewPassword()));
-                }
-            }
-        }
-        userRepository.save(user);
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void editPhoto(MultipartFile file, User user){
-        if (user.getPhoto() != null && !user.getPhoto().isEmpty()){
-            String oldPhoto = user.getPhoto();
-            storageService.deleteFile(oldPhoto);
-            new ResponseEntity<>(oldPhoto, HttpStatus.OK);
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public String registrationAction(UserRegistrationRepr userRegistrationRepr, BindingResult bindingResult) {
+        if (userRegistrationRepr.getPassword() != null
+                && !userRegistrationRepr.getPassword().equals(userRegistrationRepr.getRepeatPassword())) {
+            bindingResult.rejectValue("password", "", " passwords not equals ");
         }
+        if (checkUserInBD(userRegistrationRepr.getUsername())) {
+            bindingResult.rejectValue("username", "", " User exist ");
+        }
+        if (bindingResult.hasErrors()) {
+            return "security/register";
+        } else {
+            create(userRegistrationRepr);
+            return "redirect:/login";
+        }
+    }
+
+    public String editProfile(User user, EditProfileRepr editProfileRepr, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "profiles/edit-profile";
+        } else {
+            if (!editProfileRepr.getEmail().isEmpty() && !editProfileRepr.getEmail().equals(user.getEmail())) {
+                user.setEmail(editProfileRepr.getEmail());
+            }
+            if (!editProfileRepr.getNickname().isEmpty()) {
+                user.setNickname(editProfileRepr.getNickname());
+            }
+            if (!editProfileRepr.getPassword().isEmpty() && user.getPassword().equals(editProfileRepr.getPassword())) {
+                if (!editProfileRepr.getNewPassword().isEmpty() && !editProfileRepr.getRepeatPassword().isEmpty()) {
+                    if (editProfileRepr.getNewPassword().equals(editProfileRepr.getRepeatPassword())) {
+                        user.setPassword(passwordEncoder.encode(editProfileRepr.getNewPassword()));
+                    }
+                }
+            }
+            userRepository.save(user);
+            return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
+                    "redirect:/users/",
+                    "redirect:/users/profile");
+        }
+    }
+
+    public String editPhoto(MultipartFile file, User user){
+        if (!storageService.checkUploadFile(file)) {
+            return "profiles/edit-photo";
+        } else {
+            if (user.getPhoto() != null && !user.getPhoto().isEmpty()) {
+                String oldPhoto = user.getPhoto();
+                storageService.deleteFile(oldPhoto);
+                new ResponseEntity<>(oldPhoto, HttpStatus.OK);
+            }
             String fileName = storageService.uploadFile(file);
             new ResponseEntity<>(fileName, HttpStatus.OK);
             user.setPhoto(fileName);
             userRepository.save(user);
-
+           return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
+                   "redirect:/users/",
+                   "redirect:/users/profile");
+        }
     }
-
-    public void autoGenerateNickname(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
-        user.setNickname("NoNameNPC" + user.getId());
-        userRepository.save(user);
-    }
-
-
 }

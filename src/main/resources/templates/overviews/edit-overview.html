@@ -8,7 +8,8 @@
 <body class="body-create">
 <header th:insert="blocks/header :: header"></header>
 
-<form class="g-3 text-center" th:object="${formFilm}" th:action="@{'/films/user/'+ ${user.id} +'/edit-overview/'+ ${film.id}}"
+<form class="g-3 text-center" th:object="${formFilm}"
+      th:action="@{'/films/user/'+ ${user.id} +'/edit-overview/'+ ${film.id}}"
       method="POST" enctype="multipart/form-data">
     <div class="row justify-content-center align-self-center" align="center">
         <div class="col-md-8 p-3">
@@ -62,7 +63,7 @@
                       id="description" th:placeholder="#{description.placeholder}" rows="5"></textarea>
         </div>
         <div class="col-md-12 p-3">
-            <button type="submit" class="btn btn-primary button-color" th:text="#{new-film}">Add New Overview</button>
+            <button type="submit" class="btn btn-primary button-color" th:text="#{save-change}">Save Change</button>
         </div>
     </div>
 </form>

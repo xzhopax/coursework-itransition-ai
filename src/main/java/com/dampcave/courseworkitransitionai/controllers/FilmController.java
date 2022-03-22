@@ -4,15 +4,12 @@ import com.dampcave.courseworkitransitionai.forms.FormOverviewOnFilm;
 import com.dampcave.courseworkitransitionai.models.Film;
 import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.repositoryes.FilmRepository;
-import com.dampcave.courseworkitransitionai.repositoryes.UserRepository;
 import com.dampcave.courseworkitransitionai.service.AdminService;
 import com.dampcave.courseworkitransitionai.service.CommentService;
 import com.dampcave.courseworkitransitionai.service.FilmService;
 import com.dampcave.courseworkitransitionai.service.UserService;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Validated
 @Controller()
@@ -32,8 +28,6 @@ public class FilmController {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-
-    private final UserRepository userRepository;
     private final FilmRepository filmRepository;
     private final CommentService commentService;
     private final FilmService filmService;
@@ -41,13 +35,11 @@ public class FilmController {
     private final UserService userService;
 
     @Autowired
-    public FilmController(UserRepository userRepository,
-                          FilmRepository filmRepository,
+    public FilmController(FilmRepository filmRepository,
                           CommentService commentService,
                           FilmService filmService,
                           AdminService adminService,
                           UserService userService) {
-        this.userRepository = userRepository;
         this.filmRepository = filmRepository;
         this.commentService = commentService;
         this.filmService = filmService;
@@ -56,16 +48,14 @@ public class FilmController {
     }
 
     @GetMapping()
-    public String showAllOverviewFilms( Model model) {
+    public String showAllOverviewFilms(Model model) {
         model.addAttribute("films", filmRepository.findAll());
         return "overviews/films";
     }
 
     @GetMapping("/film/{film}")
     public String getPageOverview(@Valid @PathVariable Film film,
-
                                   Model model) {
-
         model.addAttribute("film", film);
         model.addAttribute("comments", commentService.getAllCommentsFromFilm(film));
         return "overviews/film";
@@ -91,17 +81,17 @@ public class FilmController {
     @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
     @RequestMapping(value = "/user/{user}/create-overview", method = RequestMethod.POST)
     public String pushFormCreatingOverview(@PathVariable User user,
-                                          @Valid FormOverviewOnFilm onFilm,
+                                           @Valid FormOverviewOnFilm onFilm,
                                            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "overviews/create-overview";
         }
 
-        filmService.saveFilmOverview(onFilm,new Film(), user);
+        filmService.saveFilmOverview(onFilm, new Film(), user);
 
-       return adminService.getViewIfHasRoleAdmin(getAuth().getName(),
-                                  "redirect:/users/",
-                                "redirect:/users/profile");
+        return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
+                "redirect:/users/",
+                "redirect:/users/profile");
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or #film.author.username.equals(authentication.name)")
@@ -109,17 +99,16 @@ public class FilmController {
     public String deleteFilm(@PathVariable Film film) {
 
         filmService.deleteOverviewFromFilm(film);
-        if (adminService.hasRoleAdmin(getAuth().getName()))
-            return "redirect:/users/";
-        else
-            return "redirect:/users/profile";
+        return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
+                "redirect:/users/",
+                "redirect:/users/profile");
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
     @GetMapping("/user/{user}/edit-overview/{film}")
     public String getEditFormOverview(@PathVariable User user,
-                                       @PathVariable Film film,
-                                       Model model) {
+                                      @PathVariable Film film,
+                                      Model model) {
         FormOverviewOnFilm formFilm = filmService.editOverview(film);
         model.addAttribute("formFilm", formFilm);
         model.addAttribute("film", film);
@@ -132,11 +121,8 @@ public class FilmController {
     public String saveEditFormOverview(@PathVariable User user,
                                        @PathVariable Film film,
                                        FormOverviewOnFilm formFilm) {
-
-
-        filmService.saveFilmOverview(formFilm,film, user);
-
-        return adminService.getViewIfHasRoleAdmin(getAuth().getName(),
+        filmService.saveFilmOverview(formFilm, film, user);
+        return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
                 "redirect:/users/",
                 "redirect:/users/profile");
     }

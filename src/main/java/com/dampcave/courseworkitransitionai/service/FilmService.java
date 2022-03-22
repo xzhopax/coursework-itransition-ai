@@ -21,18 +21,21 @@ public class FilmService {
     private final UserRepository userRepository;
     private final FilmRepository filmRepository;
     private final StorageService storageService;
+    private final UserService userService;
 
     @Autowired
     public FilmService(UserRepository userRepository,
                        FilmRepository filmRepository,
-                       StorageService storageService) {
+                       StorageService storageService,
+                       UserService userService) {
         this.userRepository = userRepository;
         this.filmRepository = filmRepository;
         this.storageService = storageService;
+        this.userService = userService;
     }
 
-    public void deleteOverviewFromFilm(Film film){
-        User user = userRepository.findByUsername(film.getAuthor().getUsername()).orElseThrow();
+    public void deleteOverviewFromFilm(Film film) {
+        User user = userService.findUserByUsername(film.getAuthor().getUsername());
         user.getFilms().remove(film);
         userRepository.save(user);
     }
@@ -53,10 +56,12 @@ public class FilmService {
         return formFilm;
     }
 
-    public void saveFilmOverview(FormOverviewOnFilm formFilm, Film film, User user) {
-        if(storageService.checkUploadFile(formFilm.getPoster())) {
-            if (film.getPicture() != null && !film.getPicture().isEmpty()){
-                String oldPicture = user.getPhoto();
+    public void saveFilmOverview(FormOverviewOnFilm formFilm,
+                                 Film film,
+                                 User user) {
+        if (storageService.checkUploadFile(formFilm.getPoster())) {
+            if (film.getPicture() != null && !film.getPicture().isEmpty()) {
+                String oldPicture = film.getPicture();
                 storageService.deleteFile(oldPicture);
                 new ResponseEntity<>(oldPicture, HttpStatus.OK);
             }
@@ -82,7 +87,7 @@ public class FilmService {
     public Set<Producer> addProducers(String producersString) {
         Set<Producer> producers = new HashSet<>();
         String[] strings = producersString.split(",");
-        if (!producersString.trim().isEmpty()){
+        if (!producersString.trim().isEmpty()) {
             for (String str : strings) {
                 producers.add(new Producer(str));
             }
@@ -102,10 +107,10 @@ public class FilmService {
         return actors;
     }
 
-    public <T> String parseObjectToStringThroughComma(Set<T> objects){
+    public <T> String parseObjectToStringThroughComma(Set<T> objects) {
         StringBuilder objectString = new StringBuilder();
 
-        if (!objects.isEmpty()){
+        if (!objects.isEmpty()) {
             for (T object : objects) {
                 objectString.append(object).append(",");
             }
