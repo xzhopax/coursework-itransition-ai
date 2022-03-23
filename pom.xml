@@ -134,6 +134,13 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <!--end mail -->
+        <!-- flywaydb-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>8.5.4</version>
+        </dependency>
+        <!-- end flywaydb-->
     </dependencies>
 
     <build>

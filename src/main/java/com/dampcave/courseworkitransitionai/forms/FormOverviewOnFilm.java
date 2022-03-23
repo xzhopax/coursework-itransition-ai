@@ -17,7 +17,6 @@ public class FormOverviewOnFilm {
     @Length(max = 255, message = "Producers too long, max 255 characters ")
     private String title;
 
-    @NotNull
     private MultipartFile poster;
 
     @URL(message = "URL not valid")

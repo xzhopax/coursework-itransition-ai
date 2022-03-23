@@ -34,8 +34,16 @@ public class FilmService {
         this.userService = userService;
     }
 
+    public void deletePictureForFilm(String namePhoto){
+        if (namePhoto != null && !namePhoto.isEmpty()) {
+            storageService.deleteFile(namePhoto);
+            new ResponseEntity<>(namePhoto, HttpStatus.OK);
+        }
+    }
+
     public void deleteOverviewFromFilm(Film film) {
         User user = userService.findUserByUsername(film.getAuthor().getUsername());
+        deletePictureForFilm(film.getPicture());
         user.getFilms().remove(film);
         userRepository.save(user);
     }
@@ -60,11 +68,7 @@ public class FilmService {
                                  Film film,
                                  User user) {
         if (storageService.checkUploadFile(formFilm.getPoster())) {
-            if (film.getPicture() != null && !film.getPicture().isEmpty()) {
-                String oldPicture = film.getPicture();
-                storageService.deleteFile(oldPicture);
-                new ResponseEntity<>(oldPicture, HttpStatus.OK);
-            }
+            deletePictureForFilm(film.getPicture());
             String posterName = storageService.uploadFile(formFilm.getPoster());
             new ResponseEntity<>(posterName, HttpStatus.OK);
             film.setPicture(posterName);

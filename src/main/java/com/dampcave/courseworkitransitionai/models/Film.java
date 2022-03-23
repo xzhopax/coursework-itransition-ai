@@ -43,16 +43,16 @@ public class Film {
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "film_producer",
                schema = "public",
-               joinColumns = @JoinColumn(name = "producer_id", referencedColumnName="id"),
-               inverseJoinColumns=@JoinColumn(name="film_id", referencedColumnName="id") )
+               joinColumns = @JoinColumn(name = "film_id", referencedColumnName="id"),
+               inverseJoinColumns=@JoinColumn(name="producer_id", referencedColumnName="id") )
     private Set<Producer> producers;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "film_actor",
             schema = "public",
-            joinColumns = @JoinColumn(name = "actor_id", referencedColumnName="id"),
-            inverseJoinColumns=@JoinColumn(name="film_id", referencedColumnName="id") )
+            joinColumns = @JoinColumn(name = "film_id", referencedColumnName="id"),
+            inverseJoinColumns=@JoinColumn(name="actor_id", referencedColumnName="id") )
     private Set<Actor> actors;
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval=false)
