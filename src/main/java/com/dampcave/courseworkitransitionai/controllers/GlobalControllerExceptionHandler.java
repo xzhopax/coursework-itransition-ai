@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    @ResponseStatus(HttpStatus.CONFLICT)  // 409
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void handleConflict() {
-        // Nothing to do
     }
 
 //    @ExceptionHandler(MethodArgumentNotValidException.class)

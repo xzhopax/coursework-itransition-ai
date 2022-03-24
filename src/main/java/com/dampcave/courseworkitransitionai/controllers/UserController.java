@@ -31,6 +31,12 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @GetMapping("/")
+    public String home( Model model) {
+        model.addAttribute("title", "Home");
+        return "home";
+    }
 
     @GetMapping("/profile")
     public String profile(Model model) {

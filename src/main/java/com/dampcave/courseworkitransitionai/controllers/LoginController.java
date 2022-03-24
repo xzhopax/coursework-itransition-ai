@@ -4,7 +4,6 @@ import com.dampcave.courseworkitransitionai.forms.UserLoginRepr;
 import com.dampcave.courseworkitransitionai.forms.UserRegistrationRepr;
 import com.dampcave.courseworkitransitionai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,13 +27,6 @@ public class LoginController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @GetMapping("/")
-    public String home( Model model) {
-        model.addAttribute("title", "Home");
-        return "home";
-    }
-
     @GetMapping("/login")
     public String loginUser( @ModelAttribute("user") UserLoginRepr userLoginRepr) {
         return "security/login";
@@ -52,32 +44,4 @@ public class LoginController {
                                             BindingResult bindingResult){
        return userService.registrationAction(userRegistrationRepr,bindingResult);
     }
-
-
-    @GetMapping("/test")
-    public String test( Model model) {
-        model.addAttribute("title", "Test");
-        return "test";
-    }
-
-    @GetMapping("/dark-theme")
-    public void setDarkTheme(HttpServletResponse response) {
-        Cookie cookie = new Cookie("theme", "navbar-dark bg-dark");
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-    }
-
-    @GetMapping("/light-theme")
-    public void setLightTheme(HttpServletResponse response) {
-        Cookie cookie = new Cookie("theme", "navbar-light bg-light");
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-    }
-
 }
