@@ -120,7 +120,11 @@ public class FilmController {
     @PostMapping("/user/{user}/edit-overview/{film}")
     public String saveEditFormOverview(@PathVariable User user,
                                        @PathVariable Film film,
-                                       FormOverviewOnFilm formFilm) {
+                                       @Valid FormOverviewOnFilm formFilm,
+                                       BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "overviews/edit-overview";
+        }
         filmService.saveFilmOverview(formFilm, film, user);
         return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
                 "redirect:/users/",

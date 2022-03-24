@@ -20,11 +20,6 @@ import javax.validation.Valid;
 @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class UserController {
 
-    public Authentication getAuth() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
-
-
     private final UserService userService;
 
     @Autowired
@@ -36,6 +31,10 @@ public class UserController {
     public String home( Model model) {
         model.addAttribute("title", "Home");
         return "home";
+    }
+
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     @GetMapping("/profile")

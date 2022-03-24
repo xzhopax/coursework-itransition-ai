@@ -1,7 +1,5 @@
 package com.dampcave.courseworkitransitionai.config;
 
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +31,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }
-
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -68,9 +65,8 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/404.html").setViewName("error/404");
-        registry.addViewController("/401.html").setViewName("error/401");
-        registry.addViewController("/500.html").setViewName("error/500");
-
+        registry.addViewController("/404").setViewName("error/404");
+        registry.addViewController("/401").setViewName("error/401");
+        registry.addViewController("/500").setViewName("error/500");
     }
 }

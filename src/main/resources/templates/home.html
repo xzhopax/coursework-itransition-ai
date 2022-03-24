@@ -16,6 +16,12 @@
     <button class="button w-1 btn btn-lg button-color text-center" type="button" value="show"
             onclick="window.location.href = 'films'" th:text="#{films}">Show all films
     </button>
+    <form th:action="@{'/films/user/'+ ${user.id} +'/create-overview'}" method="get">
+        <button class="btn button-color" style="margin-bottom: 10px" type="submit"
+                th:text="#{new-film}">
+            Add New Overview
+        </button>
+    </form>
 
     <footer th:insert="blocks/footer :: footer"></footer>
 </body>

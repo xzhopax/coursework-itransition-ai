@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,6 +63,15 @@ public class FilmService {
         formFilm.setYear(film.getYear());
 
         return formFilm;
+    }
+
+    public String returnView(BindingResult bindingResult,String ifError, String ifNotError){
+        if (bindingResult.hasErrors()){
+            return ifError;
+        } else {
+            return ifNotError;
+        }
+
     }
 
     public void saveFilmOverview(FormOverviewOnFilm formFilm,

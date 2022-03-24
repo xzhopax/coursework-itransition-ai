@@ -15,7 +15,7 @@
         background-size: cover;
         text-align: center;
         border-radius: 10px;
-        background-color: black">[[#{nothing}]]</h3>
+        background-color: black">[[#{oops}]]</h3>
             <img src="/images/notfound.gif" alt="" style="border: 3px solid #fff; background-size: cover;
         text-align: center; border-radius: 10px">
         </div>
@@ -25,10 +25,9 @@
         border-radius: 10px;
         color: white;
         background-color: black" th:inline="text">
+            [[#{404}]]<br>
             [[#{hello}]] [[${#httpServletRequest.remoteUser}]]<br>
-            [[#{error.notfound}]] <br>
-            [[#{see}]]</h3>
-
+            [[#{error.notfound}]]</h3>
     </div>
 </div>
 </div>

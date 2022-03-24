@@ -14,6 +14,7 @@ public class FormOverviewOnFilm {
     private Long id;
 
     @NotBlank(message = "Please fill title")
+    @NotNull
     @Length(max = 255, message = "Producers too long, max 255 characters ")
     private String title;
 
@@ -43,6 +44,7 @@ public class FormOverviewOnFilm {
     private String producers;
 
     @NotBlank(message = "Please fill description")
+    @NotNull
     @Length(max = 2048, message = "Description too long, max 2048 characters ")
     private String description;
 

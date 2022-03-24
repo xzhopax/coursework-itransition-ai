@@ -63,15 +63,22 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getAuthUser() {
+        return userRepository.findByUsername(getAuth().getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public String registrationAction(UserRegistrationRepr userRegistrationRepr, BindingResult bindingResult) {
@@ -91,7 +98,7 @@ public class UserService {
     }
 
     public String editProfile(User user, EditProfileRepr editProfileRepr, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "profiles/edit-profile";
         } else {
             if (!editProfileRepr.getEmail().isEmpty() && !editProfileRepr.getEmail().equals(user.getEmail())) {
@@ -114,7 +121,7 @@ public class UserService {
         }
     }
 
-    public String editPhoto(MultipartFile file, User user){
+    public String editPhoto(MultipartFile file, User user) {
         if (!storageService.checkUploadFile(file)) {
             return "profiles/edit-photo";
         } else {
@@ -127,9 +134,9 @@ public class UserService {
             new ResponseEntity<>(fileName, HttpStatus.OK);
             user.setPhoto(fileName);
             userRepository.save(user);
-           return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
-                   "redirect:/users/",
-                   "redirect:/users/profile");
+            return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
+                    "redirect:/users/",
+                    "redirect:/users/profile");
         }
     }
 }
