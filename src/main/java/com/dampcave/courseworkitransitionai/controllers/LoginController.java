@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
@@ -50,4 +52,32 @@ public class LoginController {
                                             BindingResult bindingResult){
        return userService.registrationAction(userRegistrationRepr,bindingResult);
     }
+
+
+    @GetMapping("/test")
+    public String test( Model model) {
+        model.addAttribute("title", "Test");
+        return "test";
+    }
+
+    @GetMapping("/dark-theme")
+    public void setDarkTheme(HttpServletResponse response) {
+        Cookie cookie = new Cookie("theme", "navbar-dark bg-dark");
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    @GetMapping("/light-theme")
+    public void setLightTheme(HttpServletResponse response) {
+        Cookie cookie = new Cookie("theme", "navbar-light bg-light");
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
 }

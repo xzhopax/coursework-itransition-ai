@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head class="body-color">
     <links-header th:insert="blocks/links-header :: links-header"></links-header>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body class="body-error" style="background-color: #030203">
 <header th:insert="blocks/header :: header"></header>
@@ -15,29 +15,22 @@
         background-size: cover;
         text-align: center;
         border-radius: 10px;
-        background-color: black" >[[#{nothing}]]</h3>
-            <img src="https://thumbs.gfycat.com/WateryWarmheartedChick-size_restricted.gif"
-                 alt=""
-                 style="border: 3px solid #fff; background-size: cover;
+        background-color: black">[[#{nothing}]]</h3>
+            <img src="https://thumbs.gfycat.com/WateryWarmheartedChick-size_restricted.gif" alt="" style="border: 3px solid #fff; background-size: cover;
         text-align: center; border-radius: 10px">
-
         </div>
         <h3 style="border: 3px solid #fff;
         background-size: cover;
         text-align: center;
         border-radius: 10px;
         color: white;
-        background-color: black" th:inline="text">[[#{hello}]]   '[[${#httpServletRequest.remoteUser}]]' </h3>
-        <h3 style="border: 3px solid #fff;
-        background-size: cover;
-        text-align: center;
-        border-radius: 10px;
-        color: white;
-        background-color: black" th:inline="text">[[#{permission}]]</h3>
+        background-color: black" th:inline="text">
+            [[#{unauthorized}]] <br>
+            [[#{see}]]</h3>
+
     </div>
 </div>
 </div>
-
 
 
 <footer th:insert="blocks/footer :: footer"></footer>

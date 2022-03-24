@@ -1,5 +1,5 @@
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-lg  header-color">
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav mr-auto">
@@ -11,6 +11,9 @@
                 </li>
                 <li class="nav-item ml-5">
                     <a class="nav-link" th:text="#{films}" href="/films">Show All Films </a>
+                </li>
+                <li class="nav-item ml-5">
+                    <a class="nav-link" th:text="#{hello}" href="/test">Show All Films </a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -59,8 +62,19 @@
                     </form>
                 </li>
             </ul>
+
+
         </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
     </nav>
+
+
 </div>
+
+
 
 
