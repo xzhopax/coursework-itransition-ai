@@ -86,7 +86,6 @@ public class FilmController {
         if (bindingResult.hasErrors()) {
             return "overviews/create-overview";
         }
-
         filmService.saveFilmOverview(onFilm, new Film(), user);
 
         return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
