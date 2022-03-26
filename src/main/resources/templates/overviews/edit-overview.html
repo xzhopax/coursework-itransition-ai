@@ -24,9 +24,6 @@
             <label for="file" class="fw-weight-bold" th:text="#{poster}">Poster</label>
             <input type="file" name="poster" th:field="${formFilm.poster}" id="file"
                    class="form-control fw-weight-bold text-form">
-            <div class="form-text text-danger fw-weight-bold"
-                 th:each="err : ${#fields.errors('poster')}" th:text="${err}">
-            </div>
         </div>
         <div class="col-md-5 p-3">
             <label for="url-video" class="fw-weight-bold" th:text="#{video}">Trailer</label>

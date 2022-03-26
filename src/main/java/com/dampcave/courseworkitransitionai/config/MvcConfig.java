@@ -19,7 +19,6 @@ import java.util.Locale;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Value("${show.path}")
     private String showPath;

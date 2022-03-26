@@ -65,15 +65,6 @@ public class FilmService {
         return formFilm;
     }
 
-    public String returnView(BindingResult bindingResult,String ifError, String ifNotError){
-        if (bindingResult.hasErrors()){
-            return ifError;
-        } else {
-            return ifNotError;
-        }
-
-    }
-
     public void saveFilmOverview(FormOverviewOnFilm formFilm,
                                  Film film,
                                  User user) {
@@ -98,12 +89,19 @@ public class FilmService {
         filmRepository.save(film);
     }
 
+    public boolean checkStringOnLengthAndCharter(String str){
+        return str.matches("^[a-zA-Z ]*$") && str.length() < 255 ||
+                str.matches("^[а-яА-ЯЁё]*$") && str.length() < 255;
+    }
+
     public Set<Producer> addProducers(String producersString) {
         Set<Producer> producers = new HashSet<>();
         String[] strings = producersString.split(",");
         if (!producersString.trim().isEmpty()) {
             for (String str : strings) {
-                producers.add(new Producer(str));
+                if (checkStringOnLengthAndCharter(str)) {
+                    producers.add(new Producer(str));
+                }
             }
         }
         return producers;
@@ -113,9 +111,10 @@ public class FilmService {
         Set<Actor> actors = new HashSet<>();
         if (!actorsString.trim().isEmpty()) {
             String[] strings = actorsString.split(",");
-
             for (String str : strings) {
-                actors.add(new Actor(str));
+                if (checkStringOnLengthAndCharter(str)) {
+                    actors.add(new Actor(str));
+                }
             }
         }
         return actors;

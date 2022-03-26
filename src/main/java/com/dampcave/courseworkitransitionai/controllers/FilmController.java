@@ -15,12 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Validated
 @Controller()
 @RequestMapping("/films")
 public class FilmController {
@@ -54,7 +52,7 @@ public class FilmController {
     }
 
     @GetMapping("/film/{film}")
-    public String getPageOverview(@Valid @PathVariable Film film,
+    public String getPageOverview(@PathVariable Film film,
                                   Model model) {
         model.addAttribute("film", film);
         model.addAttribute("comments", commentService.getAllCommentsFromFilm(film));
@@ -75,14 +73,15 @@ public class FilmController {
                                        @ModelAttribute("film") FormOverviewOnFilm film,
                                        Model model) {
         model.addAttribute("user", user);
+
         return "overviews/create-overview";
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
     @RequestMapping(value = "/user/{user}/create-overview", method = RequestMethod.POST)
-    public String pushFormCreatingOverview(@PathVariable User user,
-                                           @Valid FormOverviewOnFilm onFilm,
-                                           BindingResult bindingResult) {
+    public String pushFormCreatingOverview(@ModelAttribute("film") @Valid FormOverviewOnFilm onFilm,
+                                           BindingResult bindingResult,
+                                           @PathVariable User user) {
         if (bindingResult.hasErrors()) {
             return "overviews/create-overview";
         }
@@ -117,11 +116,11 @@ public class FilmController {
 
     @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
     @PostMapping("/user/{user}/edit-overview/{film}")
-    public String saveEditFormOverview(@PathVariable User user,
-                                       @PathVariable Film film,
-                                       @Valid FormOverviewOnFilm formFilm,
-                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+    public String saveEditFormOverview(@ModelAttribute("formFilm") @Valid FormOverviewOnFilm formFilm,
+                                       BindingResult bindingResult,
+                                       @PathVariable User user,
+                                       @PathVariable Film film) {
+        if (bindingResult.hasErrors()) {
             return "overviews/edit-overview";
         }
         filmService.saveFilmOverview(formFilm, film, user);

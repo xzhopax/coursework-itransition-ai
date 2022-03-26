@@ -1,6 +1,5 @@
 package com.dampcave.courseworkitransitionai.service;
 
-
 import com.dampcave.courseworkitransitionai.forms.EditProfileRepr;
 import com.dampcave.courseworkitransitionai.forms.UserRegistrationRepr;
 import com.dampcave.courseworkitransitionai.models.Role;
@@ -82,12 +81,23 @@ public class UserService {
     }
 
     public String registrationAction(UserRegistrationRepr userRegistrationRepr, BindingResult bindingResult) {
-        if (userRegistrationRepr.getPassword() != null
-                && !userRegistrationRepr.getPassword().equals(userRegistrationRepr.getRepeatPassword())) {
-            bindingResult.rejectValue("password", "", " passwords not equals ");
+        if (!validUsername(userRegistrationRepr.getUsername())) {
+            bindingResult.rejectValue("username", "username not valid", "username not valid");
+            bindingResult.rejectValue("username",
+                    "a-zA-Z0-9!@#$%_ and max length 30",
+                    "a-zA-Z0-9!@#$%_ and max length 30");
+        }
+        if (!validPassword(userRegistrationRepr.getPassword())) {
+            bindingResult.rejectValue("password", "passwords not valid", "passwords not valid");
+            bindingResult.rejectValue("password",
+                    "a-zA-Z0-9!@#$%^ &* and max length 63",
+                    "a-zA-Z0-9!@#$%^ &* and max length 63");
+        }
+        if (!checkPasswords(userRegistrationRepr.getPassword(), userRegistrationRepr.getRepeatPassword())) {
+            bindingResult.rejectValue("password", "passwords not equals", " passwords not equals");
         }
         if (checkUserInBD(userRegistrationRepr.getUsername())) {
-            bindingResult.rejectValue("username", "", " User exist ");
+            bindingResult.rejectValue("username", "User exist", " User exist ");
         }
         if (bindingResult.hasErrors()) {
             return "security/register";
@@ -104,22 +114,54 @@ public class UserService {
             if (!editProfileRepr.getEmail().isEmpty() && !editProfileRepr.getEmail().equals(user.getEmail())) {
                 user.setEmail(editProfileRepr.getEmail());
             }
-            if (!editProfileRepr.getNickname().isEmpty()) {
+            if (!editProfileRepr.getNickname().isEmpty() && validName(editProfileRepr.getNickname())) {
                 user.setNickname(editProfileRepr.getNickname());
             }
-            if (!editProfileRepr.getPassword().isEmpty() && user.getPassword().equals(editProfileRepr.getPassword())) {
-                if (!editProfileRepr.getNewPassword().isEmpty() && !editProfileRepr.getRepeatPassword().isEmpty()) {
-                    if (editProfileRepr.getNewPassword().equals(editProfileRepr.getRepeatPassword())) {
-                        user.setPassword(passwordEncoder.encode(editProfileRepr.getNewPassword()));
-                    }
-                }
+            if (checkPasswords(user,
+                    editProfileRepr.getPassword(),
+                    editProfileRepr.getNewPassword(),
+                    editProfileRepr.getRepeatPassword())) {
+                user.setPassword(passwordEncoder.encode(editProfileRepr.getNewPassword()));
             }
+
             userRepository.save(user);
             return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
                     "redirect:/users/",
                     "redirect:/users/profile");
         }
     }
+
+    public boolean validPassword(String password) {
+        return password.matches("^[a-zA-Z0-9!@#$%^ &*]*$") && password.length() < 63;
+    }
+
+    public boolean checkPasswords(String password1, String password2) {
+        if (!password1.isBlank() && !password2.isBlank()) {
+            return password1.equals(password2);
+        }
+        return false;
+    }
+
+    public boolean checkPasswords(User user, String password, String newPassword, String repeatPassword) {
+        if (!password.isEmpty() && user.getPassword().equals(password)) {
+            if (!newPassword.isEmpty() && !repeatPassword.isEmpty()) {
+                if (validPassword(newPassword) && validPassword(repeatPassword)) {
+                    return newPassword.equals(repeatPassword);
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean validUsername(String name) {
+        return name.matches("^[a-zA-Z0-9!@#$%_]*$") && name.length() < 30;
+    }
+
+    public boolean validName(String name) {
+        return name.matches("^[a-zA-Z ]*$") && name.length() < 30 ||
+                name.matches("^[а-яА-ЯЁё ]*$") && name.length() < 30;
+    }
+
 
     public String editPhoto(MultipartFile file, User user) {
         if (!storageService.checkUploadFile(file)) {

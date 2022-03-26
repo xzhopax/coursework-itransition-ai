@@ -14,7 +14,6 @@ public class FormOverviewOnFilm {
     private Long id;
 
     @NotBlank(message = "Please fill title")
-    @NotNull
     @Length(max = 255, message = "Producers too long, max 255 characters ")
     private String title;
 
@@ -26,7 +25,6 @@ public class FormOverviewOnFilm {
 
     @Range(min=0, max=10, message = "rating may be min=0, max=10")
     private double rating;
-
 
     @Range(min=0, max=2147483647, message = "year may be min=0, max=2147483647")
     private int year;
@@ -43,9 +41,7 @@ public class FormOverviewOnFilm {
     @Length(max = 255, message = "Producers too long, max 255 characters ")
     private String producers;
 
-    @NotBlank(message = "Please fill description")
-    @NotNull
+    @NotEmpty(message = "Please fill description")
     @Length(max = 2048, message = "Description too long, max 2048 characters ")
     private String description;
-
 }

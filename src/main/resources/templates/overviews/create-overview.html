@@ -15,6 +15,9 @@
             <label for="title" class="fw-weight-bold" th:text="#{title}">Title *</label>
             <input type="text" name="title" th:field="${film.title}" id="title"
                    class="form-control fw-weight-bold text-form" th:placeholder="#{title.placeholder}">
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('title')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-5 p-3">
             <label for="file" class="fw-weight-bold" th:text="#{poster}">Poster</label>
@@ -25,41 +28,65 @@
             <label for="url-video" class="fw-weight-bold" th:text="#{video}">Trailer</label>
             <input type="text" name="link" th:field="${film.link}" id="url-video"
                    class="form-control fw-weight-bold text-form" th:placeholder="#{video.placeholder}">
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('link')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-3 p-3">
             <label for="rating" class="fw-weight-bold" th:text="#{rating}">Rating</label>
             <input type="number" step="0.01" max="10" th:field="${film.rating}"
                    class="fw-weight-bold lang text-form" id="rating" name="rating">
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('rating')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-3 p-3">
             <label for="year" class="fw-weight-bold" th:text="#{year}">Year release *</label>
             <input type="number" class="fw-weight-bold text-form"
                    id="year" name="year" max="9999" th:field="${film.year}">
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('year')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-3 p-3">
             <label for="budget" class="fw-weight-bold" th:text="#{budget}">Budget</label>
             <input type="number" class="fw-weight-bold text-form"
                    id="budget" name="budget" th:field="${film.budget}">
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('budget')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-12 p-3">
             <label for="duration" class="fw-weight-bold" th:text="#{duration}">Duration</label>
             <input class="text-form" name="duration"
                    th:field="${film.duration}" type="number" id="duration">
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('duration')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-8 p-3">
             <label for="actors" class="fw-weight-bold" th:text="#{actors}">Actors</label>
             <textarea class=" form-control textarea" th:field="${film.actors}" name="actors"
                       id="actors" th:placeholder="#{actors.placeholder}" rows="5"></textarea>
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('actors')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-8 p-3">
             <label for="producers" class="fw-weight-bold" th:text="#{producers}">Producers</label>
             <textarea class=" form-control textarea" th:field="${film.producers}" name="producers"
                       id="producers" th:placeholder="#{producers.placeholder}" rows="5"></textarea>
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('producers')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-8 p-3">
             <label for="description" class="fw-weight-bold" th:text="#{description}">Description *</label>
             <textarea class=" form-control textarea" th:field="${film.description}" name="description"
                       id="description" th:placeholder="#{description.placeholder}" rows="5"></textarea>
+            <div class="form-text text-danger fw-weight-bold"
+                 th:each="err : ${#fields.errors('description')}" th:text="${err}">
+            </div>
         </div>
         <div class="col-md-12 p-3">
             <button type="submit" class="btn btn-primary button-color" th:text="#{new-film}">Add New Overview</button>
