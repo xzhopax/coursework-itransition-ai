@@ -54,10 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/css/**")
-                .antMatchers("/js/**")
-                .antMatchers("/images/**")
-                .antMatchers("/img/**");
+                .antMatchers("/css/**",
+                                        "/js/**",
+                                        "/images/**",
+                                        "/img/**",
+                                        "/error");
     }
 
     @Override
@@ -71,14 +72,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginPage("/login")
-                    .loginPage("/films")
                     .loginProcessingUrl("/authenticateTheUser")
+                    .defaultSuccessUrl("/", true)
                     .permitAll()
                     .and()
                 .logout()
                     .logoutUrl("/logout")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
                     .permitAll()
                     .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);

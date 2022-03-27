@@ -26,14 +26,14 @@
                 </li>
                 <li>
                     <p>
-                        <a id="en" class="translate" th:href="@{?(language=en)}">
+                        <a id="en" class="translate" th:href="@{?language=en}">
                             <img th:src="@{/images/en.jpg}" width="20px" height="15" border="0" alt="en-flag">
                         </a>
                     </p>
                 </li>
                 <li>
                     <p>
-                        <a id="ru" class="translate" th:href="@{?(language=ru)}">
+                        <a id="ru" class="translate" th:href="@{?language=ru}">
                             <img th:src="@{/images/ru.jpg}" width="20px" height="15" border="0" alt="ru-flag">
                         </a>
                     </p>
@@ -53,24 +53,19 @@
                 </li>
                 <li>
                     <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-                        <button class="rounded-circle head-logo" key="logout">
+                        <button class="rounded-circle head-logo">
                             <img th:src="@{/images/logout.png}" class=" head-logo" alt="profile">
                         </button>
                     </form>
                 </li>
             </ul>
-
-
         </div>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
     </nav>
-
-
 </div>
+
 
 
 
