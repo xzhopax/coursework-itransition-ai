@@ -6,6 +6,9 @@
                 <li class="img-logo">
                     <img/>
                 </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item ml-5">
+                    <a class="nav-link" data-th-text="#{home}" href="/">Home </a>
+                </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item ml-5">
                     <a class="nav-link" data-th-text="#{users}" href="/users">Show All Users </a>
                 </li>
