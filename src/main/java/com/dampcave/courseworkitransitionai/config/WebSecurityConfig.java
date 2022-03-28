@@ -82,8 +82,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-        http
-                .csrf()
-                    .disable();
     }
 }
