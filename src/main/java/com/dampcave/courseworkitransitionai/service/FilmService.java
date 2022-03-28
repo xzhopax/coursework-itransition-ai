@@ -13,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class FilmService {
@@ -23,16 +22,18 @@ public class FilmService {
     private final FilmRepository filmRepository;
     private final StorageService storageService;
     private final UserService userService;
+    private final AdminService adminService;
 
     @Autowired
     public FilmService(UserRepository userRepository,
                        FilmRepository filmRepository,
                        StorageService storageService,
-                       UserService userService) {
+                       UserService userService, AdminService adminService) {
         this.userRepository = userRepository;
         this.filmRepository = filmRepository;
         this.storageService = storageService;
         this.userService = userService;
+        this.adminService = adminService;
     }
 
     public void deletePictureForFilm(String namePhoto){
@@ -132,6 +133,41 @@ public class FilmService {
             }
         }
         return objectString.toString();
+    }
+
+    public List<Film> getAllFilms(){
+        return filmRepository.findAll();
+    }
+
+    public Film getRandomFilm(){
+        List<Film> films = getAllFilms();
+        Random random = new Random();
+        return films.get(random.nextInt(films.size()));
+    }
+
+    public Film getFilm(Optional<Film> film){
+        return film.orElseGet(this::getRandomFilm);
+    }
+
+    public String saveCreateOverview(BindingResult bindingResult, FormOverviewOnFilm onFilm, User user){
+        if (bindingResult.hasErrors()) {
+            return "overviews/create-overview";
+        }
+        saveFilmOverview(onFilm, new Film(), user);
+
+        return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(userService.getAuth().getName()),
+                "redirect:/users",
+                "redirect:/users/profile");
+    }
+
+    public String saveEditOverview(BindingResult bindingResult, FormOverviewOnFilm onFilm, Film film, User user){
+        if (bindingResult.hasErrors()) {
+            return "overviews/edit-overview";
+        }
+        saveFilmOverview(onFilm, film, user);
+        return adminService.getViewIfHasRoleAdmin(userService.getAuthUser(),
+                "redirect:/users",
+                "redirect:/users/profile");
     }
 
 }

@@ -5,8 +5,6 @@ import com.dampcave.courseworkitransitionai.models.User;
 import com.dampcave.courseworkitransitionai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,13 +31,9 @@ public class UserController {
         return "home";
     }
 
-    public Authentication getAuth() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
-
     @GetMapping("/profile")
     public String profile(Model model) {
-        model.addAttribute("user", userService.findUserByUsername(getAuth().getName()));
+        model.addAttribute("user", userService.getAuthUser());
         return "profiles/profile";
     }
 
@@ -63,7 +57,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN') or #user.username.equals(authentication.name)")
     @GetMapping("/profile/{user}/photo")
     public String editPhoto(@PathVariable User user,
-                            Model model) {
+                                          Model model) {
+
         model.addAttribute("user", user);
         return "profiles/edit-photo";
     }
@@ -72,6 +67,7 @@ public class UserController {
     @RequestMapping(value = "/profile/{user}/photo", method = RequestMethod.POST)
     public String updatePhoto(@PathVariable User user,
                               @RequestParam(value = "file") MultipartFile file) {
+
        return userService.editPhoto(file,user);
     }
 }

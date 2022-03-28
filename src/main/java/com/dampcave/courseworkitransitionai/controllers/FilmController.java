@@ -3,7 +3,6 @@ package com.dampcave.courseworkitransitionai.controllers;
 import com.dampcave.courseworkitransitionai.forms.FormOverviewOnFilm;
 import com.dampcave.courseworkitransitionai.models.Film;
 import com.dampcave.courseworkitransitionai.models.User;
-import com.dampcave.courseworkitransitionai.repositoryes.FilmRepository;
 import com.dampcave.courseworkitransitionai.service.AdminService;
 import com.dampcave.courseworkitransitionai.service.CommentService;
 import com.dampcave.courseworkitransitionai.service.FilmService;
@@ -18,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller()
 @RequestMapping("/films")
@@ -26,19 +26,16 @@ public class FilmController {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    private final FilmRepository filmRepository;
     private final CommentService commentService;
     private final FilmService filmService;
     private final AdminService adminService;
     private final UserService userService;
 
     @Autowired
-    public FilmController(FilmRepository filmRepository,
-                          CommentService commentService,
+    public FilmController(CommentService commentService,
                           FilmService filmService,
                           AdminService adminService,
                           UserService userService) {
-        this.filmRepository = filmRepository;
         this.commentService = commentService;
         this.filmService = filmService;
         this.adminService = adminService;
@@ -47,15 +44,14 @@ public class FilmController {
 
     @GetMapping()
     public String showAllOverviewFilms(Model model) {
-        model.addAttribute("films", filmRepository.findAll());
+        model.addAttribute("films", filmService.getAllFilms());
         return "overviews/films";
     }
 
     @GetMapping("/film/{film}")
-    public String getPageOverview(@PathVariable Film film,
+    public String getPageOverview(@PathVariable Optional<Film> film,
                                   Model model) {
-        model.addAttribute("film", film);
-        model.addAttribute("comments", commentService.getAllCommentsFromFilm(film));
+        model.addAttribute("film", filmService.getFilm(film));
         return "overviews/film";
     }
 
@@ -82,14 +78,7 @@ public class FilmController {
     public String pushFormCreatingOverview(@ModelAttribute("film") @Valid FormOverviewOnFilm onFilm,
                                            BindingResult bindingResult,
                                            @PathVariable User user) {
-        if (bindingResult.hasErrors()) {
-            return "overviews/create-overview";
-        }
-        filmService.saveFilmOverview(onFilm, new Film(), user);
-
-        return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
-                "redirect:/users/",
-                "redirect:/users/profile");
+        return filmService.saveCreateOverview(bindingResult,onFilm,user);
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or #film.author.username.equals(authentication.name)")
@@ -98,7 +87,7 @@ public class FilmController {
 
         filmService.deleteOverviewFromFilm(film);
         return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
-                "redirect:/users/",
+                "redirect:/users",
                 "redirect:/users/profile");
     }
 
@@ -120,12 +109,8 @@ public class FilmController {
                                        BindingResult bindingResult,
                                        @PathVariable User user,
                                        @PathVariable Film film) {
-        if (bindingResult.hasErrors()) {
-            return "overviews/edit-overview";
-        }
-        filmService.saveFilmOverview(formFilm, film, user);
-        return adminService.getViewIfHasRoleAdmin(userService.findUserByUsername(getAuth().getName()),
-                "redirect:/users/",
-                "redirect:/users/profile");
+
+       return filmService.saveEditOverview(bindingResult,formFilm,film,user);
+
     }
 }

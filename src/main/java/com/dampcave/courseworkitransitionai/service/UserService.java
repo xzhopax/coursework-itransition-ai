@@ -57,7 +57,7 @@ public class UserService {
         user.setUsername(userRegistrationRepr.getUsername());
         user.setPassword(passwordEncoder.encode(userRegistrationRepr.getPassword()));
         user.setEmail(userRegistrationRepr.getEmail());
-        user.setNickname("NoNameNPC" + user.getId());
+        user.setNickname("NoNameNPC");
         userRepository.save(user);
     }
 
@@ -126,7 +126,7 @@ public class UserService {
 
             userRepository.save(user);
             return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
-                    "redirect:/users/",
+                    "redirect:/users",
                     "redirect:/users/profile");
         }
     }
@@ -162,7 +162,6 @@ public class UserService {
                 name.matches("^[а-яА-ЯЁё ]*$") && name.length() < 30;
     }
 
-
     public String editPhoto(MultipartFile file, User user) {
         if (!storageService.checkUploadFile(file)) {
             return "profiles/edit-photo";
@@ -177,7 +176,7 @@ public class UserService {
             user.setPhoto(fileName);
             userRepository.save(user);
             return adminService.getViewIfHasRoleAdmin(findUserByUsername(getAuth().getName()),
-                    "redirect:/users/",
+                    "redirect:/users",
                     "redirect:/users/profile");
         }
     }
