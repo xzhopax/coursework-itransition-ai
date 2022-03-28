@@ -52,6 +52,7 @@ public class FilmController {
     public String getPageOverview(@PathVariable Optional<Film> film,
                                   Model model) {
         model.addAttribute("film", filmService.getFilm(film));
+        model.addAttribute("comments", commentService.getAllCommentsFromFilm(film.get()));
         return "overviews/film";
     }
 
