@@ -4,14 +4,13 @@ cloud:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_ACCESS_KEY}
     region:
-      static: us-east-2
+      static: ru-central1
       auto: false
 
 application:
   bucket:
-    name: spring-amazon-myimg
+    name: pictures-ai
+
 
 server:
   port: 8080
-
-

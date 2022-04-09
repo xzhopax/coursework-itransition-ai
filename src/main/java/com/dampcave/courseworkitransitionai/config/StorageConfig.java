@@ -24,6 +24,9 @@ public class StorageConfig {
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, accessSecret);
         return AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(region).build();
+                .withEndpointConfiguration(
+                        new AmazonS3ClientBuilder.EndpointConfiguration(
+                                "storage.yandexcloud.net","ru-central1"))
+                .build();
     }
 }
