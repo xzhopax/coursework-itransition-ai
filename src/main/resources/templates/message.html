@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head class="body-color">
+    <links-header th:insert="blocks/links-header :: links-header"></links-header>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body class="body-color" style="text-align: center">
+<header th:insert="blocks/header :: header"></header>
+
+<form class="text-center">
+    <h1 class="text-center text-black-white " th:inline="text">[[${message}]]</h1>
+    <br><br><br><br>
+    <button class="button w-1 btn btn-lg button-color text-center lang" key="login" type="button" value="show"
+            onclick="window.location.href ='/login'">Login
+    </button>
+</form>
+
+
+
+
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
